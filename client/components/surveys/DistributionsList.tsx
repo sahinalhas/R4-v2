@@ -91,7 +91,7 @@ export default function DistributionsList({ distributions, onNewDistribution, on
       const students = loadStudents().filter(s => 
         !distribution.targetClasses || 
         distribution.targetClasses.length === 0 || 
-        distribution.targetClasses.includes(s.class)
+        (s.class && distribution.targetClasses.includes(s.class))
       );
 
       const base64Excel = generateExcelTemplate({

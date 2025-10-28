@@ -23,10 +23,10 @@ const behaviorIncidentSchema = z.object({
   severity: z.enum(['DÜŞÜK', 'ORTA', 'YÜKSEK', 'ÇOK_YÜKSEK']),
   frequency: z.enum(['TEK_OLAY', 'NADİR', 'HAFTALIK', 'GÜNLÜK', 'SÜREKLİ']),
   duration: z.string().optional(),
-  triggerFactors: z.array(z.string()).default([]),
+  triggerFactors: z.array(z.string()),
   interventionUsed: z.string().optional(),
   interventionEffectiveness: z.number().min(1).max(10).optional(),
-  followUpNeeded: z.boolean().default(false),
+  followUpNeeded: z.boolean(),
   followUpNotes: z.string().optional(),
 });
 

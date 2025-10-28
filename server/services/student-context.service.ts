@@ -633,16 +633,16 @@ export class StudentContextService {
       
       if (context.holisticProfile.strengths) {
         text += `### Güçlü Yönler ve Karakter Özellikleri\n`;
-        if (context.holisticProfile.strengths.personalStrengths?.length > 0) {
+        if (context.holisticProfile.strengths.personalStrengths && context.holisticProfile.strengths.personalStrengths.length > 0) {
           text += `- Kişisel Güçler: ${context.holisticProfile.strengths.personalStrengths.join(', ')}\n`;
         }
-        if (context.holisticProfile.strengths.academicStrengths?.length > 0) {
+        if (context.holisticProfile.strengths.academicStrengths && context.holisticProfile.strengths.academicStrengths.length > 0) {
           text += `- Akademik Güçler: ${context.holisticProfile.strengths.academicStrengths.join(', ')}\n`;
         }
-        if (context.holisticProfile.strengths.socialStrengths?.length > 0) {
+        if (context.holisticProfile.strengths.socialStrengths && context.holisticProfile.strengths.socialStrengths.length > 0) {
           text += `- Sosyal Güçler: ${context.holisticProfile.strengths.socialStrengths.join(', ')}\n`;
         }
-        if (context.holisticProfile.strengths.characterTraits?.length > 0) {
+        if (context.holisticProfile.strengths.characterTraits && context.holisticProfile.strengths.characterTraits.length > 0) {
           text += `- Dayanıklılık Faktörleri: ${context.holisticProfile.strengths.characterTraits.join(', ')}\n`;
         }
         text += `\n`;

@@ -20,15 +20,15 @@ import { Textarea } from "@/components/ui/textarea";
 
 const academicProfileSchema = z.object({
   assessmentDate: z.string(),
-  strongSubjects: z.array(z.string()).default([]),
-  weakSubjects: z.array(z.string()).default([]),
-  strongSkills: z.array(z.string()).default([]),
-  weakSkills: z.array(z.string()).default([]),
+  strongSubjects: z.array(z.string()),
+  weakSubjects: z.array(z.string()),
+  strongSkills: z.array(z.string()),
+  weakSkills: z.array(z.string()),
   primaryLearningStyle: z.string().optional(),
   secondaryLearningStyle: z.string().optional(),
-  overallMotivation: z.number().min(1).max(10).default(5),
-  studyHoursPerWeek: z.number().min(0).default(0),
-  homeworkCompletionRate: z.number().min(0).max(100).default(50),
+  overallMotivation: z.number().min(1).max(10),
+  studyHoursPerWeek: z.number().min(0),
+  homeworkCompletionRate: z.number().min(0).max(100),
   additionalNotes: z.string().optional(),
   languageSkills: z.string().optional(),
 });

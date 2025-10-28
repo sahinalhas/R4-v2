@@ -39,7 +39,7 @@ const editSchema = z.object({
   status: z.enum(["DRAFT", "ACTIVE", "CLOSED", "ARCHIVED"]),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  allowAnonymous: z.boolean().default(false),
+  allowAnonymous: z.boolean(),
   maxResponses: z.number().optional(),
 });
 

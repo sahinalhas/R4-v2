@@ -19,9 +19,9 @@ import { useStandardizedProfileSection } from "@/hooks/useStandardizedProfileSec
 
 const healthProfileSchema = z.object({
   bloodType: z.string().optional(),
-  chronicDiseases: z.array(z.string()).default([]),
-  allergies: z.array(z.string()).default([]),
-  currentMedications: z.array(z.string()).default([]),
+  chronicDiseases: z.array(z.string()),
+  allergies: z.array(z.string()),
+  currentMedications: z.array(z.string()),
   medicalHistory: z.string().optional(),
   specialNeeds: z.string().optional(),
   physicalLimitations: z.string().optional(),

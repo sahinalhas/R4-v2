@@ -63,13 +63,13 @@ const distributionSchema = z.object({
   targetStudents: z.array(z.string()).optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  allowAnonymous: z.boolean().default(false),
+  allowAnonymous: z.boolean(),
   maxResponses: z.number().optional(),
   excelConfig: z.object({
-    includeStudentInfo: z.boolean().default(true),
-    includeInstructions: z.boolean().default(true),
-    responseFormat: z.enum(["single_sheet", "multi_sheet"]).default("single_sheet"),
-    includeValidation: z.boolean().default(true),
+    includeStudentInfo: z.boolean(),
+    includeInstructions: z.boolean(),
+    responseFormat: z.enum(["single_sheet", "multi_sheet"]),
+    includeValidation: z.boolean(),
   }),
 });
 
@@ -199,7 +199,7 @@ export default function SurveyDistributionDialog({
 
   // Filter students by selected classes
   const studentsInSelectedClasses = students.filter(student => 
-    watchedClasses.includes(student.class)
+    student.class && watchedClasses.includes(student.class)
   );
 
   // Update selected students when classes change
@@ -219,7 +219,7 @@ export default function SurveyDistributionDialog({
   };
 
   const toggleAllStudentsInClass = (className: string) => {
-    const classStudents = students.filter(s => s.class === className);
+    const classStudents = students.filter(s => s.class && s.class === className);
     const allSelected = classStudents.every(s => selectedStudents.includes(s.id));
     
     let newSelected;
@@ -552,7 +552,7 @@ export default function SurveyDistributionDialog({
                                 control={form.control}
                                 name="targetClasses"
                                 render={({ field }) => {
-                                  const studentCount = students.filter(s => s.class === className).length;
+                                  const studentCount = students.filter(s => s.class && s.class === className).length;
                                   return (
                                     <FormItem
                                       key={className}
@@ -560,7 +560,7 @@ export default function SurveyDistributionDialog({
                                     >
                                       <FormControl>
                                         <Checkbox
-                                          checked={field.value?.includes(className)}
+                                          checked={field.value?.includes(className as string)}
                                           onCheckedChange={(checked) => {
                                             const currentValue = field.value || [];
                                             return checked
@@ -606,7 +606,7 @@ export default function SurveyDistributionDialog({
                     <CardContent>
                       <div className="space-y-4">
                         {watchedClasses.map((className) => {
-                          const classStudents = students.filter(s => s.class === className);
+                          const classStudents = students.filter(s => s.class && s.class === className);
                           const selectedInClass = classStudents.filter(s => 
                             selectedStudents.includes(s.id)
                           ).length;

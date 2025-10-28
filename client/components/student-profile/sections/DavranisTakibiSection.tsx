@@ -40,7 +40,7 @@ const behaviorIncidentSchema = z.object({
   intensity: z.enum(intensityLevels).optional(),
   interventionUsed: z.string().optional(),
   interventionEffectiveness: z.enum(effectivenessLevels).optional(),
-  parentNotified: z.boolean().default(false),
+  parentNotified: z.boolean(),
   recordedBy: z.string().optional(),
   notes: z.string().optional(),
 });

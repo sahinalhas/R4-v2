@@ -110,27 +110,27 @@ export default function UnifiedRiskSection({ studentId, student, onUpdate }: Uni
         <TabsContent value="degerlendirme">
           <RiskDegerlendirmeSection
             studentId={studentId}
-            riskFactors={riskData.riskFactors}
-            onUpdate={onUpdate}
+            riskFactors={riskData.riskFactors as any}
+            onUpdate={onUpdate || (() => {})}
           />
         </TabsContent>
 
         <TabsContent value="davranis" className="space-y-6">
           <DisciplineSection
             student={student}
-            onUpdate={onUpdate}
+            onUpdate={onUpdate || (() => {})}
           />
           <DavranisTakibiSection
             studentId={studentId}
             behaviorIncidents={[]} // Will be loaded inside the component
-            onUpdate={onUpdate}
+            onUpdate={onUpdate || (() => {})}
           />
         </TabsContent>
 
         <TabsContent value="koruyucu">
           <RiskProtectiveProfileSection
             studentId={studentId}
-            onUpdate={onUpdate}
+            onUpdate={onUpdate || (() => {})}
           />
         </TabsContent>
       </Tabs>

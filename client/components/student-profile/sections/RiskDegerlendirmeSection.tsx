@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { RiskFactors, addRiskFactors } from "@/lib/storage";
+import { addRiskFactors } from "@/lib/storage";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { EnhancedTextarea } from "@/components/ui/enhanced-textarea";
@@ -27,6 +27,24 @@ import { AlertTriangle } from "lucide-react";
 
 const riskLevels = ["DÜŞÜK", "ORTA", "YÜKSEK", "ÇOK_YÜKSEK"] as const;
 
+interface RiskFactors {
+  id: string;
+  studentId: string;
+  assessmentDate: string;
+  academicRiskLevel: typeof riskLevels[number];
+  behavioralRiskLevel: typeof riskLevels[number];
+  attendanceRiskLevel: typeof riskLevels[number];
+  socialEmotionalRiskLevel: typeof riskLevels[number];
+  academicFactors?: string;
+  behavioralFactors?: string;
+  protectiveFactors?: string;
+  interventionsNeeded?: string;
+  parentNotified?: boolean;
+  assignedCounselor?: string;
+  nextAssessmentDate?: string;
+  status: string;
+}
+
 const riskAssessmentSchema = z.object({
   assessmentDate: z.string().min(1, "Değerlendirme tarihi gereklidir"),
   academicRiskLevel: z.enum(riskLevels),
@@ -37,7 +55,7 @@ const riskAssessmentSchema = z.object({
   behavioralFactors: z.string().optional(),
   protectiveFactors: z.string().optional(),
   interventionsNeeded: z.string().optional(),
-  parentNotified: z.boolean().default(false),
+  parentNotified: z.boolean(),
   assignedCounselor: z.string().optional(),
   nextAssessmentDate: z.string().optional(),
 });

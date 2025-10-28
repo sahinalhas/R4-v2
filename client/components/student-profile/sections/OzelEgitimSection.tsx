@@ -28,7 +28,7 @@ import * as z from "zod";
 import { toast } from "sonner";
 
 const specialEducationSchema = z.object({
-  hasIEP: z.boolean().default(false),
+  hasIEP: z.boolean(),
   iepStartDate: z.string().optional(),
   iepEndDate: z.string().optional(),
   iepGoals: z.string().optional(),
@@ -37,7 +37,7 @@ const specialEducationSchema = z.object({
   ramReportSummary: z.string().optional(),
   supportServices: z.string().optional(),
   accommodations: z.string().optional(),
-  status: z.string().default("AKTİF"),
+  status: z.string(),
   nextReviewDate: z.string().optional(),
   notes: z.string().optional(),
 });

@@ -11,6 +11,7 @@ import AutoProfileInitializer from '../../../services/auto-profile-initializer.s
 import ProfileQualityValidator from '../../../services/profile-quality-validator.service.js';
 import StudentDataProcessor from '../../../services/student-data-processor.service.js';
 import getDatabase from '../../../lib/database.js';
+import type { BackendStudent } from '../../../../shared/types/student.types.js';
 
 const scoringEngine = new UnifiedScoringEngine();
 const profileInitializer = new AutoProfileInitializer();
@@ -28,7 +29,7 @@ export async function getUnifiedProfile(req: Request, res: Response) {
     
     // Öğrenci temel bilgileri
     const studentStmt = db.prepare('SELECT * FROM students WHERE id = ?');
-    const student = studentStmt.get(id);
+    const student = studentStmt.get(id) as BackendStudent | undefined;
     
     if (!student) {
       return res.status(404).json({ error: 'Öğrenci bulunamadı' });

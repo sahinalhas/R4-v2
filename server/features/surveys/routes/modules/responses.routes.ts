@@ -171,15 +171,13 @@ export const importExcelResponsesHandler: RequestHandler = async (req, res) => {
 
     if (result.success) {
       res.json({
-        success: true,
-        message: `${result.successCount} yanıt başarıyla yüklendi`,
-        ...result
+        ...result,
+        message: `${result.successCount} yanıt başarıyla yüklendi`
       });
     } else {
       res.status(400).json({
-        success: false,
-        message: `${result.successCount} yanıt yüklendi, ${result.errorCount} hata oluştu`,
-        ...result
+        ...result,
+        message: `${result.successCount} yanıt yüklendi, ${result.errorCount} hata oluştu`
       });
     }
   } catch (error: any) {

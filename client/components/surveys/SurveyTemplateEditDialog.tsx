@@ -43,18 +43,18 @@ const editSchema = z.object({
   description: z.string().optional(),
   type: z.enum(["MEB_STANDAR", "OZEL", "AKADEMIK", "SOSYAL", "REHBERLIK"]),
   estimatedDuration: z.number().min(1, "Tahmini süre en az 1 dakika olmalıdır"),
-  targetGrades: z.array(z.string()).default([]),
-  tags: z.array(z.string()).default([]),
-  mebCompliant: z.boolean().default(false),
-  isActive: z.boolean().default(true),
+  targetGrades: z.array(z.string()),
+  tags: z.array(z.string()),
+  mebCompliant: z.boolean(),
+  isActive: z.boolean(),
 });
 
 const questionSchema = z.object({
   questionText: z.string().min(1, "Soru metni gereklidir"),
   questionType: z.enum(["MULTIPLE_CHOICE", "OPEN_ENDED", "LIKERT", "YES_NO", "RATING", "DROPDOWN"]),
   options: z.array(z.string()).optional(),
-  required: z.boolean().default(true),
-  orderIndex: z.number().default(0),
+  required: z.boolean(),
+  orderIndex: z.number(),
 });
 
 type EditForm = z.infer<typeof editSchema>;

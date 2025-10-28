@@ -293,7 +293,7 @@ export class ProfileAggregationService {
       physicalTalents: this.ensureJsonArray(fields.physicalTalents || existing?.physicalTalents || []),
       primaryInterests: this.ensureJsonArray(fields.primaryInterests || existing?.primaryInterests || []),
       exploratoryInterests: this.ensureJsonArray(fields.exploratoryInterests || existing?.exploratoryInterests || []),
-      talentProficiency: existing?.talentProficiency || null,
+      talentProficiency: existing?.talentProficiency || undefined,
       weeklyEngagementHours: fields.weeklyEngagementHours || existing?.weeklyEngagementHours || null,
       clubMemberships: this.ensureJsonArray(fields.clubMemberships || existing?.clubMemberships || []),
       competitionsParticipated: this.ensureJsonArray(fields.competitionsParticipated || existing?.competitionsParticipated || []),

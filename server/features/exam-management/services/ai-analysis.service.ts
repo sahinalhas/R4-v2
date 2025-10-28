@@ -51,7 +51,7 @@ export function analyzeStudentRisk(studentId: string): AIAnalysisResult | null {
 
     if (avgRecentNet < avgOlderNet * 0.85) {
       insights.push({
-        id: uuidv4(),
+        id: randomUUID(),
         category: 'Performans Düşüşü',
         severity: 'high',
         title: 'Belirgin Performans Düşüşü Tespit Edildi',
@@ -64,7 +64,7 @@ export function analyzeStudentRisk(studentId: string): AIAnalysisResult | null {
       });
 
       recommendations.push({
-        id: uuidv4(),
+        id: randomUUID(),
         type: 'intervention',
         priority: 'high',
         title: 'Acil Müdahale Önerisi',
@@ -81,7 +81,7 @@ export function analyzeStudentRisk(studentId: string): AIAnalysisResult | null {
 
     if (avgRecentNet < 20) {
       insights.push({
-        id: uuidv4(),
+        id: randomUUID(),
         category: 'Düşük Performans',
         severity: 'high',
         title: 'Kritik Seviyede Düşük Başarı',
@@ -91,7 +91,7 @@ export function analyzeStudentRisk(studentId: string): AIAnalysisResult | null {
       });
 
       recommendations.push({
-        id: uuidv4(),
+        id: randomUUID(),
         type: 'support',
         priority: 'high',
         title: 'Yoğun Destek Programı',
@@ -291,7 +291,7 @@ export function generateSessionRecommendations(sessionId: string): AIAnalysisRes
 
     if (lowPerformers > students.size * 0.3) {
       insights.push({
-        id: uuidv4(),
+        id: randomUUID(),
         category: 'Sınıf Performansı',
         severity: 'high',
         title: 'Yüksek Oranda Düşük Performans',
@@ -304,7 +304,7 @@ export function generateSessionRecommendations(sessionId: string): AIAnalysisRes
       });
 
       recommendations.push({
-        id: uuidv4(),
+        id: randomUUID(),
         type: 'intervention',
         priority: 'high',
         title: 'Sınıf Geneli Müdahale',

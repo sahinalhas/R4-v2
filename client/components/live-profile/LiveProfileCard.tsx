@@ -18,7 +18,8 @@ import {
   Heart,
   BookOpen,
   Activity,
-  Target
+  Target,
+  Clock
 } from "lucide-react";
 import { useLiveProfile } from "@/hooks/live-profile/useLiveProfile";
 import { cn } from "@/lib/utils";

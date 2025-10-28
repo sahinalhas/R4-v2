@@ -65,7 +65,7 @@ export function createTransactionHelper(db: Database.Database): TransactionHelpe
   return new TransactionHelper(db);
 }
 
-export async function withTransaction<T>(
+export async function withRetryableTransaction<T>(
   operation: (db: Database.Database) => T,
   options: { maxRetries?: number; retryDelay?: number } = {}
 ): Promise<T> {
