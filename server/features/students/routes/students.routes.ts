@@ -6,6 +6,8 @@ import {
   createSuccessResponse, 
   createErrorResponse,
   ApiErrorCode,
+  type ApiSuccessResponse,
+  type ApiErrorResponse,
 } from "../../../../shared/types/api-contracts.js";
 import type { 
   StudentResponse,
