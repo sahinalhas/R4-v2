@@ -23,7 +23,7 @@ export function getStudentAcademicGoals(studentId: string): AcademicGoal[] {
   return repository.getAcademicGoalsByStudent(sanitizedId);
 }
 
-export function createAcademicGoal(data: any): { success: boolean; id: string } {
+export function createAcademicGoal(data: Omit<AcademicGoal, 'description' | 'examType'> & { description?: string; examType?: string }): { success: boolean; id: string } {
   const goal: AcademicGoal = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -33,15 +33,15 @@ export function createAcademicGoal(data: any): { success: boolean; id: string } 
     currentScore: data.currentScore,
     examType: data.examType ? sanitizeString(data.examType) : undefined,
     deadline: data.deadline,
-    status: data.status || 'active'
+    status: data.status
   };
   
   repository.insertAcademicGoal(goal);
   return { success: true, id: goal.id };
 }
 
-export function updateAcademicGoal(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateAcademicGoal(id: string, updates: Partial<AcademicGoal>): { success: boolean } {
+  const sanitizedUpdates: Partial<AcademicGoal> = {};
   
   if (updates.title) sanitizedUpdates.title = sanitizeString(updates.title);
   if (updates.description) sanitizedUpdates.description = sanitizeString(updates.description);
@@ -65,7 +65,7 @@ export function getStudentMultipleIntelligence(studentId: string): MultipleIntel
   return repository.getMultipleIntelligenceByStudent(sanitizedId);
 }
 
-export function createMultipleIntelligence(data: any): { success: boolean; id: string } {
+export function createMultipleIntelligence(data: Omit<MultipleIntelligence, 'notes'> & { notes?: string }): { success: boolean; id: string } {
   const record: MultipleIntelligence = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -90,7 +90,7 @@ export function getStudentLearningStyles(studentId: string): LearningStyle[] {
   return repository.getLearningStylesByStudent(sanitizedId);
 }
 
-export function createLearningStyle(data: any): { success: boolean; id: string } {
+export function createLearningStyle(data: Omit<LearningStyle, 'notes'> & { notes?: string }): { success: boolean; id: string } {
   const record: LearningStyle = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -111,7 +111,7 @@ export function getStudentSmartGoals(studentId: string): SmartGoal[] {
   return repository.getSmartGoalsByStudent(sanitizedId);
 }
 
-export function createSmartGoal(data: any): { success: boolean; id: string } {
+export function createSmartGoal(data: Omit<SmartGoal, 'specific' | 'measurable' | 'achievable' | 'relevant' | 'timeBound' | 'category' | 'deadline' | 'progress' | 'notes'> & { title: string; specific?: string; measurable?: string; achievable?: string; relevant?: string; timeBound?: string; category?: string; deadline?: string; progress?: number; notes?: string }): { success: boolean; id: string } {
   const goal: SmartGoal = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
