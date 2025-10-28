@@ -99,9 +99,11 @@ const doubleCsrfProtection = (req: Request, res: Response, next: NextFunction) =
   return initializeCsrf().doubleCsrfProtection(req, res, next);
 };
 
-const invalidCsrfTokenError = initializeCsrf().invalidCsrfTokenError;
+const getInvalidCsrfTokenError = () => {
+  return initializeCsrf().invalidCsrfTokenError;
+};
 
-export { generateCsrfToken, doubleCsrfProtection, invalidCsrfTokenError, ensureCsrfSession };
+export { generateCsrfToken, doubleCsrfProtection, getInvalidCsrfTokenError as invalidCsrfTokenError, ensureCsrfSession };
 
 export function getCsrfToken(req: Request, res: Response): string {
   return generateCsrfToken(req, res, { 
