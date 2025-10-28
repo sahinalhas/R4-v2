@@ -51,42 +51,55 @@ function ensureCsrfSession(req: Request, res: Response, next: NextFunction): voi
   next();
 }
 
-const {
-  generateCsrfToken,
-  doubleCsrfProtection,
-  invalidCsrfTokenError,
-} = doubleCsrf({
-  getSecret: () => CSRF_SECRET,
-  
-  getSessionIdentifier: (req: Request) => {
-    const sessionId = (req as any).csrfSessionId as string | undefined;
-    
-    if (!sessionId) {
-      throw new Error('CSRF session ID not found. Ensure ensureCsrfSession middleware runs before CSRF protection.');
-    }
-    
-    return sessionId;
-  },
-  
-  cookieName: isDevelopment ? 'csrf-token' : '__Host-csrf',
-  
-  cookieOptions: {
-    sameSite: 'strict',
-    secure: isProduction,
-    httpOnly: true,
-    path: '/',
-    maxAge: 3600000,
-  },
-  
-  getCsrfTokenFromRequest: (req: Request) => {
-    const token = req.headers['x-csrf-token'] as string | undefined;
-    return token || null;
-  },
-  
-  size: 64,
-  
-  ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
-});
+let csrfInstance: ReturnType<typeof doubleCsrf> | null = null;
+
+function initializeCsrf() {
+  if (!csrfInstance) {
+    csrfInstance = doubleCsrf({
+      getSecret: () => CSRF_SECRET,
+      
+      getSessionIdentifier: (req: Request) => {
+        const sessionId = (req as any).csrfSessionId as string | undefined;
+        
+        if (!sessionId) {
+          throw new Error('CSRF session ID not found. Ensure ensureCsrfSession middleware runs before CSRF protection.');
+        }
+        
+        return sessionId;
+      },
+      
+      cookieName: isDevelopment ? 'csrf-token' : '__Host-csrf',
+      
+      cookieOptions: {
+        sameSite: 'strict',
+        secure: isProduction,
+        httpOnly: true,
+        path: '/',
+        maxAge: 3600000,
+      },
+      
+      getCsrfTokenFromRequest: (req: Request) => {
+        const token = req.headers['x-csrf-token'] as string | undefined;
+        return token || null;
+      },
+      
+      size: 64,
+      
+      ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+    });
+  }
+  return csrfInstance;
+}
+
+const generateCsrfToken = (req: Request, res: Response, options?: any) => {
+  return initializeCsrf().generateCsrfToken(req, res, options);
+};
+
+const doubleCsrfProtection = (req: Request, res: Response, next: NextFunction) => {
+  return initializeCsrf().doubleCsrfProtection(req, res, next);
+};
+
+const invalidCsrfTokenError = initializeCsrf().invalidCsrfTokenError;
 
 export { generateCsrfToken, doubleCsrfProtection, invalidCsrfTokenError, ensureCsrfSession };
 
