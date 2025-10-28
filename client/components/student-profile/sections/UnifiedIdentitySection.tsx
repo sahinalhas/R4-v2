@@ -77,7 +77,7 @@ const unifiedIdentitySchema = z.object({
   babaMeslek: z.string().optional(),
 });
 
-type UnifiedIdentityFormValues = z.infer<typeof unifiedIdentityFormSchema>;ySchema>;
+type UnifiedIdentityFormValues = z.infer<typeof unifiedIdentitySchema>;
 
 interface UnifiedIdentitySectionProps {
   student: Student;
