@@ -3,10 +3,14 @@
  */
 
 import { Router } from 'express';
+import { aiRateLimiter } from '../../../middleware/rate-limit.middleware.js';
 import { BulkAIAnalysisService } from '../services/bulk-ai-analysis.service.js';
 
 const router = Router();
 const bulkAnalysisService = new BulkAIAnalysisService();
+
+// Apply AI rate limiter to all bulk AI analysis routes (10 req/min)
+router.use(aiRateLimiter);
 
 /**
  * GET /api/bulk-analysis/classes

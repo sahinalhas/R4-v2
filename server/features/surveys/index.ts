@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { simpleRateLimit } from '../../middleware/validation.js';
+import { bulkOperationsRateLimiter } from '../../middleware/rate-limit.middleware.js';
 import * as templatesRoutes from './routes/modules/templates.routes.js';
 import * as questionsRoutes from './routes/modules/questions.routes.js';
 import * as distributionsRoutes from './routes/modules/distributions.routes.js';
@@ -36,7 +37,7 @@ router.get("/survey-responses", simpleRateLimit(200, 15 * 60 * 1000), responsesR
 router.post("/survey-responses", simpleRateLimit(100, 15 * 60 * 1000), responsesRoutes.createSurveyResponse);
 router.put("/survey-responses/:id", simpleRateLimit(50, 15 * 60 * 1000), responsesRoutes.updateSurveyResponseHandler);
 router.delete("/survey-responses/:id", simpleRateLimit(30, 15 * 60 * 1000), responsesRoutes.deleteSurveyResponseHandler);
-router.post("/survey-responses/import/:distributionId", simpleRateLimit(20, 15 * 60 * 1000), responsesRoutes.uploadMiddleware, responsesRoutes.importExcelResponsesHandler);
+router.post("/survey-responses/import/:distributionId", bulkOperationsRateLimiter, responsesRoutes.uploadMiddleware, responsesRoutes.importExcelResponsesHandler);
 
 // ============= ANALYTICS ROUTES =============
 router.get("/survey-analytics/:distributionId", simpleRateLimit(150, 15 * 60 * 1000), analyticsRoutes.getSurveyAnalytics);
