@@ -35,8 +35,8 @@ export interface SurveyResponse {
   id: string;
   distributionId: string;
   studentId?: string;
-  studentInfo?: any;
-  responseData: Record<string, any>;
+  studentInfo?: { name: string; surname: string; class: string };
+  responseData: Record<string, unknown>;
   submittedAt: string;
   completionTime?: number;
   submissionType?: string;
@@ -77,7 +77,7 @@ export interface QuestionAnalytics {
   distribution?: RatingDistribution;
   yesCount?: number;
   noCount?: number;
-  responses?: any[];
+  responses?: string[];
   averageLength?: number;
   sentiment?: SentimentAnalysis;
 }

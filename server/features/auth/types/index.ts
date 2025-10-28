@@ -6,12 +6,12 @@ export interface UserSession {
 }
 
 export interface UserSessionResponse {
-  userData: any;
+  userData: Record<string, unknown>;
   demoNoticeSeen: boolean;
 }
 
 export interface SaveSessionRequest {
   userId: string;
-  userData: any;
+  userData: Record<string, unknown>;
   demoNoticeSeen?: boolean;
 }

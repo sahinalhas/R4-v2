@@ -29,15 +29,15 @@ export interface DataValidationResult {
   confidence: number; // 0-100
   reasoning: string;
   suggestedDomain: ProfileDomain[];
-  extractedInsights: Record<string, any>;
+  extractedInsights: Record<string, unknown>;
   conflicts?: DataConflict[];
   recommendations?: string[];
 }
 
 export interface DataConflict {
   domain: ProfileDomain;
-  existingValue: any;
-  newValue: any;
+  existingValue: unknown;
+  newValue: unknown;
   severity: 'low' | 'medium' | 'high';
   resolutionSuggestion: string;
 }
@@ -46,9 +46,9 @@ export interface ProfileUpdateRequest {
   studentId: string;
   source: DataSource;
   sourceId: string;
-  rawData: any;
+  rawData: Record<string, unknown>;
   timestamp: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ProfileUpdateResult {
@@ -97,7 +97,7 @@ export interface ProfileSyncLog {
   action: 'created' | 'updated' | 'validated' | 'rejected';
   validationScore: number;
   aiReasoning: string;
-  extractedInsights?: Record<string, any>;
+  extractedInsights?: Record<string, unknown>;
   timestamp: string;
   processedBy: 'ai' | 'manual';
   created_at?: string;

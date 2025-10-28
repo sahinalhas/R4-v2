@@ -300,7 +300,7 @@ export interface TimelineEvent {
   severity?: 'DÜŞÜK' | 'ORTA' | 'YÜKSEK' | 'KRİTİK';
   impact: 'POZİTİF' | 'NÖTR' | 'NEGATİF';
   relatedEvents?: string[];
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export interface PatternCluster {

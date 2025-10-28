@@ -76,8 +76,8 @@ export interface CounselingSession {
 }
 
 export interface CounselingSessionWithStudents extends CounselingSession {
-  students?: any[];
-  student?: any;
+  students?: Array<{ id: string; name: string; surname: string; class: string }>;
+  student?: { id: string; name: string; surname: string; class: string };
 }
 
 export interface SessionFilters {

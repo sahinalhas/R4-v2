@@ -160,32 +160,33 @@ export function unifiedToBackend(unified: UnifiedStudent): BackendStudent {
 /**
  * Frontend to Backend transformation (for API calls)
  */
-export function frontendToBackend(student: any): BackendStudent {
+export function frontendToBackend(student: Record<string, unknown> & { id: string }): BackendStudent {
+  const s = student as Record<string, string | undefined>;
   return {
     id: student.id,
-    name: student.ad || student.name || '',
-    surname: student.soyad || student.surname || '',
-    email: student.eposta || student.email,
-    phone: student.telefon || student.phone,
-    birthDate: student.dogumTarihi || student.birthDate,
-    birthPlace: student.dogumYeri || student.birthPlace,
-    tcIdentityNo: student.tcKimlikNo || student.tcIdentityNo,
-    address: student.adres || student.address,
-    class: student.class,
-    enrollmentDate: student.kayitTarihi || student.enrollmentDate || new Date().toISOString().split('T')[0],
-    status: student.durum === 'aktif' ? 'active' : student.durum === 'pasif' ? 'inactive' : student.durum === 'mezun' ? 'graduated' : student.status || 'active',
-    avatar: student.avatar,
-    parentContact: student.veliTelefon || student.parentContact,
-    notes: student.notlar || student.notes,
-    gender: student.cinsiyet || student.gender || 'K',
-    risk: student.risk || 'Düşük',
-    motherOccupation: student.anneMeslegi || student.motherOccupation,
-    fatherOccupation: student.babaMeslegi || student.fatherOccupation,
-    languageSkills: student.dilBecerileri || student.languageSkills,
-    hobbiesDetailed: student.hobilerDetayli || student.hobbiesDetailed,
-    extracurricularActivities: student.okulDisiAktiviteler || student.extracurricularActivities,
-    studentExpectations: student.ogrenciBeklentileri || student.studentExpectations,
-    familyExpectations: student.aileBeklentileri || student.familyExpectations
+    name: (s.ad || s.name || '') as string,
+    surname: (s.soyad || s.surname || '') as string,
+    email: s.eposta || s.email,
+    phone: s.telefon || s.phone,
+    birthDate: s.dogumTarihi || s.birthDate,
+    birthPlace: s.dogumYeri || s.birthPlace,
+    tcIdentityNo: s.tcKimlikNo || s.tcIdentityNo,
+    address: s.adres || s.address,
+    class: s.class as string,
+    enrollmentDate: (s.kayitTarihi || s.enrollmentDate || new Date().toISOString().split('T')[0]) as string,
+    status: (s.durum === 'aktif' ? 'active' : s.durum === 'pasif' ? 'inactive' : s.durum === 'mezun' ? 'graduated' : s.status || 'active') as 'active' | 'inactive' | 'graduated',
+    avatar: s.avatar,
+    parentContact: s.veliTelefon || s.parentContact,
+    notes: s.notlar || s.notes,
+    gender: (s.cinsiyet || s.gender || 'K') as 'K' | 'E',
+    risk: (s.risk || 'Düşük') as 'Düşük' | 'Orta' | 'Yüksek',
+    motherOccupation: s.anneMeslegi || s.motherOccupation,
+    fatherOccupation: s.babaMeslegi || s.fatherOccupation,
+    languageSkills: s.dilBecerileri || s.languageSkills,
+    hobbiesDetailed: s.hobilerDetayli || s.hobbiesDetailed,
+    extracurricularActivities: s.okulDisiAktiviteler || s.extracurricularActivities,
+    studentExpectations: s.ogrenciBeklentileri || s.studentExpectations,
+    familyExpectations: s.aileBeklentileri || s.familyExpectations
   };
 }
 

@@ -418,7 +418,7 @@ export interface AIInsight {
   severity: 'high' | 'medium' | 'low';
   title: string;
   description: string;
-  data_points: any[];
+  data_points: Array<Record<string, unknown>>;
   confidence: number;
 }
 
@@ -474,7 +474,7 @@ export interface GeneratedReport {
   generated_at: string;
   file_path?: string;
   download_url?: string;
-  metadata: any;
+  metadata: Record<string, unknown>;
 }
 
 // ============================================================================

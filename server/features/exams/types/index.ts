@@ -22,10 +22,10 @@ export interface ExamResult {
   wrongAnswers?: number;
   emptyAnswers?: number;
   totalQuestions?: number;
-  subjectBreakdown?: any;
-  topicAnalysis?: any;
-  strengthAreas?: any[];
-  weaknessAreas?: any[];
+  subjectBreakdown?: Record<string, unknown>;
+  topicAnalysis?: Record<string, unknown>;
+  strengthAreas?: string[];
+  weaknessAreas?: string[];
   improvementSuggestions?: string;
   comparedToGoal?: number;
   comparedToPrevious?: number;

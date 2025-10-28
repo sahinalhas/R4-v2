@@ -18,8 +18,8 @@ export type SuggestionStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'MODIFIED';
 
 export interface ProposedChange {
   field: string;
-  currentValue: any;
-  proposedValue: any;
+  currentValue: unknown;
+  proposedValue: unknown;
   reason: string;
 }
 
@@ -40,12 +40,12 @@ export interface AISuggestion {
   
   // Değişiklik detayları
   proposedChanges?: ProposedChange[];
-  currentValues?: Record<string, any>;
+  currentValues?: Record<string, unknown>;
   
   // AI metadata
   aiModel?: string;
   aiVersion?: string;
-  analysisData?: Record<string, any>;
+  analysisData?: Record<string, unknown>;
   
   // Kullanıcı etkileşimi
   reviewedBy?: string;

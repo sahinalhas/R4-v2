@@ -64,7 +64,7 @@ export interface CoachingRecommendation {
   priority?: string;
   status: string;
   automated?: boolean;
-  implementationSteps?: any[];
+  implementationSteps?: string[];
   createdAt?: string;
 }
 
@@ -72,13 +72,13 @@ export interface Evaluation360 {
   id: string;
   studentId: string;
   evaluationDate: string;
-  selfEvaluation?: any;
-  teacherEvaluation?: any;
-  peerEvaluation?: any;
-  parentEvaluation?: any;
-  strengths?: any[];
-  areasForImprovement?: any[];
-  actionPlan?: any[];
+  selfEvaluation?: Record<string, unknown>;
+  teacherEvaluation?: Record<string, unknown>;
+  peerEvaluation?: Record<string, unknown>;
+  parentEvaluation?: Record<string, unknown>;
+  strengths?: string[];
+  areasForImprovement?: string[];
+  actionPlan?: string[];
   notes?: string;
 }
 

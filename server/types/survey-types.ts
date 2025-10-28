@@ -33,7 +33,7 @@ export interface SurveyResponse {
   id: string;
   distributionId: string;
   studentId?: string;
-  responseData: Record<string, any>;
+  responseData: Record<string, unknown>;
   submittedAt: string;
   completionTime?: number;
   submissionType?: string;
@@ -65,7 +65,7 @@ export interface QuestionAnalytics {
   distribution?: RatingDistribution;
   yesCount?: number;
   noCount?: number;
-  responses?: any[];
+  responses?: string[];
   averageLength?: number;
   sentiment?: SentimentAnalysis;
 }
@@ -136,6 +136,6 @@ export interface TableColumnInfo {
   name: string;
   type: string;
   notnull: number;
-  dflt_value: any;
+  dflt_value: unknown;
   pk: number;
 }
