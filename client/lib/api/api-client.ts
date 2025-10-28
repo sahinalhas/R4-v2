@@ -77,6 +77,7 @@ class ApiClient {
         method,
         headers: { ...this.baseHeaders, ...headers },
         body: body ? JSON.stringify(body) : undefined,
+        credentials: 'include', // Required for SameSite cookies to work
         signal: controller.signal,
       };
 
