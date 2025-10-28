@@ -4,24 +4,27 @@
  */
 
 import { Router } from 'express';
-import { simpleRateLimit } from '../../middleware/validation.js';
+import { aiRateLimiter } from '../../middleware/rate-limit.middleware.js';
 import aiAssistantRoutes from './routes/ai-assistant.routes.js';
 import * as meetingPrepRoutes from './routes/meeting-prep.routes.js';
 import * as recommendationsRoutes from './routes/recommendations.routes.js';
 
 const router = Router();
 
+// Apply AI rate limiter to all AI assistant routes (10 req/min)
+router.use(aiRateLimiter);
+
 // Main AI assistant routes
 router.use('/', aiAssistantRoutes);
 
 // Meeting preparation routes
-router.post('/meeting-prep/parent', simpleRateLimit(20, 60 * 60 * 1000), meetingPrepRoutes.generateParentMeetingPrep);
-router.post('/meeting-prep/intervention', simpleRateLimit(20, 60 * 60 * 1000), meetingPrepRoutes.generateInterventionPlan);
-router.post('/meeting-prep/teacher', simpleRateLimit(20, 60 * 60 * 1000), meetingPrepRoutes.generateTeacherMeetingPrep);
+router.post('/meeting-prep/parent', meetingPrepRoutes.generateParentMeetingPrep);
+router.post('/meeting-prep/intervention', meetingPrepRoutes.generateInterventionPlan);
+router.post('/meeting-prep/teacher', meetingPrepRoutes.generateTeacherMeetingPrep);
 
 // Smart recommendations routes
-router.get('/recommendations/priority-students', simpleRateLimit(100, 15 * 60 * 1000), recommendationsRoutes.getPriorityStudents);
-router.get('/recommendations/interventions', simpleRateLimit(100, 15 * 60 * 1000), recommendationsRoutes.getInterventionRecommendations);
-router.get('/recommendations/resources', simpleRateLimit(100, 15 * 60 * 1000), recommendationsRoutes.getResourceRecommendations);
+router.get('/recommendations/priority-students', recommendationsRoutes.getPriorityStudents);
+router.get('/recommendations/interventions', recommendationsRoutes.getInterventionRecommendations);
+router.get('/recommendations/resources', recommendationsRoutes.getResourceRecommendations);
 
 export default router;
