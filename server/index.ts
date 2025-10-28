@@ -6,7 +6,8 @@ import featureRegistry from "./features";
 import { getCorsOptions } from "./middleware/cors-config";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
-import { ensureCsrfSession, doubleCsrfProtection } from "./middleware/csrf.middleware";
+import { ensureCsrfSession, doubleCsrfProtection, getCsrfToken } from "./middleware/csrf.middleware";
+import { generalApiRateLimiter } from "./middleware/rate-limit.middleware";
 
 /**
  * BACKEND MODULARIZATION - COMPLETE ✅
@@ -50,6 +51,10 @@ export function createServer() {
 
   // CSRF Session - server-managed session identifier (must run before CSRF protection)
   app.use(ensureCsrfSession);
+
+  // Global API Rate Limiting - baseline protection for all API endpoints
+  // This prevents abuse and DoS attacks (100 requests per minute per IP)
+  app.use('/api', generalApiRateLimiter);
 
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
