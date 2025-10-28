@@ -6,7 +6,7 @@ expertMode = true
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Run"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -29,23 +29,6 @@ task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
 
-[[workflows.workflow]]
-name = "Run"
-author = 49122915
-mode = "parallel"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node server/index.ts &"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "sleep 2"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-
 [[ports]]
 localPort = 5000
 externalPort = 80
@@ -57,6 +40,10 @@ externalPort = 3000
 [[ports]]
 localPort = 33491
 externalPort = 4200
+
+[[ports]]
+localPort = 34353
+externalPort = 5173
 
 [[ports]]
 localPort = 38073

@@ -33,9 +33,6 @@ import { generalApiRateLimiter } from "./middleware/rate-limit.middleware";
 export function createServer() {
   const app = express();
 
-  // Trust proxy - Replit uses reverse proxy
-  app.set('trust proxy', 1);
-
   app.use(securityHeaders);
   app.use(cors(getCorsOptions()));
 
@@ -52,6 +49,13 @@ export function createServer() {
   // Cookie parser - required for CSRF protection
   app.use(cookieParser());
 
+  // CSRF Session - server-managed session identifier (must run before CSRF protection)
+  app.use(ensureCsrfSession);
+
+  // Global API Rate Limiting - baseline protection for all API endpoints
+  // This prevents abuse and DoS attacks (100 requests per minute per IP)
+  app.use('/api', generalApiRateLimiter);
+
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
 
@@ -62,7 +66,7 @@ export function createServer() {
   });
 
   // CSRF Token endpoint - frontend will call this to get CSRF token
-  app.get("/api/csrf-token", ensureCsrfSession, (req, res) => {
+  app.get("/api/csrf-token", (req, res) => {
     try {
       const token = getCsrfToken(req, res);
       res.json({ csrfToken: token });
@@ -72,34 +76,24 @@ export function createServer() {
     }
   });
 
-  // Apply rate limiting to all /api routes
-  app.use('/api', generalApiRateLimiter);
-
-  // CSRF Protection - modern approach
-  // 1. Safe methods (GET, HEAD, OPTIONS) don't need CSRF
-  // 2. Public endpoints are exempt
-  // 3. All other mutations require valid CSRF token
-  app.use('/api', (req: Request, res: Response, next: NextFunction) => {
-    // Safe HTTP methods don't need CSRF protection
-    if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
-      return next();
-    }
-
-    // Public mutation endpoints that don't need CSRF
-    const publicMutations = [
+  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
+  // Exceptions: Public endpoints like login don't need CSRF protection
+  app.use((req, res, next) => {
+    const publicEndpoints = [
       '/api/users/login',
       '/api/auth/demo-user',
+      '/api/csrf-token', // CSRF token endpoint itself doesn't need protection
     ];
     
-    if (publicMutations.includes(req.path)) {
+    const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
+    const isGetRequest = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
+    
+    // Skip CSRF protection for public endpoints or safe methods
+    if (isPublicEndpoint || isGetRequest) {
       return next();
     }
-
-    // All other mutations need CSRF protection
-    ensureCsrfSession(req, res, (err) => {
-      if (err) return next(err);
-      doubleCsrfProtection(req, res, next);
-    });
+    
+    doubleCsrfProtection(req, res, next);
   });
 
   // ========================================================================
@@ -111,12 +105,3 @@ export function createServer() {
 
   return app;
 }
-
-// Start Express on port 3000 (Vite will proxy to this)
-const PORT = 3000;
-const app = createServer();
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n🚀 Express API server running on http://0.0.0.0:${PORT}`);
-  console.log(`📡 Ready to receive proxied requests from Vite\n`);
-});
