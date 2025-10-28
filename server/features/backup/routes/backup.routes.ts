@@ -4,12 +4,16 @@
  */
 
 import { Router } from 'express';
+import { backupRateLimiter } from '../../../middleware/rate-limit.middleware.js';
 import { backupService } from '../services/backup.service';
 import { auditService } from '../services/audit.service';
 import { encryptionService } from '../services/encryption.service';
 import { requireAuth, requireRole, type AuthenticatedRequest } from '../../../middleware/auth.middleware.js';
 
 const router = Router();
+
+// Apply backup rate limiter to all backup operations (3 req per 5 minutes)
+router.use(backupRateLimiter);
 
 router.post('/create', requireAuth, requireRole(['admin', 'counselor']), async (req, res) => {
   try {
