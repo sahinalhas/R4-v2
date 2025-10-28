@@ -1,8 +1,17 @@
+import type Database from 'better-sqlite3';
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { AcademicGoal } from '../types/index.js';
 
-let statements: any = null;
+interface AcademicGoalStatements {
+  getAllAcademicGoals: Database.Statement;
+  getAcademicGoalsByStudent: Database.Statement;
+  insertAcademicGoal: Database.Statement;
+  upsertAcademicGoal: Database.Statement;
+  deleteAcademicGoal: Database.Statement;
+}
+
+let statements: AcademicGoalStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -39,6 +48,7 @@ function ensureInitialized(): void {
 export function getAllAcademicGoals(): AcademicGoal[] {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     return statements.getAllAcademicGoals.all() as AcademicGoal[];
   } catch (error) {
     console.error('Database error in getAllAcademicGoals:', error);
@@ -49,6 +59,7 @@ export function getAllAcademicGoals(): AcademicGoal[] {
 export function getAcademicGoalsByStudent(studentId: string): AcademicGoal[] {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     return statements.getAcademicGoalsByStudent.all(studentId) as AcademicGoal[];
   } catch (error) {
     console.error('Database error in getAcademicGoalsByStudent:', error);
@@ -59,6 +70,7 @@ export function getAcademicGoalsByStudent(studentId: string): AcademicGoal[] {
 export function insertAcademicGoal(goal: AcademicGoal): void {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     statements.insertAcademicGoal.run(
       goal.id,
       goal.studentId,
@@ -79,6 +91,7 @@ export function insertAcademicGoal(goal: AcademicGoal): void {
 export function updateAcademicGoal(id: string, updates: Partial<AcademicGoal>): void {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     const db = getDatabase();
     
     buildDynamicUpdate(db, {
@@ -96,6 +109,7 @@ export function updateAcademicGoal(id: string, updates: Partial<AcademicGoal>): 
 export function upsertAcademicGoal(goal: AcademicGoal): void {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     statements.upsertAcademicGoal.run(
       goal.id,
       goal.studentId,
@@ -116,6 +130,7 @@ export function upsertAcademicGoal(goal: AcademicGoal): void {
 export function deleteAcademicGoal(id: string): void {
   try {
     ensureInitialized();
+    if (!statements) throw new Error('Statements not initialized');
     statements.deleteAcademicGoal.run(id);
   } catch (error) {
     console.error('Error deleting academic goal:', error);

@@ -165,7 +165,7 @@ export function getProactiveAlerts(filters: {
   limit?: number;
 }): ProactiveAlert[] {
   let query = 'SELECT * FROM proactive_alerts WHERE 1=1';
-  const params: any[] = [];
+  const params: (string | number)[] = [];
   
   if (filters.status) {
     query += ' AND status = ?';
@@ -238,18 +238,18 @@ export function getDailyInsightsStats(date: string): {
       SUM(CASE WHEN alertCategory = 'POZİTİF_GELİŞİM' THEN 1 ELSE 0 END) as positiveUpdates
     FROM proactive_alerts
     WHERE date(detectedAt) = ?
-  `).get(date) as any;
+  `).get(date) as { totalAlerts: number; criticalAlerts: number; positiveUpdates: number } | undefined;
   
   const students = db.prepare(`
     SELECT COUNT(*) as count
     FROM student_daily_status
     WHERE statusDate = ? AND needsAttention = 1
-  `).get(date) as any;
+  `).get(date) as { count: number } | undefined;
   
   return {
-    totalAlerts: alerts.totalAlerts || 0,
-    criticalAlerts: alerts.criticalAlerts || 0,
-    studentsNeedingAttention: students.count || 0,
-    positiveUpdates: alerts.positiveUpdates || 0
+    totalAlerts: alerts?.totalAlerts || 0,
+    criticalAlerts: alerts?.criticalAlerts || 0,
+    studentsNeedingAttention: students?.count || 0,
+    positiveUpdates: alerts?.positiveUpdates || 0
   };
 }

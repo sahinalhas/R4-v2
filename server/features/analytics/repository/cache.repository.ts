@@ -13,7 +13,7 @@ export interface CacheEntry {
 
 export interface CacheOptions {
   ttlMinutes?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 const DEFAULT_TTL_MINUTES = 30;
@@ -33,7 +33,7 @@ export function getCachedData(cacheKey: string): CacheEntry | null {
 export function setCachedData(
   cacheKey: string,
   cacheType: CacheEntry['cache_type'],
-  data: any,
+  data: unknown,
   options: CacheOptions = {}
 ): CacheEntry {
   const db = getDatabase();

@@ -18,7 +18,7 @@ export function getBehaviorIncidentsByDateRange(
 ): BehaviorIncident[] {
   const db = getDatabase();
   let query = 'SELECT * FROM behavior_incidents WHERE studentId = ?';
-  const params: any[] = [studentId];
+  const params: (string | undefined)[] = [studentId];
 
   if (startDate) {
     query += ' AND incidentDate >= ?';
@@ -55,19 +55,19 @@ export function getBehaviorStatsByStudent(studentId: string): BehaviorStats {
     GROUP BY behaviorCategory
   `);
   
-  const overallStats = overallStmt.get(studentId) as any;
-  const categoryData = categoryStmt.all(studentId) as any[];
+  const overallStats = overallStmt.get(studentId) as { totalIncidents: number; seriousCount: number; positiveCount: number } | undefined;
+  const categoryData = categoryStmt.all(studentId) as Array<{ behaviorCategory: string; count: number }>;
   
   const categoryBreakdown: Record<string, number> = {};
-  categoryData.forEach((row: any) => {
+  categoryData.forEach((row) => {
     categoryBreakdown[row.behaviorCategory] = row.count;
   });
   
   return {
     overallStats: {
-      totalIncidents: overallStats.totalIncidents || 0,
-      seriousCount: overallStats.seriousCount || 0,
-      positiveCount: overallStats.positiveCount || 0,
+      totalIncidents: overallStats?.totalIncidents || 0,
+      seriousCount: overallStats?.seriousCount || 0,
+      positiveCount: overallStats?.positiveCount || 0,
     },
     categoryBreakdown,
   };

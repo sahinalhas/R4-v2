@@ -85,7 +85,7 @@ export class CareerProfilesRepository {
 
   updateCareerProfile(id: string, updates: Partial<CareerProfile>): void {
     const fields: string[] = [];
-    const values: any[] = [];
+    const values: unknown[] = [];
 
     if (updates.name) {
       fields.push('name = ?');

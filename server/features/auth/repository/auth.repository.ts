@@ -1,7 +1,15 @@
+import type Database from 'better-sqlite3';
 import getDatabase from '../../../lib/database.js';
 import type { UserSession } from '../types/index.js';
 
-let statements: any = null;
+interface AuthStatements {
+  getUserSession: Database.Statement;
+  upsertUserSession: Database.Statement;
+  updateUserSessionActivity: Database.Statement;
+  deleteUserSession: Database.Statement;
+}
+
+let statements: AuthStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -31,21 +39,25 @@ function ensureInitialized(): void {
 
 export function getUserSession(userId: string): UserSession | null {
   ensureInitialized();
+  if (!statements) throw new Error('Statements not initialized');
   const session = statements.getUserSession.get(userId) as UserSession | null;
   return session;
 }
 
 export function upsertUserSession(userId: string, userData: string, demoNoticeSeen: boolean): void {
   ensureInitialized();
+  if (!statements) throw new Error('Statements not initialized');
   statements.upsertUserSession.run(userId, userData, demoNoticeSeen ? 1 : 0);
 }
 
 export function updateUserSessionActivity(userId: string): void {
   ensureInitialized();
+  if (!statements) throw new Error('Statements not initialized');
   statements.updateUserSessionActivity.run(userId);
 }
 
 export function deleteUserSession(userId: string): void {
   ensureInitialized();
+  if (!statements) throw new Error('Statements not initialized');
   statements.deleteUserSession.run(userId);
 }

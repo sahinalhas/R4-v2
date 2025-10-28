@@ -30,17 +30,17 @@ export abstract class BaseRepository<T = any> {
     return this.statements[name];
   }
 
-  protected executeGet<R = T>(statementName: string, ...params: any[]): R | undefined {
+  protected executeGet<R = T>(statementName: string, ...params: unknown[]): R | undefined {
     this.ensureInitialized();
     return this.getStatement(statementName).get(...params) as R | undefined;
   }
 
-  protected executeAll<R = T>(statementName: string, ...params: any[]): R[] {
+  protected executeAll<R = T>(statementName: string, ...params: unknown[]): R[] {
     this.ensureInitialized();
     return this.getStatement(statementName).all(...params) as R[];
   }
 
-  protected executeRun(statementName: string, ...params: any[]): Database.RunResult {
+  protected executeRun(statementName: string, ...params: unknown[]): Database.RunResult {
     this.ensureInitialized();
     return this.getStatement(statementName).run(...params);
   }
@@ -59,19 +59,19 @@ export function createBaseCRUDHelpers<T extends { id: string }>(
   idField: string = 'id'
 ) {
   return {
-    buildInsert(data: Partial<T>): { sql: string; values: any[] } {
+    buildInsert(data: Partial<T>): { sql: string; values: unknown[] } {
       const fields = Object.keys(data);
       const placeholders = fields.map(() => '?').join(', ');
       const sql = `INSERT INTO ${tableName} (${fields.join(', ')}) VALUES (${placeholders})`;
-      const values = fields.map(f => (data as any)[f]);
+      const values = fields.map(f => (data as Record<string, unknown>)[f]);
       return { sql, values };
     },
 
-    buildUpdate(id: string, data: Partial<T>): { sql: string; values: any[] } {
+    buildUpdate(id: string, data: Partial<T>): { sql: string; values: unknown[] } {
       const fields = Object.keys(data).filter(k => k !== idField);
       const setClause = fields.map(f => `${f} = ?`).join(', ');
       const sql = `UPDATE ${tableName} SET ${setClause} WHERE ${idField} = ?`;
-      const values = [...fields.map(f => (data as any)[f]), id];
+      const values = [...fields.map(f => (data as Record<string, unknown>)[f]), id];
       return { sql, values };
     },
 
