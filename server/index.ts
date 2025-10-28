@@ -6,7 +6,7 @@ import featureRegistry from "./features";
 import { getCorsOptions } from "./middleware/cors-config";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
-import { ensureCsrfSession, doubleCsrfProtection, getCsrfToken } from "./middleware/csrf.middleware";
+import { ensureCsrfSession } from "./middleware/csrf.middleware";
 import { generalApiRateLimiter } from "./middleware/rate-limit.middleware";
 
 /**
@@ -46,10 +46,10 @@ export function createServer() {
     parameterLimit: 1000 // Limit number of parameters
   }));
 
-  // Cookie parser - required for CSRF protection
+  // Cookie parser - required for session management
   app.use(cookieParser());
 
-  // CSRF Session - server-managed session identifier (must run before CSRF protection)
+  // Security headers and session management
   app.use(ensureCsrfSession);
 
   // Global API Rate Limiting - baseline protection for all API endpoints
@@ -63,37 +63,6 @@ export function createServer() {
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
     res.json({ message: ping });
-  });
-
-  // CSRF Token endpoint - frontend will call this to get CSRF token
-  app.get("/api/csrf-token", (req, res) => {
-    try {
-      const token = getCsrfToken(req, res);
-      res.json({ csrfToken: token });
-    } catch (error) {
-      console.error('CSRF token generation failed:', error);
-      res.status(500).json({ error: 'Failed to generate CSRF token' });
-    }
-  });
-
-  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
-  // Exceptions: Public endpoints like login don't need CSRF protection
-  app.use((req, res, next) => {
-    const publicEndpoints = [
-      '/api/users/login',
-      '/api/auth/demo-user',
-      '/api/csrf-token', // CSRF token endpoint itself doesn't need protection
-    ];
-    
-    const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
-    const isGetRequest = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
-    
-    // Skip CSRF protection for public endpoints or safe methods
-    if (isPublicEndpoint || isGetRequest) {
-      return next();
-    }
-    
-    doubleCsrfProtection(req, res, next);
   });
 
   // ========================================================================
