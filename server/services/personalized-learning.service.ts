@@ -83,7 +83,7 @@ export class PersonalizedLearningService {
   }
 
   async analyzeLearningStyle(studentId: string): Promise<LearningStyleProfile> {
-    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as any;
+    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as { id: string; name: string } | undefined;
     if (!student) {
       throw new Error('Öğrenci bulunamadı');
     }
@@ -93,14 +93,14 @@ export class PersonalizedLearningService {
       FROM learning_styles
       WHERE studentId = ?
       ORDER BY assessmentDate DESC LIMIT 1
-    `).get(studentId) as any;
+    `).get(studentId) as { primaryLearningStyle?: string; secondaryLearningStyle?: string; learningPreferences?: string } | undefined;
 
     const academicProfile = this.db.prepare(`
       SELECT strongSubjects, weakSubjects, strongSkills, weakSkills
       FROM academic_profiles
       WHERE studentId = ?
       ORDER BY assessmentDate DESC LIMIT 1
-    `).get(studentId) as any;
+    `).get(studentId) as { strongSubjects?: string; weakSubjects?: string; strongSkills?: string; weakSkills?: string } | undefined;
 
     let preferences = {
       visual: 5,
@@ -154,14 +154,14 @@ export class PersonalizedLearningService {
       WHERE studentId = ? AND examDate >= date('now', '-6 months')
       ORDER BY examDate DESC
       LIMIT 10
-    `).all(studentId) as any[];
+    `).all(studentId) as Array<{ [key: string]: string | number }>;
 
     const academicProfile = this.db.prepare(`
       SELECT strongSubjects, weakSubjects, strongSkills, weakSkills
       FROM academic_profiles
       WHERE studentId = ?
       ORDER BY assessmentDate DESC LIMIT 1
-    `).get(studentId) as any;
+    `).get(studentId) as { strongSubjects?: string; weakSubjects?: string; strongSkills?: string; weakSkills?: string } | undefined;
 
     const subjectScores = this.calculateSubjectAverages(examResults);
     const strongSubjects = this.identifyStrongSubjects(subjectScores, academicProfile);
@@ -179,7 +179,7 @@ export class PersonalizedLearningService {
   }
 
   async generatePersonalizedStudyPlan(studentId: string): Promise<PersonalizedStudyPlan> {
-    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as any;
+    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as { id: string; name: string; className?: string } | undefined;
     if (!student) {
       throw new Error('Öğrenci bulunamadı');
     }
@@ -210,10 +210,10 @@ export class PersonalizedLearningService {
   }
 
   private async generateAIStudyPlan(
-    student: any,
+    student: { id: string; name: string; className?: string },
     learningStyle: LearningStyleProfile,
     academicStrengths: AcademicStrengthAnalysis,
-    motivationProfile: any
+    motivationProfile: { primaryType?: string; [key: string]: unknown }
   ): Promise<PersonalizedStudyPlan> {
     const prompt = `Bir öğrenci için KİŞİSELLEŞTİRİLMİŞ ÇALIŞMA PLANI oluştur:
 
@@ -314,10 +314,10 @@ Lütfen şu formatta bir plan oluştur (JSON):
   }
 
   private generateTemplateStudyPlan(
-    student: any,
+    student: { id: string; name: string; className?: string },
     learningStyle: LearningStyleProfile,
     academicStrengths: AcademicStrengthAnalysis,
-    motivationProfile: any
+    motivationProfile: { primaryType?: string; [key: string]: unknown }
   ): PersonalizedStudyPlan {
     const weakSubjects = academicStrengths.weakSubjects.slice(0, 3);
     
@@ -375,7 +375,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     };
   }
 
-  private determinePrimaryStyle(preferences: any): string {
+  private determinePrimaryStyle(preferences: { visual: number; auditory: number; kinesthetic: number; reading: number }): string {
     const max = Math.max(preferences.visual, preferences.auditory, 
                         preferences.kinesthetic, preferences.reading);
     
@@ -385,7 +385,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return 'Okuma/Yazma';
   }
 
-  private determineSecondaryStyle(preferences: any, primaryStyle: string): string {
+  private determineSecondaryStyle(preferences: { visual: number; auditory: number; kinesthetic: number; reading: number }, primaryStyle: string): string {
     const styles = ['Görsel', 'İşitsel', 'Kinestetik', 'Okuma/Yazma'];
     const values = [preferences.visual, preferences.auditory, 
                    preferences.kinesthetic, preferences.reading];
@@ -398,7 +398,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return sorted[0]?.style || 'Karma';
   }
 
-  private identifyStrengths(learningStyle: string, academicProfile: any): string[] {
+  private identifyStrengths(learningStyle: string, academicProfile: { strongSkills?: string } | null | undefined): string[] {
     const strengths: string[] = [];
     
     const styleStrengths: Record<string, string[]> = {
@@ -420,7 +420,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return [...new Set(strengths)];
   }
 
-  private identifyChallenges(learningStyle: string, academicProfile: any): string[] {
+  private identifyChallenges(learningStyle: string, academicProfile: { weakSkills?: string } | null | undefined): string[] {
     const challenges: string[] = [];
     
     const styleChallenges: Record<string, string[]> = {
@@ -482,7 +482,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return recommendations.slice(0, 6);
   }
 
-  private calculateSubjectAverages(examResults: any[]): Record<string, number> {
+  private calculateSubjectAverages(examResults: Array<{ [key: string]: string | number }>): Record<string, number> {
     const subjects = [
       'turkishScore', 'mathScore', 'scienceScore', 'socialScore',
       'englishScore', 'religionScore', 'physicalEducationScore'
@@ -492,7 +492,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
 
     subjects.forEach(subject => {
       const scores = examResults
-        .map(exam => parseFloat(exam[subject]))
+        .map(exam => parseFloat(String(exam[subject])))
         .filter(score => !isNaN(score) && score > 0);
       
       if (scores.length > 0) {
@@ -503,8 +503,8 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return averages;
   }
 
-  private identifyStrongSubjects(scores: Record<string, number>, profile: any): any[] {
-    const strong: any[] = [];
+  private identifyStrongSubjects(scores: Record<string, number>, profile: unknown): Array<{ subject: string; score: number; skills: string[] }> {
+    const strong: Array<{ subject: string; score: number; skills: string[] }> = [];
     
     Object.entries(scores).forEach(([key, value]) => {
       if (value >= 75) {
@@ -519,8 +519,8 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return strong.sort((a, b) => b.score - a.score).slice(0, 3);
   }
 
-  private identifyWeakSubjects(scores: Record<string, number>, profile: any): any[] {
-    const weak: any[] = [];
+  private identifyWeakSubjects(scores: Record<string, number>, profile: unknown): Array<{ subject: string; score: number; gaps: string[] }> {
+    const weak: Array<{ subject: string; score: number; gaps: string[] }> = [];
     
     Object.entries(scores).forEach(([key, value]) => {
       if (value < 60) {
@@ -535,7 +535,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return weak.sort((a, b) => a.score - b.score).slice(0, 3);
   }
 
-  private analyzeOverallPattern(strong: any[], weak: any[]): string {
+  private analyzeOverallPattern(strong: unknown[], weak: unknown[]): string {
     if (strong.length > weak.length) {
       return 'Genel olarak başarılı, bazı alanlarda desteklenmeli';
     } else if (weak.length > strong.length) {
@@ -545,7 +545,7 @@ Lütfen şu formatta bir plan oluştur (JSON):
     }
   }
 
-  private identifyImprovementAreas(weak: any[], profile: any): string[] {
+  private identifyImprovementAreas(weak: Array<{ subject: string }>, profile: unknown): string[] {
     const areas = weak.map(w => `${w.subject} dersinde temel kavramları güçlendir`);
     areas.push('Çalışma alışkanlıklarını düzenli hale getir');
     areas.push('Motivasyonu artıracak kısa vadeli hedefler belirle');
@@ -565,13 +565,13 @@ Lütfen şu formatta bir plan oluştur (JSON):
     return map[key] || key;
   }
 
-  private async getMotivationProfile(studentId: string): Promise<any> {
+  private async getMotivationProfile(studentId: string): Promise<{ primaryType?: string; [key: string]: unknown }> {
     const profile = this.db.prepare(`
       SELECT intrinsicMotivation, extrinsicMotivation, goalOrientation, resilienceLevel
       FROM motivation_profiles
       WHERE studentId = ?
       ORDER BY assessmentDate DESC LIMIT 1
-    `).get(studentId) as any;
+    `).get(studentId) as { intrinsicMotivation?: number; extrinsicMotivation?: number; goalOrientation?: string; resilienceLevel?: number } | undefined;
 
     return profile || {
       intrinsicMotivation: 3,

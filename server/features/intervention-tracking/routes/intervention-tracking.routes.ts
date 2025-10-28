@@ -20,8 +20,8 @@ router.post('/start', async (req, res) => {
     );
     
     res.json({ success: true, id });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -37,8 +37,8 @@ router.post('/evaluate/:interventionId', async (req, res) => {
     );
     
     res.json({ success: true, data: analysis });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -46,7 +46,7 @@ router.get('/effectiveness', async (req, res) => {
   try {
     const { studentId, interventionId, effectivenessLevel } = req.query;
     
-    let effectiveness: any[];
+    let effectiveness: unknown[];
     if (studentId) {
       effectiveness = repository.getEffectivenessByStudent(studentId as string);
     } else if (interventionId) {
@@ -57,25 +57,27 @@ router.get('/effectiveness', async (req, res) => {
     }
     
     if (effectivenessLevel && effectiveness.length > 0) {
-      effectiveness = effectiveness.filter((e: any) => e.effectivenessLevel === effectivenessLevel);
+      effectiveness = effectiveness.filter((e: unknown) => (e as { effectivenessLevel?: string }).effectivenessLevel === effectivenessLevel);
     }
     
     res.json({ success: true, data: effectiveness });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
 router.get('/effectiveness/stats', async (req, res) => {
   try {
     const all = repository.getAllEffectiveness();
-    const effective = all.filter((e: any) => 
-      e.effectivenessLevel === 'VERY_EFFECTIVE' || e.effectivenessLevel === 'EFFECTIVE'
-    ).length;
-    const needsImprovement = all.filter((e: any) => 
-      e.effectivenessLevel === 'PARTIALLY_EFFECTIVE' || e.effectivenessLevel === 'NOT_EFFECTIVE'
-    ).length;
-    const withAiAnalysis = all.filter((e: any) => e.aiAnalysis).length;
+    const effective = all.filter((e: unknown) => {
+      const eff = e as { effectivenessLevel?: string };
+      return eff.effectivenessLevel === 'VERY_EFFECTIVE' || eff.effectivenessLevel === 'EFFECTIVE';
+    }).length;
+    const needsImprovement = all.filter((e: unknown) => {
+      const eff = e as { effectivenessLevel?: string };
+      return eff.effectivenessLevel === 'PARTIALLY_EFFECTIVE' || eff.effectivenessLevel === 'NOT_EFFECTIVE';
+    }).length;
+    const withAiAnalysis = all.filter((e: unknown) => (e as { aiAnalysis?: unknown }).aiAnalysis).length;
     
     res.json({ 
       success: true, 
@@ -86,8 +88,8 @@ router.get('/effectiveness/stats', async (req, res) => {
         withAiAnalysis
       }
     });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -96,8 +98,8 @@ router.get('/student/:studentId', async (req, res) => {
     const { studentId } = req.params;
     const effectiveness = repository.getEffectivenessByStudent(studentId);
     res.json({ success: true, data: effectiveness });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -106,8 +108,8 @@ router.get('/successful', async (req, res) => {
     const { minEffectiveness = 70 } = req.query;
     const interventions = repository.getSuccessfulInterventions(Number(minEffectiveness));
     res.json({ success: true, data: interventions });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -116,8 +118,8 @@ router.get('/lessons/:interventionType', async (req, res) => {
     const { interventionType } = req.params;
     const lessons = await effectivenessService.getInterventionLessonsLearned(interventionType);
     res.json({ success: true, data: lessons });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -133,8 +135,8 @@ router.get('/similar/:interventionType', async (req, res) => {
     );
     
     res.json({ success: true, data: similar });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -142,8 +144,8 @@ router.post('/feedback', async (req, res) => {
   try {
     const id = repository.createParentFeedback(req.body);
     res.json({ success: true, id });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -152,8 +154,8 @@ router.get('/feedback/student/:studentId', async (req, res) => {
     const { studentId } = req.params;
     const feedback = repository.getFeedbackByStudent(studentId);
     res.json({ success: true, data: feedback });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -161,8 +163,8 @@ router.get('/feedback/pending', async (req, res) => {
   try {
     const feedback = repository.getPendingFeedback();
     res.json({ success: true, data: feedback });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -173,8 +175,8 @@ router.patch('/feedback/:id/status', async (req, res) => {
     
     repository.updateFeedbackStatus(id, status, respondedBy);
     res.json({ success: true });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -192,8 +194,8 @@ router.post('/escalate', async (req, res) => {
     );
     
     res.json({ success: true, escalationId });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -204,8 +206,8 @@ router.post('/escalation/:id/respond', async (req, res) => {
     
     await escalationService.respondToEscalation(id, respondedBy, actionTaken, resolved);
     res.json({ success: true });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -214,8 +216,8 @@ router.get('/escalation/student/:studentId', async (req, res) => {
     const { studentId } = req.params;
     const escalations = repository.getEscalationsByStudent(studentId);
     res.json({ success: true, data: escalations });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -223,8 +225,8 @@ router.get('/escalation/active', async (req, res) => {
   try {
     const escalations = repository.getActiveEscalations();
     res.json({ success: true, data: escalations });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -232,8 +234,8 @@ router.get('/escalation/metrics', async (req, res) => {
   try {
     const metrics = await escalationService.getEscalationMetrics();
     res.json({ success: true, data: metrics });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
@@ -241,8 +243,8 @@ router.post('/escalation/check-unresponded', async (req, res) => {
   try {
     const result = await escalationService.checkAndEscalateUnresponded();
     res.json({ success: true, data: result });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 

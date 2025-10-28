@@ -51,7 +51,7 @@ export interface AIGeneratedReport {
   sections: Array<{
     heading: string;
     content: string;
-    dataPoints?: any[];
+    dataPoints?: unknown[];
   }>;
   recommendations: string[];
   nextSteps: string[];
@@ -71,7 +71,7 @@ export class AdvancedAnalyticsDashboardService {
   }
 
   async generateDashboardOverview(studentId: string): Promise<DashboardOverview> {
-    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as any;
+    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as { id: string; name: string } | undefined;
     if (!student) {
       throw new Error('Öğrenci bulunamadı');
     }
@@ -111,7 +111,7 @@ export class AdvancedAnalyticsDashboardService {
       throw new Error('AI servisi kullanılabilir değil');
     }
 
-    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as any;
+    const student = this.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as { id: string; name: string; className?: string } | undefined;
     const dashboardData = await this.generateDashboardOverview(studentId);
     const riskScore = await this.riskService.calculateEnhancedRiskScore(studentId);
     const learningProfile = await this.learningService.analyzeLearningStyle(studentId);
@@ -155,9 +155,9 @@ export class AdvancedAnalyticsDashboardService {
       WHERE studentId = ? AND examDate >= date('now', '-6 months')
       ORDER BY examDate DESC
       LIMIT 10
-    `).all(studentId) as any[];
+    `).all(studentId) as Array<{ totalScore: string | number; examDate: string }>;
 
-    const scores = exams.map(e => parseFloat(e.totalScore)).filter(s => !isNaN(s));
+    const scores = exams.map(e => parseFloat(String(e.totalScore))).filter(s => !isNaN(s));
     const average = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
 
     return {
@@ -172,21 +172,21 @@ export class AdvancedAnalyticsDashboardService {
       SELECT COUNT(*) as count 
       FROM attendance_records 
       WHERE studentId = ? AND date >= date('now', '-3 months')
-    `).get(studentId) as any;
+    `).get(studentId) as { count: number } | undefined;
 
     const absentDays = this.db.prepare(`
       SELECT COUNT(*) as count 
       FROM attendance_records 
       WHERE studentId = ? AND status = 'Devamsız' AND date >= date('now', '-3 months')
-    `).get(studentId) as any;
+    `).get(studentId) as { count: number } | undefined;
 
-    const rate = totalDays.count > 0 
-      ? ((totalDays.count - absentDays.count) / totalDays.count) * 100 
+    const rate = (totalDays?.count || 0) > 0 
+      ? (((totalDays?.count || 0) - (absentDays?.count || 0)) / (totalDays?.count || 1)) * 100 
       : 100;
 
     return {
-      totalDays: totalDays.count,
-      absentDays: absentDays.count,
+      totalDays: totalDays?.count || 0,
+      absentDays: absentDays?.count || 0,
       rate,
       trend: 'STABLE' as const
     };
@@ -199,7 +199,7 @@ export class AdvancedAnalyticsDashboardService {
         FROM standardized_behavior_incidents
         WHERE studentId = ? AND incidentDate >= date('now', '-3 months')
         GROUP BY behaviorType
-      `).all(studentId) as any[];
+      `).all(studentId) as Array<{ count: number; behaviorType: string }>;
 
       const negativeCount = incidents
         .filter(i => i.behaviorType !== 'OLUMLU')
@@ -219,7 +219,7 @@ export class AdvancedAnalyticsDashboardService {
     }
   }
 
-  private generateSummary(riskScore: any, academicData: any, attendanceData: any, behaviorData: any) {
+  private generateSummary(riskScore: Record<string, any>, academicData: any, attendanceData: any, behaviorData: any) {
     let overallStatus: 'EXCELLENT' | 'GOOD' | 'NEEDS_ATTENTION' | 'CRITICAL' = 'GOOD';
     
     if (riskScore.riskLevel === 'KRİTİK' || academicData.average < 50) {
@@ -239,7 +239,7 @@ export class AdvancedAnalyticsDashboardService {
     };
   }
 
-  private calculateKeyMetrics(riskScore: any, academicData: any, attendanceData: any, behaviorData: any) {
+  private calculateKeyMetrics(riskScore: Record<string, any>, academicData: any, attendanceData: any, behaviorData: any) {
     return {
       riskScore: riskScore.overallRiskScore * 100,
       academicAverage: academicData.average,
@@ -249,7 +249,7 @@ export class AdvancedAnalyticsDashboardService {
     };
   }
 
-  private calculateEngagementLevel(academicData: any, attendanceData: any, behaviorData: any): number {
+  private calculateEngagementLevel(academicData: Record<string, any>, attendanceData: any, behaviorData: any): number {
     const academicWeight = 0.4;
     const attendanceWeight = 0.4;
     const behaviorWeight = 0.2;
@@ -264,10 +264,10 @@ export class AdvancedAnalyticsDashboardService {
   }
 
   private async generateInsights(studentId: string, riskScore: any, academicData: any, attendanceData: any, behaviorData: any) {
-    const insights: any[] = [];
+    const insights: Array<{ category: string; type: 'positive' | 'neutral' | 'warning' | 'critical'; title: string; description: string; actionRequired: boolean; suggestedAction?: string }> = [];
 
     if (riskScore.keyRiskFactors.length > 0) {
-      riskScore.keyRiskFactors.slice(0, 3).forEach((factor: any) => {
+      riskScore.keyRiskFactors.slice(0, 3).forEach((factor: Record<string, any>) => {
         insights.push({
           category: 'Risk Faktörü',
           type: factor.severity === 'CRITICAL' ? 'critical' : factor.severity === 'HIGH' ? 'warning' : 'neutral',
@@ -305,7 +305,7 @@ export class AdvancedAnalyticsDashboardService {
         category: 'Koruyucu Faktör',
         type: 'positive',
         title: 'Güçlü Yönler Tespit Edildi',
-        description: riskScore.protectiveFactors.map((f: any) => f.factor).join(', '),
+        description: riskScore.protectiveFactors.map((f: Record<string, any>) => f.factor).join(', '),
         actionRequired: false
       });
     }
@@ -313,7 +313,7 @@ export class AdvancedAnalyticsDashboardService {
     return insights;
   }
 
-  private analyzeTrends(academicData: any, behaviorData: any, attendanceData: any) {
+  private analyzeTrends(academicData: Record<string, any>, behaviorData: any, attendanceData: any) {
     return {
       academic: academicData.trend,
       behavior: (behaviorData.negativeCount > 5 ? 'DECLINING' : 'STABLE') as 'IMPROVING' | 'STABLE' | 'DECLINING',
@@ -321,8 +321,8 @@ export class AdvancedAnalyticsDashboardService {
     };
   }
 
-  private identifyUpcomingActions(riskScore: any, insights: any[]) {
-    const actions: any[] = [];
+  private identifyUpcomingActions(riskScore: Record<string, any>, insights: any[]) {
+    const actions: Array<{ priority: 'HIGH' | 'MEDIUM' | 'LOW'; action: string; deadline: string; category: string }> = [];
 
     const criticalInsights = insights.filter(i => i.type === 'critical' && i.actionRequired);
     criticalInsights.forEach(insight => {

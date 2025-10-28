@@ -43,7 +43,7 @@ export class AutoSyncHooksService {
     sessionTags?: string[];
     emotionalState?: string;
     cooperationLevel?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     const studentIds = sessionData.studentId 
       ? [sessionData.studentId] 
@@ -111,10 +111,10 @@ export class AutoSyncHooksService {
   async onSurveyResponseSubmitted(responseData: {
     id: string;
     studentId?: string;
-    studentInfo?: any;
-    responseData: any;
+    studentInfo?: { id?: string; [key: string]: unknown };
+    responseData: unknown;
     distributionId: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     const studentId = responseData.studentId || responseData.studentInfo?.id;
     
@@ -168,7 +168,7 @@ export class AutoSyncHooksService {
     score: number;
     subject?: string;
     date: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     await asyncOpMonitor.executeAsyncSafely(
       'exam-result-sync',
@@ -221,7 +221,7 @@ export class AutoSyncHooksService {
     description: string;
     severity: string;
     date: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     console.log('⚠️ Behavior incident recorded, creating AI suggestion...');
 
@@ -267,7 +267,7 @@ export class AutoSyncHooksService {
     note: string;
     plan?: string;
     date: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     console.log('📝 Meeting note added, creating AI suggestion...');
 
@@ -315,7 +315,7 @@ export class AutoSyncHooksService {
     outcomes?: string;
     followUpActions?: string;
     meetingDate: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     console.log('👨‍👩‍👧 Parent meeting recorded, creating AI suggestion...');
 
@@ -359,7 +359,7 @@ export class AutoSyncHooksService {
     energy: number;
     notes?: string;
     date: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     console.log('🎯 Self assessment completed, creating AI suggestion...');
 
@@ -407,7 +407,7 @@ export class AutoSyncHooksService {
     date: string;
     status: string;
     notes?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }): Promise<void> {
     // Sadece önemli devamsızlıkları işle (Yok, Geç)
     if (attendanceData.status !== 'Var') {
@@ -447,7 +447,7 @@ export class AutoSyncHooksService {
 
   // ==================== HELPER METHODS ====================
 
-  private buildProposedChangesFromSession(sessionData: any): ProposedChange[] {
+  private buildProposedChangesFromSession(sessionData: { emotionalState?: string; cooperationLevel?: number; [key: string]: unknown }): ProposedChange[] {
     const changes: ProposedChange[] = [];
     
     if (sessionData.emotionalState) {
@@ -471,7 +471,7 @@ export class AutoSyncHooksService {
     return changes;
   }
 
-  private buildProposedChangesFromSurvey(responseData: any): ProposedChange[] {
+  private buildProposedChangesFromSurvey(responseData: unknown): ProposedChange[] {
     return [{
       field: 'surveyData',
       currentValue: null,
@@ -480,7 +480,7 @@ export class AutoSyncHooksService {
     }];
   }
 
-  private buildProposedChangesFromExam(examData: any): ProposedChange[] {
+  private buildProposedChangesFromExam(examData: { examName: string; score: number }): ProposedChange[] {
     return [{
       field: 'academicPerformance',
       currentValue: null,
@@ -489,7 +489,7 @@ export class AutoSyncHooksService {
     }];
   }
 
-  private buildProposedChangesFromBehavior(incidentData: any): ProposedChange[] {
+  private buildProposedChangesFromBehavior(incidentData: { behaviorType: string; severity: string }): ProposedChange[] {
     return [{
       field: 'behavioralConcerns',
       currentValue: null,
@@ -498,7 +498,7 @@ export class AutoSyncHooksService {
     }];
   }
 
-  private buildProposedChangesFromParentMeeting(meetingData: any): ProposedChange[] {
+  private buildProposedChangesFromParentMeeting(meetingData: { outcomes?: string }): ProposedChange[] {
     const changes: ProposedChange[] = [];
     
     if (meetingData.outcomes) {

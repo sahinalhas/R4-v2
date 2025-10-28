@@ -37,7 +37,7 @@ export class ProfileQualityValidator {
    * Validate basic student information
    * Temel öğrenci bilgilerini doğrula
    */
-  validateBasicInfo(student: any): ProfileQualityReport {
+  validateBasicInfo(student: Record<string, any>): ProfileQualityReport {
     const criticalFields = ['id', 'ad', 'soyad', 'class'];
     const optionalFields = ['cinsiyet', 'dogumTarihi', 'telefon', 'eposta', 'adres', 'veliTelefon'];
     
@@ -105,7 +105,7 @@ export class ProfileQualityValidator {
    * Validate academic profile
    * Akademik profili doğrula
    */
-  validateAcademicProfile(profile: any): ProfileQualityReport {
+  validateAcademicProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     const criticalFields = ['strongSubjects', 'weakSubjects', 'primaryLearningStyle'];
     const optionalFields = ['strongSkills', 'weakSkills', 'secondaryLearningStyle', 'overallMotivation', 'studyHoursPerWeek', 'homeworkCompletionRate'];
     
@@ -185,7 +185,7 @@ export class ProfileQualityValidator {
    * Validate social-emotional profile
    * Sosyal-duygusal profili doğrula
    */
-  validateSocialEmotionalProfile(profile: any): ProfileQualityReport {
+  validateSocialEmotionalProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     const criticalFields = ['empathyLevel', 'selfAwarenessLevel', 'emotionRegulationLevel'];
     const optionalFields = ['strongSocialSkills', 'developingSocialSkills', 'conflictResolutionLevel', 'leadershipLevel', 'teamworkLevel', 'communicationLevel', 'friendCircleSize', 'socialRole'];
     
@@ -262,7 +262,7 @@ export class ProfileQualityValidator {
    * Validate health profile
    * Sağlık profilini doğrula
    */
-  validateHealthProfile(profile: any): ProfileQualityReport {
+  validateHealthProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     const criticalFields = ['emergencyContact1Name', 'emergencyContact1Phone'];
     const optionalFields = ['bloodType', 'chronicDiseases', 'allergies', 'currentMedications', 'emergencyContact2Name', 'lastHealthCheckup'];
     
@@ -457,7 +457,7 @@ export class ProfileQualityValidator {
     };
   }
   
-  private validateTalentsInterestsProfile(profile: any): ProfileQualityReport {
+  private validateTalentsInterestsProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     if (!profile) {
       return {
         profileType: 'Yetenek ve İlgi Profili',
@@ -482,7 +482,7 @@ export class ProfileQualityValidator {
     };
   }
   
-  private validateMotivationProfile(profile: any): ProfileQualityReport {
+  private validateMotivationProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     if (!profile) {
       return {
         profileType: 'Motivasyon Profili',
@@ -507,7 +507,7 @@ export class ProfileQualityValidator {
     };
   }
   
-  private validateRiskProtectiveProfile(profile: any): ProfileQualityReport {
+  private validateRiskProtectiveProfile(profile: Record<string, any> | null | undefined): ProfileQualityReport {
     if (!profile) {
       return {
         profileType: 'Risk ve Koruyucu Faktörler',

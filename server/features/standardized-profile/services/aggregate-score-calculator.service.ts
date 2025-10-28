@@ -1,3 +1,56 @@
+interface ProfileData {
+  strongSubjects?: string;
+  weakSubjects?: string;
+  strongSkills?: string;
+  overallMotivation?: number;
+  homeworkCompletionRate?: number;
+  empathyLevel?: number;
+  selfAwarenessLevel?: number;
+  emotionRegulationLevel?: number;
+  conflictResolutionLevel?: number;
+  leadershipLevel?: number;
+  teamworkLevel?: number;
+  communicationLevel?: number;
+  strongSocialSkills?: string;
+  developingSocialSkills?: string;
+  friendCircleSize?: string;
+  friendCircleQuality?: string;
+  socialRole?: string;
+  bullyingStatus?: string;
+  creativeTalents?: string;
+  physicalTalents?: string;
+  primaryInterests?: string;
+  weeklyEngagementHours?: number;
+  chronicDiseases?: string;
+  allergies?: string;
+  currentMedications?: string;
+  specialNeeds?: boolean;
+  physicalLimitations?: boolean;
+  severity?: string;
+  frequency?: string;
+  interventionEffectiveness?: number;
+  goalClarityLevel?: number;
+  intrinsicMotivationLevel?: number;
+  extrinsicMotivationLevel?: number;
+  persistenceLevel?: number;
+  futureOrientationLevel?: number;
+  primaryMotivators?: string;
+  careerAspirations?: string;
+  academicGoals?: string;
+  overallRiskLevel?: number;
+  academicRiskLevel?: number;
+  behavioralRiskLevel?: number;
+  emotionalRiskLevel?: number;
+  socialRiskLevel?: number;
+  identifiedRiskFactors?: string;
+  familySupport?: number;
+  peerSupport?: number;
+  schoolEngagement?: number;
+  resilienceLevel?: number;
+  copingSkills?: number;
+  protectiveFactors?: string;
+}
+
 export interface AggregateScores {
   academicScore: number;
   socialEmotionalScore: number;
@@ -69,7 +122,7 @@ export interface AggregateScores {
 }
 
 export class AggregateScoreCalculator {
-  calculateAcademicScore(academicProfile: any): number {
+  calculateAcademicScore(academicProfile: ProfileData | null | undefined): number {
     if (!academicProfile) return 0;
 
     const strongSubjects = academicProfile.strongSubjects ? JSON.parse(academicProfile.strongSubjects).length : 0;
@@ -87,7 +140,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, totalScore));
   }
 
-  calculateSocialEmotionalScore(selProfile: any): number {
+  calculateSocialEmotionalScore(selProfile: ProfileData | null | undefined): number {
     if (!selProfile) return 0;
 
     const strongSkills = selProfile.strongSocialSkills ? JSON.parse(selProfile.strongSocialSkills).length : 0;
@@ -112,7 +165,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, totalScore));
   }
 
-  private calculateSocialContextScore(selProfile: any): number {
+  private calculateSocialContextScore(selProfile: ProfileData): number {
     let score = 50;
 
     const friendCircleMap: Record<string, number> = {
@@ -153,7 +206,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, score));
   }
 
-  calculateTalentsInterestsScore(talentsProfile: any): number {
+  calculateTalentsInterestsScore(talentsProfile: ProfileData | null | undefined): number {
     if (!talentsProfile) return 0;
 
     const creativeTalents = talentsProfile.creativeTalents ? JSON.parse(talentsProfile.creativeTalents).length : 0;
@@ -169,7 +222,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, totalScore));
   }
 
-  calculateHealthWellnessScore(healthProfile: any): number {
+  calculateHealthWellnessScore(healthProfile: ProfileData | null | undefined): number {
     if (!healthProfile) return 50;
 
     let score = 100;
@@ -188,7 +241,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, score));
   }
 
-  calculateBehaviorScore(behaviorIncidents: any[]): number {
+  calculateBehaviorScore(behaviorIncidents: ProfileData[]): number {
     if (!behaviorIncidents || behaviorIncidents.length === 0) return 100;
 
     let score = 100;
@@ -217,8 +270,8 @@ export class AggregateScoreCalculator {
     let effectivenessCount = 0;
 
     behaviorIncidents.forEach(incident => {
-      totalSeverity += severityMap[incident.severity] || 0;
-      totalFrequency += frequencyMap[incident.frequency] || 0;
+      totalSeverity += (incident.severity ? severityMap[incident.severity] : 0) || 0;
+      totalFrequency += (incident.frequency ? frequencyMap[incident.frequency] : 0) || 0;
       
       if (incident.interventionEffectiveness) {
         totalEffectiveness += incident.interventionEffectiveness;
@@ -237,7 +290,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, score));
   }
 
-  calculateMotivationScore(motivationProfile: any): number {
+  calculateMotivationScore(motivationProfile: ProfileData | null | undefined): number {
     if (!motivationProfile) return 50;
 
     const goalClarity = motivationProfile.goalClarityLevel || 5;
@@ -259,7 +312,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, totalScore));
   }
 
-  calculateRiskScore(riskProfile: any): number {
+  calculateRiskScore(riskProfile: ProfileData | null | undefined): number {
     if (!riskProfile) return 50;
 
     const overallRisk = riskProfile.overallRiskLevel || 5;
@@ -279,7 +332,7 @@ export class AggregateScoreCalculator {
     return Math.min(100, Math.max(0, totalScore));
   }
 
-  calculateProtectiveScore(riskProfile: any): number {
+  calculateProtectiveScore(riskProfile: ProfileData | null | undefined): number {
     if (!riskProfile) return 50;
 
     const familySupport = riskProfile.familySupport || 5;
@@ -300,13 +353,13 @@ export class AggregateScoreCalculator {
   }
 
   calculateAggregateScores(profileData: {
-    academic?: any;
-    socialEmotional?: any;
-    talentsInterests?: any;
-    health?: any;
-    behaviorIncidents?: any[];
-    motivation?: any;
-    riskProtective?: any;
+    academic?: ProfileData | null;
+    socialEmotional?: ProfileData | null;
+    talentsInterests?: ProfileData | null;
+    health?: ProfileData | null;
+    behaviorIncidents?: ProfileData[];
+    motivation?: ProfileData | null;
+    riskProtective?: ProfileData | null;
   }): AggregateScores {
     const academicScore = this.calculateAcademicScore(profileData.academic);
     const socialEmotionalScore = this.calculateSocialEmotionalScore(profileData.socialEmotional);
