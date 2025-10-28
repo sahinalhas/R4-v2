@@ -82,11 +82,14 @@ export function createServer() {
     const publicEndpoints = [
       '/api/users/login',
       '/api/auth/demo-user',
+      '/api/csrf-token', // CSRF token endpoint itself doesn't need protection
     ];
     
     const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
+    const isGetRequest = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
     
-    if (isPublicEndpoint) {
+    // Skip CSRF protection for public endpoints or safe methods
+    if (isPublicEndpoint || isGetRequest) {
       return next();
     }
     

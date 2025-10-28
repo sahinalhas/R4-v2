@@ -21,6 +21,7 @@ export interface ApiRequestConfig<T = unknown> extends ToastConfig {
   body?: T;
   headers?: Record<string, string>;
   timeout?: number;
+  skipCsrf?: boolean; // Allow skipping CSRF for public endpoints
 }
 
 export interface ApiResponse<T> {

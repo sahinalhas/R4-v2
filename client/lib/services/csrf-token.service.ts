@@ -33,27 +33,40 @@ class CsrfTokenService {
   }
 
   private async fetchNewToken(): Promise<string> {
-    try {
-      const response = await fetch('/api/csrf-token', {
-        method: 'GET',
-        credentials: 'include',
-      });
+    const maxRetries = 3;
+    let lastError: Error | null = null;
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch CSRF token: ${response.status}`);
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch('/api/csrf-token', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch CSRF token: ${response.status}`);
+        }
+
+        const data: CsrfTokenResponse = await response.json();
+        
+        if (!data.csrfToken) {
+          throw new Error('CSRF token missing in response');
+        }
+
+        return data.csrfToken;
+      } catch (error) {
+        lastError = error as Error;
+        console.warn(`CSRF token fetch attempt ${attempt}/${maxRetries} failed:`, error);
+        
+        if (attempt < maxRetries) {
+          // Wait before retrying (exponential backoff)
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 100));
+        }
       }
-
-      const data: CsrfTokenResponse = await response.json();
-      
-      if (!data.csrfToken) {
-        throw new Error('CSRF token missing in response');
-      }
-
-      return data.csrfToken;
-    } catch (error) {
-      console.error('CSRF token fetch failed:', error);
-      throw error;
     }
+
+    console.error('All CSRF token fetch attempts failed:', lastError);
+    throw lastError || new Error('Failed to fetch CSRF token after multiple attempts');
   }
 
   refreshToken(): void {
