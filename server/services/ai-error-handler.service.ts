@@ -305,6 +305,7 @@ Sistemde ciddi bir sorun olabilir. Acil kontrol ve müdahale gerekebilir.
       stats.byService[service] = (stats.byService[service] || 0) + 1;
       
       const provider = error.context.provider;
+      stats.byProvider[provider] = (stats.byProvider[provider] || 0) + 1;der = error.context.provider;
       stats.byProvider[provider] = (stats.byProvider[provider] || 0) + 1;
     });
 

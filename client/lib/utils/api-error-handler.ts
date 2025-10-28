@@ -101,7 +101,7 @@ export function handleNetworkError(error: Error): ApiError {
     );
   }
   
-  if (error instanceof Error && error.message.includes('Failed to fetch') || error instanceof Error ? error.message : String(error).includes('Network')) {
+  if (error instanceof Error && (error.message.includes('Failed to fetch') || error.message.includes('Network'))) {
     return createApiError(
       'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.',
       ApiErrorCode.NETWORK_ERROR
@@ -109,7 +109,7 @@ export function handleNetworkError(error: Error): ApiError {
   }
   
   return createApiError(
-    error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Beklenmeyen bir hata oluştu',
+    error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu',
     ApiErrorCode.INTERNAL_ERROR
   );
 }

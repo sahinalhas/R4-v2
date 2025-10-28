@@ -21,7 +21,7 @@ interface ApiSuccessResponse<T> {
 export async function getPendingSuggestions(limit?: number): Promise<AISuggestion[]> {
   return createApiHandler(
     async () => {
-      const url = limit 
+      const url = limit
         ? AI_SUGGESTIONS_ENDPOINTS.PENDING + buildQueryParams({ limit })
         : AI_SUGGESTIONS_ENDPOINTS.PENDING;
       const response = await apiClient.get<ApiSuccessResponse<AISuggestion[]>>(

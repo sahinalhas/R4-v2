@@ -12,7 +12,7 @@ const errorLogs: ErrorLog[] = [];
 const MAX_ERROR_LOGS = 50;
 
 function logError(error: Error | string, context?: string): void {
-  const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
+  const errorMessage = error instanceof Error ? error.message : String(error);
   const errorStack = error instanceof Error ? error.stack : undefined;
 
   const errorLog: ErrorLog = {

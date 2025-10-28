@@ -115,7 +115,7 @@ class ApiClient {
             description: toastConfig.errorDescription
           });
         } else {
-          displayErrorToast(apiError);
+          showErrorToast(apiError);
         }
       }
 

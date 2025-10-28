@@ -29,7 +29,7 @@ export function handleApiError(
     context = 'API Error'
   } = config;
 
-  const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
+  const errorMessage = error instanceof Error ? error.message : String(error);
 
   if (logToConsole) {
     console.error(`[${context}]`, errorMessage, error);
@@ -123,13 +123,13 @@ export function showSuccessToast(
  */
 export function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
-    return error instanceof Error ? error.message : String(error);
+    return error.message;
   }
   if (typeof error === 'string') {
     return error;
   }
   if (error && typeof error === 'object' && 'message' in error) {
-    return String(error instanceof Error ? error.message : String(error));
+    return String((error as { message: unknown }).message);
   }
   return API_ERROR_MESSAGES.GENERIC.UNEXPECTED_ERROR;
 }
