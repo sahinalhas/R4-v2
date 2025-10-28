@@ -12,7 +12,6 @@ import {
   showErrorToast as displayErrorToast 
 } from "../utils/api-error-handler";
 import { ApiError, isApiErrorResponse } from "../types/api-types";
-import { csrfTokenService } from "../services/csrf-token.service";
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
@@ -38,33 +37,8 @@ class ApiClient {
   private interceptors = new InterceptorManager();
 
   constructor() {
-    this.setupCsrfInterceptor();
-  }
-
-  private setupCsrfInterceptor(): void {
-    const csrfInterceptor: RequestInterceptor = async (config, endpoint) => {
-      const method = config.method?.toUpperCase();
-      
-      if (method && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
-        try {
-          const token = await csrfTokenService.getToken();
-          
-          const headers = config.headers as Record<string, string> || {};
-          headers['x-csrf-token'] = token;
-          
-          return {
-            ...config,
-            headers,
-          };
-        } catch (error) {
-          console.error('Failed to get CSRF token:', error);
-        }
-      }
-      
-      return config;
-    };
-
-    this.interceptors.addRequestInterceptor(csrfInterceptor);
+    // Modern CSRF protection uses SameSite cookies
+    // No need for manual CSRF token handling
   }
 
   async request<TResponse = unknown, TBody = unknown>(
@@ -121,13 +95,6 @@ class ApiClient {
       // Handle error responses
       if (!response.ok) {
         const apiError = parseApiError(response, data);
-        
-        if (response.status === 403 && !isRetry && method !== 'GET') {
-          console.warn('CSRF token invalid (403), refreshing and retrying...');
-          csrfTokenService.refreshToken();
-          return this.request<TResponse, TBody>(endpoint, config, true);
-        }
-        
         throw apiError;
       }
 
