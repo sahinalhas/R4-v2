@@ -1,4 +1,3 @@
-
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -33,6 +32,9 @@ import { generalApiRateLimiter } from "./middleware/rate-limit.middleware";
 
 export function createServer() {
   const app = express();
+
+  // Trust proxy - Replit uses reverse proxy
+  app.set('trust proxy', 1);
 
   app.use(securityHeaders);
   app.use(cors(getCorsOptions()));
@@ -110,3 +112,11 @@ export function createServer() {
 
   return app;
 }
+
+// Start Express on port 3000 (Vite will proxy to this)
+const PORT = process.env.PORT || 3000;
+const app = createServer();
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Express API server running on port ${PORT}`);
+});
