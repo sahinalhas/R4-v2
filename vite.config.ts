@@ -95,42 +95,53 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      // Lazy-load Express app to avoid CSRF initialization during config
+      // Lazy-load Express app only when a request comes in
       let expressApp: any = null;
+      let isInitializing = false;
       
-      server.middlewares.use((req, res, next) => {
-        if (!expressApp) {
-          expressApp = createServer();
+      server.middlewares.use(async (req, res, next) => {
+        // Skip initialization for Vite's internal requests
+        if (req.url?.startsWith('/@') || req.url?.includes('node_modules')) {
+          return next();
         }
-        expressApp(req, res, next);
+        
+        if (!expressApp && !isInitializing) {
+          isInitializing = true;
+          try {
+            const { createServer } = await import('./server/index.js');
+            expressApp = createServer();
+            
+            // Start schedulers after Express app is ready
+            Promise.all([
+              import('./server/features/analytics/services/analytics-scheduler.service.js')
+                .then(({ startAnalyticsScheduler }) => startAnalyticsScheduler()),
+              import('./server/features/counseling-sessions/services/auto-complete-scheduler.service.js')
+                .then(({ startAutoCompleteScheduler }) => startAutoCompleteScheduler()),
+              import('./server/services/daily-action-plan-scheduler.service.js')
+                .then(({ startDailyActionPlanScheduler }) => startDailyActionPlanScheduler())
+            ]).catch((error) => {
+              console.error('Failed to start schedulers:', error);
+            });
+          } catch (error) {
+            console.error('Failed to initialize Express app:', error);
+            isInitializing = false;
+            return next();
+          }
+        }
+        
+        if (expressApp) {
+          expressApp(req, res, next);
+        } else {
+          // Still initializing, wait a bit
+          setTimeout(() => {
+            if (expressApp) {
+              expressApp(req, res, next);
+            } else {
+              next();
+            }
+          }, 100);
+        }
       });
-      
-      // Start analytics scheduler in development mode
-      import('./server/features/analytics/services/analytics-scheduler.service.js')
-        .then(({ startAnalyticsScheduler }) => {
-          startAnalyticsScheduler();
-        })
-        .catch((error) => {
-          console.error('Failed to start analytics scheduler:', error);
-        });
-      
-      // Start auto-complete scheduler in development mode
-      import('./server/features/counseling-sessions/services/auto-complete-scheduler.service.js')
-        .then(({ startAutoCompleteScheduler }) => {
-          startAutoCompleteScheduler();
-        })
-        .catch((error) => {
-          console.error('Failed to start auto-complete scheduler:', error);
-        });
-      
-      // Start daily action plan scheduler in development mode
-      import('./server/services/daily-action-plan-scheduler.service.js')
-        .then(({ startDailyActionPlanScheduler }) => {
-          startDailyActionPlanScheduler();
-        })
-        .catch((error) => {
-          console.error('Failed to start daily action plan scheduler:', error);
-        });
     },
   };
 }
