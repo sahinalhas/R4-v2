@@ -1,8 +1,9 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { ParentMeeting } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getParentMeetingsByStudent: Statement; insertParentMeeting: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -23,15 +24,15 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getParentMeetingsByStudent(studentId: string): any[] {
+export function getParentMeetingsByStudent(studentId: string): ParentMeeting[] {
   try {
     ensureInitialized();
-    const meetings = statements.getParentMeetingsByStudent.all(studentId);
+    const meetings = statements!.getParentMeetingsByStudent.all(studentId) as ParentMeeting[];
     
-    return meetings.map((m: any) => ({
+    return meetings.map((m) => ({
       ...m,
-      participants: m.participants ? JSON.parse(m.participants) : [],
-      mainTopics: m.mainTopics ? JSON.parse(m.mainTopics) : []
+      participants: m.participants ? JSON.parse(m.participants as unknown as string) : [],
+      mainTopics: m.mainTopics ? JSON.parse(m.mainTopics as unknown as string) : []
     }));
   } catch (error) {
     console.error('Database error in getParentMeetingsByStudent:', error);
@@ -46,7 +47,7 @@ export function insertParentMeeting(meeting: ParentMeeting): void {
     const participantsJson = JSON.stringify(meeting.participants || []);
     const topicsJson = JSON.stringify(meeting.mainTopics || []);
     
-    statements.insertParentMeeting.run(
+    statements!.insertParentMeeting.run(
       meeting.id,
       meeting.studentId,
       meeting.meetingDate,
@@ -70,7 +71,7 @@ export function insertParentMeeting(meeting: ParentMeeting): void {
   }
 }
 
-export function updateParentMeeting(id: string, updates: any): void {
+export function updateParentMeeting(id: string, updates: Partial<ParentMeeting>): void {
   try {
     ensureInitialized();
     const db = getDatabase();

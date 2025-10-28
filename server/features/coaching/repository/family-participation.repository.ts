@@ -1,8 +1,9 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { FamilyParticipation } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getFamilyParticipationByStudent: Statement; insertFamilyParticipation: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -23,14 +24,14 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getFamilyParticipationByStudent(studentId: string): any[] {
+export function getFamilyParticipationByStudent(studentId: string): FamilyParticipation[] {
   try {
     ensureInitialized();
-    const records = statements.getFamilyParticipationByStudent.all(studentId);
+    const records = statements!.getFamilyParticipationByStudent.all(studentId) as FamilyParticipation[];
     
-    return records.map((r: any) => ({
+    return records.map((r) => ({
       ...r,
-      participants: r.participants ? JSON.parse(r.participants) : []
+      participants: r.participants ? JSON.parse(r.participants as unknown as string) : []
     }));
   } catch (error) {
     console.error('Database error in getFamilyParticipationByStudent:', error);
@@ -44,7 +45,7 @@ export function insertFamilyParticipation(record: FamilyParticipation): void {
     
     const participantsJson = JSON.stringify(record.participants || []);
     
-    statements.insertFamilyParticipation.run(
+    statements!.insertFamilyParticipation.run(
       record.id,
       record.studentId,
       record.eventType,
@@ -66,7 +67,7 @@ export function insertFamilyParticipation(record: FamilyParticipation): void {
   }
 }
 
-export function updateFamilyParticipation(id: string, updates: any): void {
+export function updateFamilyParticipation(id: string, updates: Partial<FamilyParticipation>): void {
   try {
     ensureInitialized();
     const db = getDatabase();

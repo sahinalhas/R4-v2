@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { CounselingReminder } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: Record<string, Statement> | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -61,32 +62,32 @@ function ensureInitialized(): void {
 
 export function getAllReminders(): CounselingReminder[] {
   ensureInitialized();
-  return statements.getAllReminders.all() as CounselingReminder[];
+  return statements!.getAllReminders.all() as CounselingReminder[];
 }
 
 export function getReminderById(id: string): CounselingReminder | null {
   ensureInitialized();
-  return statements.getReminderById.get(id) as CounselingReminder | null;
+  return statements!.getReminderById.get(id) as CounselingReminder | null;
 }
 
 export function getRemindersBySessionId(sessionId: string): CounselingReminder[] {
   ensureInitialized();
-  return statements.getRemindersBySessionId.all(sessionId) as CounselingReminder[];
+  return statements!.getRemindersBySessionId.all(sessionId) as CounselingReminder[];
 }
 
 export function getRemindersByStatus(status: string): CounselingReminder[] {
   ensureInitialized();
-  return statements.getRemindersByStatus.all(status) as CounselingReminder[];
+  return statements!.getRemindersByStatus.all(status) as CounselingReminder[];
 }
 
 export function getPendingReminders(currentDate: string): CounselingReminder[] {
   ensureInitialized();
-  return statements.getPendingReminders.all(currentDate) as CounselingReminder[];
+  return statements!.getPendingReminders.all(currentDate) as CounselingReminder[];
 }
 
 export function insertReminder(reminder: CounselingReminder): void {
   ensureInitialized();
-  statements.insertReminder.run(
+  statements!.insertReminder.run(
     reminder.id,
     reminder.sessionId || null,
     reminder.reminderType,
@@ -102,7 +103,7 @@ export function insertReminder(reminder: CounselingReminder): void {
 
 export function updateReminder(reminder: CounselingReminder): { changes: number } {
   ensureInitialized();
-  const result = statements.updateReminder.run(
+  const result = statements!.updateReminder.run(
     reminder.sessionId || null,
     reminder.reminderType,
     reminder.reminderDate,
@@ -119,18 +120,18 @@ export function updateReminder(reminder: CounselingReminder): { changes: number 
 
 export function updateReminderStatus(id: string, status: string): { changes: number } {
   ensureInitialized();
-  const result = statements.updateReminderStatus.run(status, id);
+  const result = statements!.updateReminderStatus.run(status, id);
   return { changes: result.changes };
 }
 
 export function markNotificationSent(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.markNotificationSent.run(id);
+  const result = statements!.markNotificationSent.run(id);
   return { changes: result.changes };
 }
 
 export function deleteReminder(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.deleteReminder.run(id);
+  const result = statements!.deleteReminder.run(id);
   return { changes: result.changes };
 }

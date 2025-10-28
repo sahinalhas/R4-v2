@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { LearningStyle } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getLearningStylesByStudent: Statement; insertLearningStyle: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -23,7 +24,7 @@ function ensureInitialized(): void {
 export function getLearningStylesByStudent(studentId: string): LearningStyle[] {
   try {
     ensureInitialized();
-    return statements.getLearningStylesByStudent.all(studentId) as LearningStyle[];
+    return statements!.getLearningStylesByStudent.all(studentId) as LearningStyle[];
   } catch (error) {
     console.error('Database error in getLearningStylesByStudent:', error);
     throw error;
@@ -33,7 +34,7 @@ export function getLearningStylesByStudent(studentId: string): LearningStyle[] {
 export function insertLearningStyle(record: LearningStyle): void {
   try {
     ensureInitialized();
-    statements.insertLearningStyle.run(
+    statements!.insertLearningStyle.run(
       record.id,
       record.studentId,
       record.assessmentDate,

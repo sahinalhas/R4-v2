@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { Achievement } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getAchievementsByStudent: Statement; insertAchievement: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -23,7 +24,7 @@ function ensureInitialized(): void {
 export function getAchievementsByStudent(studentId: string): Achievement[] {
   try {
     ensureInitialized();
-    return statements.getAchievementsByStudent.all(studentId) as Achievement[];
+    return statements!.getAchievementsByStudent.all(studentId) as Achievement[];
   } catch (error) {
     console.error('Database error in getAchievementsByStudent:', error);
     throw error;
@@ -33,7 +34,7 @@ export function getAchievementsByStudent(studentId: string): Achievement[] {
 export function insertAchievement(achievement: Achievement): void {
   try {
     ensureInitialized();
-    statements.insertAchievement.run(
+    statements!.insertAchievement.run(
       achievement.id,
       achievement.studentId,
       achievement.title,

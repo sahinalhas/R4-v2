@@ -1,8 +1,9 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { CoachingRecommendation } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getCoachingRecommendationsByStudent: Statement; insertCoachingRecommendation: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -22,14 +23,14 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getCoachingRecommendationsByStudent(studentId: string): any[] {
+export function getCoachingRecommendationsByStudent(studentId: string): CoachingRecommendation[] {
   try {
     ensureInitialized();
-    const recs = statements.getCoachingRecommendationsByStudent.all(studentId);
+    const recs = statements!.getCoachingRecommendationsByStudent.all(studentId) as CoachingRecommendation[];
     
-    return recs.map((rec: any) => ({
+    return recs.map((rec) => ({
       ...rec,
-      implementationSteps: rec.implementationSteps ? JSON.parse(rec.implementationSteps) : []
+      implementationSteps: rec.implementationSteps ? JSON.parse(rec.implementationSteps as unknown as string) : []
     }));
   } catch (error) {
     console.error('Database error in getCoachingRecommendationsByStudent:', error);
@@ -42,7 +43,7 @@ export function insertCoachingRecommendation(rec: CoachingRecommendation): void 
     ensureInitialized();
     const stepsJson = JSON.stringify(rec.implementationSteps || []);
     
-    statements.insertCoachingRecommendation.run(
+    statements!.insertCoachingRecommendation.run(
       rec.id,
       rec.studentId,
       rec.type,
@@ -60,7 +61,7 @@ export function insertCoachingRecommendation(rec: CoachingRecommendation): void 
   }
 }
 
-export function updateCoachingRecommendation(id: string, updates: any): void {
+export function updateCoachingRecommendation(id: string, updates: Partial<CoachingRecommendation>): void {
   try {
     ensureInitialized();
     const db = getDatabase();

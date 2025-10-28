@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { MultipleIntelligence } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getMultipleIntelligenceByStudent: Statement; insertMultipleIntelligence: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -25,7 +26,7 @@ function ensureInitialized(): void {
 export function getMultipleIntelligenceByStudent(studentId: string): MultipleIntelligence[] {
   try {
     ensureInitialized();
-    return statements.getMultipleIntelligenceByStudent.all(studentId) as MultipleIntelligence[];
+    return statements!.getMultipleIntelligenceByStudent.all(studentId) as MultipleIntelligence[];
   } catch (error) {
     console.error('Database error in getMultipleIntelligenceByStudent:', error);
     throw error;
@@ -35,7 +36,7 @@ export function getMultipleIntelligenceByStudent(studentId: string): MultipleInt
 export function insertMultipleIntelligence(record: MultipleIntelligence): void {
   try {
     ensureInitialized();
-    statements.insertMultipleIntelligence.run(
+    statements!.insertMultipleIntelligence.run(
       record.id,
       record.studentId,
       record.assessmentDate,

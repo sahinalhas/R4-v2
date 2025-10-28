@@ -1,8 +1,9 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { HomeVisit } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getHomeVisitsByStudent: Statement; insertHomeVisit: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -24,15 +25,15 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getHomeVisitsByStudent(studentId: string): any[] {
+export function getHomeVisitsByStudent(studentId: string): HomeVisit[] {
   try {
     ensureInitialized();
-    const visits = statements.getHomeVisitsByStudent.all(studentId);
+    const visits = statements!.getHomeVisitsByStudent.all(studentId) as HomeVisit[];
     
-    return visits.map((v: any) => ({
+    return visits.map((v) => ({
       ...v,
-      visitors: v.visitors ? JSON.parse(v.visitors) : [],
-      familyPresent: v.familyPresent ? JSON.parse(v.familyPresent) : []
+      visitors: v.visitors ? JSON.parse(v.visitors as unknown as string) : [],
+      familyPresent: v.familyPresent ? JSON.parse(v.familyPresent as unknown as string) : []
     }));
   } catch (error) {
     console.error('Database error in getHomeVisitsByStudent:', error);
@@ -47,7 +48,7 @@ export function insertHomeVisit(visit: HomeVisit): void {
     const visitorsJson = JSON.stringify(visit.visitors || []);
     const familyPresentJson = JSON.stringify(visit.familyPresent || []);
     
-    statements.insertHomeVisit.run(
+    statements!.insertHomeVisit.run(
       visit.id,
       visit.studentId,
       visit.date,
@@ -73,7 +74,7 @@ export function insertHomeVisit(visit: HomeVisit): void {
   }
 }
 
-export function updateHomeVisit(id: string, updates: any): void {
+export function updateHomeVisit(id: string, updates: Partial<HomeVisit>): void {
   try {
     ensureInitialized();
     const db = getDatabase();

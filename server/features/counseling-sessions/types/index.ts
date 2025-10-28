@@ -75,7 +75,8 @@ export interface CounselingSession {
   updated_at?: string;
 }
 
-export interface CounselingSessionWithStudents extends CounselingSession {
+export interface CounselingSessionWithStudents extends Omit<CounselingSession, 'sessionTags'> {
+  sessionTags?: string[];
   students?: Array<{ id: string; name: string; surname: string; class: string }>;
   student?: { id: string; name: string; surname: string; class: string };
 }

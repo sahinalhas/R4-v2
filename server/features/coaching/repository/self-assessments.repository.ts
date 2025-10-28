@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { SelfAssessment } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getSelfAssessmentsByStudent: Statement; insertSelfAssessment: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -26,7 +27,7 @@ function ensureInitialized(): void {
 export function getSelfAssessmentsByStudent(studentId: string): SelfAssessment[] {
   try {
     ensureInitialized();
-    return statements.getSelfAssessmentsByStudent.all(studentId) as SelfAssessment[];
+    return statements!.getSelfAssessmentsByStudent.all(studentId) as SelfAssessment[];
   } catch (error) {
     console.error('Database error in getSelfAssessmentsByStudent:', error);
     throw error;
@@ -36,7 +37,7 @@ export function getSelfAssessmentsByStudent(studentId: string): SelfAssessment[]
 export function insertSelfAssessment(assessment: SelfAssessment): void {
   try {
     ensureInitialized();
-    statements.insertSelfAssessment.run(
+    statements!.insertSelfAssessment.run(
       assessment.id,
       assessment.studentId,
       assessment.moodRating,

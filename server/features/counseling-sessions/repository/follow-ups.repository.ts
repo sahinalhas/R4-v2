@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { CounselingFollowUp } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: Record<string, Statement> | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -66,42 +67,42 @@ function ensureInitialized(): void {
 
 export function getAllFollowUps(): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getAllFollowUps.all() as CounselingFollowUp[];
+  return statements!.getAllFollowUps.all() as CounselingFollowUp[];
 }
 
 export function getFollowUpById(id: string): CounselingFollowUp | null {
   ensureInitialized();
-  return statements.getFollowUpById.get(id) as CounselingFollowUp | null;
+  return statements!.getFollowUpById.get(id) as CounselingFollowUp | null;
 }
 
 export function getFollowUpsBySessionId(sessionId: string): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getFollowUpsBySessionId.all(sessionId) as CounselingFollowUp[];
+  return statements!.getFollowUpsBySessionId.all(sessionId) as CounselingFollowUp[];
 }
 
 export function getFollowUpsByStatus(status: string): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getFollowUpsByStatus.all(status) as CounselingFollowUp[];
+  return statements!.getFollowUpsByStatus.all(status) as CounselingFollowUp[];
 }
 
 export function getFollowUpsByAssignee(assignedTo: string): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getFollowUpsByAssignee.all(assignedTo) as CounselingFollowUp[];
+  return statements!.getFollowUpsByAssignee.all(assignedTo) as CounselingFollowUp[];
 }
 
 export function getOverdueFollowUps(currentDate: string): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getOverdueFollowUps.all(currentDate) as CounselingFollowUp[];
+  return statements!.getOverdueFollowUps.all(currentDate) as CounselingFollowUp[];
 }
 
 export function getFollowUpsByPriority(priority: string): CounselingFollowUp[] {
   ensureInitialized();
-  return statements.getFollowUpsByPriority.all(priority) as CounselingFollowUp[];
+  return statements!.getFollowUpsByPriority.all(priority) as CounselingFollowUp[];
 }
 
 export function insertFollowUp(followUp: CounselingFollowUp): void {
   ensureInitialized();
-  statements.insertFollowUp.run(
+  statements!.insertFollowUp.run(
     followUp.id,
     followUp.sessionId || null,
     followUp.followUpDate,
@@ -116,7 +117,7 @@ export function insertFollowUp(followUp: CounselingFollowUp): void {
 
 export function updateFollowUp(followUp: CounselingFollowUp): { changes: number } {
   ensureInitialized();
-  const result = statements.updateFollowUp.run(
+  const result = statements!.updateFollowUp.run(
     followUp.sessionId || null,
     followUp.followUpDate,
     followUp.assignedTo,
@@ -132,12 +133,12 @@ export function updateFollowUp(followUp: CounselingFollowUp): { changes: number 
 
 export function updateFollowUpStatus(id: string, status: string, completedDate: string | null): { changes: number } {
   ensureInitialized();
-  const result = statements.updateFollowUpStatus.run(status, completedDate || null, id);
+  const result = statements!.updateFollowUpStatus.run(status, completedDate || null, id);
   return { changes: result.changes };
 }
 
 export function deleteFollowUp(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.deleteFollowUp.run(id);
+  const result = statements!.deleteFollowUp.run(id);
   return { changes: result.changes };
 }

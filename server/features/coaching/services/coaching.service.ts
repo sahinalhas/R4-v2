@@ -133,8 +133,8 @@ export function createSmartGoal(data: Omit<SmartGoal, 'specific' | 'measurable' 
   return { success: true, id: goal.id };
 }
 
-export function updateSmartGoal(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateSmartGoal(id: string, updates: Partial<SmartGoal>): { success: boolean } {
+  const sanitizedUpdates: Partial<SmartGoal> = {};
   
   if (updates.title) sanitizedUpdates.title = sanitizeString(updates.title);
   if (updates.specific) sanitizedUpdates.specific = sanitizeString(updates.specific);
@@ -153,12 +153,12 @@ export function updateSmartGoal(id: string, updates: any): { success: boolean } 
   return { success: true };
 }
 
-export function getStudentCoachingRecommendations(studentId: string): any[] {
+export function getStudentCoachingRecommendations(studentId: string): CoachingRecommendation[] {
   const sanitizedId = sanitizeString(studentId);
   return repository.getCoachingRecommendationsByStudent(sanitizedId);
 }
 
-export function createCoachingRecommendation(data: any): { success: boolean; id: string } {
+export function createCoachingRecommendation(data: Omit<CoachingRecommendation, 'createdAt'> & { createdAt?: string }): { success: boolean; id: string } {
   const rec: CoachingRecommendation = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -176,8 +176,8 @@ export function createCoachingRecommendation(data: any): { success: boolean; id:
   return { success: true, id: rec.id };
 }
 
-export function updateCoachingRecommendation(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateCoachingRecommendation(id: string, updates: Partial<CoachingRecommendation>): { success: boolean } {
+  const sanitizedUpdates: Partial<CoachingRecommendation> = {};
   
   if (updates.type) sanitizedUpdates.type = sanitizeString(updates.type);
   if (updates.title) sanitizedUpdates.title = sanitizeString(updates.title);
@@ -190,12 +190,12 @@ export function updateCoachingRecommendation(id: string, updates: any): { succes
   return { success: true };
 }
 
-export function getStudent360Evaluations(studentId: string): any[] {
+export function getStudent360Evaluations(studentId: string): Evaluation360[] {
   const sanitizedId = sanitizeString(studentId);
   return repository.getEvaluations360ByStudent(sanitizedId);
 }
 
-export function create360Evaluation(data: any): { success: boolean; id: string } {
+export function create360Evaluation(data: Omit<Evaluation360, 'notes'> & { notes?: string }): { success: boolean; id: string } {
   const evaluation: Evaluation360 = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -219,7 +219,7 @@ export function getStudentAchievements(studentId: string): Achievement[] {
   return repository.getAchievementsByStudent(sanitizedId);
 }
 
-export function createAchievement(data: any): { success: boolean; id: string } {
+export function createAchievement(data: Omit<Achievement, 'description' | 'category' | 'points'> & { description?: string; category?: string; points?: number }): { success: boolean; id: string } {
   const achievement: Achievement = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -239,7 +239,7 @@ export function getStudentSelfAssessments(studentId: string): SelfAssessment[] {
   return repository.getSelfAssessmentsByStudent(sanitizedId);
 }
 
-export function createSelfAssessment(data: any): { success: boolean; id: string } {
+export function createSelfAssessment(data: Omit<SelfAssessment, 'todayHighlight' | 'todayChallenge' | 'tomorrowGoal' | 'notes'> & { todayHighlight?: string; todayChallenge?: string; tomorrowGoal?: string; notes?: string }): { success: boolean; id: string } {
   const assessment: SelfAssessment = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -263,16 +263,17 @@ export function createSelfAssessment(data: any): { success: boolean; id: string 
   return { success: true, id: assessment.id };
 }
 
-export function getStudentParentMeetings(studentId: string): any[] {
+export function getStudentParentMeetings(studentId: string): ParentMeeting[] {
   const sanitizedId = sanitizeString(studentId);
   return repository.getParentMeetingsByStudent(sanitizedId);
 }
 
-export function createParentMeeting(data: any): { success: boolean; id: string } {
+export function createParentMeeting(data: Omit<ParentMeeting, 'time' | 'type' | 'participants' | 'mainTopics' | 'concerns' | 'decisions' | 'actionPlan' | 'nextMeetingDate' | 'parentSatisfaction' | 'followUpRequired' | 'notes' | 'createdBy' | 'createdAt'> & { time?: string; type?: string; participants?: unknown[]; mainTopics?: unknown[]; concerns?: string; decisions?: string; actionPlan?: string; nextMeetingDate?: string; parentSatisfaction?: number; followUpRequired?: boolean; notes?: string; createdBy?: string; createdAt?: string; date?: string }): { success: boolean; id: string } {
+  const meetingDate = data.meetingDate || (data as { date?: string }).date || '';
   const meeting: ParentMeeting = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
-    meetingDate: data.meetingDate || data.date,
+    meetingDate,
     time: data.time,
     type: data.type ? sanitizeString(data.type) : undefined,
     participants: data.participants,
@@ -292,8 +293,8 @@ export function createParentMeeting(data: any): { success: boolean; id: string }
   return { success: true, id: meeting.id };
 }
 
-export function updateParentMeeting(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateParentMeeting(id: string, updates: Partial<ParentMeeting> & { date?: string }): { success: boolean } {
+  const sanitizedUpdates: Partial<ParentMeeting> = {};
   
   if (updates.meetingDate || updates.date) sanitizedUpdates.meetingDate = updates.meetingDate || updates.date;
   if (updates.time) sanitizedUpdates.time = updates.time;
@@ -312,12 +313,12 @@ export function updateParentMeeting(id: string, updates: any): { success: boolea
   return { success: true };
 }
 
-export function getStudentHomeVisits(studentId: string): any[] {
+export function getStudentHomeVisits(studentId: string): HomeVisit[] {
   const sanitizedId = sanitizeString(studentId);
   return repository.getHomeVisitsByStudent(sanitizedId);
 }
 
-export function createHomeVisit(data: any): { success: boolean; id: string } {
+export function createHomeVisit(data: Omit<HomeVisit, 'time' | 'visitDuration' | 'visitors' | 'familyPresent' | 'homeEnvironment' | 'familyInteraction' | 'observations' | 'recommendations' | 'concerns' | 'resources' | 'followUpActions' | 'nextVisitPlanned' | 'notes' | 'createdBy' | 'createdAt'> & { time?: string; visitDuration?: number; visitors?: unknown[]; familyPresent?: unknown[]; homeEnvironment?: string; familyInteraction?: string; observations?: string; recommendations?: string; concerns?: string; resources?: string; followUpActions?: string; nextVisitPlanned?: string; notes?: string; createdBy?: string; createdAt?: string }): { success: boolean; id: string } {
   const visit: HomeVisit = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -343,8 +344,8 @@ export function createHomeVisit(data: any): { success: boolean; id: string } {
   return { success: true, id: visit.id };
 }
 
-export function updateHomeVisit(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateHomeVisit(id: string, updates: Partial<HomeVisit>): { success: boolean } {
+  const sanitizedUpdates: Partial<HomeVisit> = {};
   
   if (updates.date) sanitizedUpdates.date = updates.date;
   if (updates.time) sanitizedUpdates.time = updates.time;
@@ -365,12 +366,12 @@ export function updateHomeVisit(id: string, updates: any): { success: boolean } 
   return { success: true };
 }
 
-export function getStudentFamilyParticipation(studentId: string): any[] {
+export function getStudentFamilyParticipation(studentId: string): FamilyParticipation[] {
   const sanitizedId = sanitizeString(studentId);
   return repository.getFamilyParticipationByStudent(sanitizedId);
 }
 
-export function createFamilyParticipation(data: any): { success: boolean; id: string } {
+export function createFamilyParticipation(data: Omit<FamilyParticipation, 'eventType' | 'eventName' | 'participationStatus' | 'participants' | 'engagementLevel' | 'communicationFrequency' | 'preferredContactMethod' | 'parentAvailability' | 'notes' | 'recordedBy' | 'recordedAt'> & { eventType?: string; eventName?: string; participationStatus?: string; participants?: unknown[]; engagementLevel?: number; communicationFrequency?: string; preferredContactMethod?: string; parentAvailability?: string; notes?: string; recordedBy?: string; recordedAt?: string }): { success: boolean; id: string } {
   const record: FamilyParticipation = {
     id: data.id,
     studentId: sanitizeString(data.studentId),
@@ -392,8 +393,8 @@ export function createFamilyParticipation(data: any): { success: boolean; id: st
   return { success: true, id: record.id };
 }
 
-export function updateFamilyParticipation(id: string, updates: any): { success: boolean } {
-  const sanitizedUpdates: any = {};
+export function updateFamilyParticipation(id: string, updates: Partial<FamilyParticipation>): { success: boolean } {
+  const sanitizedUpdates: Partial<FamilyParticipation> = {};
   
   if (updates.eventType) sanitizedUpdates.eventType = sanitizeString(updates.eventType);
   if (updates.eventName) sanitizedUpdates.eventName = sanitizeString(updates.eventName);

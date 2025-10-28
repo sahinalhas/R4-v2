@@ -2,10 +2,10 @@ import * as repository from '../repository/counseling-sessions.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
 import type { CounselingSession, CounselingSessionWithStudents, ClassHour, CounselingTopic, SessionFilters } from '../types/index.js';
 
-function safeParseJSON(jsonString: string | null | undefined, fallback: any = []): any {
+function safeParseJSON<T = unknown>(jsonString: string | null | undefined, fallback: T): T {
   if (!jsonString) return fallback;
   try {
-    return JSON.parse(jsonString);
+    return JSON.parse(jsonString) as T;
   } catch (error) {
     console.error('Failed to parse JSON:', error);
     return fallback;
@@ -16,7 +16,7 @@ export function getAllSessionsWithStudents(): CounselingSessionWithStudents[] {
   const sessions = repository.getAllSessions();
   
   return sessions.map((session) => {
-    const parsedTags = safeParseJSON(session.sessionTags, []);
+    const parsedTags = safeParseJSON<string[]>(session.sessionTags, []);
     if (session.sessionType === 'group') {
       const students = repository.getStudentsBySessionId(session.id);
       return { ...session, sessionTags: parsedTags, students };
@@ -31,7 +31,7 @@ export function getActiveSessionsWithStudents(): CounselingSessionWithStudents[]
   const sessions = repository.getActiveSessions();
   
   return sessions.map((session) => {
-    const parsedTags = safeParseJSON(session.sessionTags, []);
+    const parsedTags = safeParseJSON<string[]>(session.sessionTags, []);
     if (session.sessionType === 'group') {
       const students = repository.getStudentsBySessionId(session.id);
       return { ...session, sessionTags: parsedTags, students };
@@ -58,7 +58,7 @@ export function getSessionByIdWithStudents(id: string): CounselingSessionWithStu
   }
 }
 
-export function createCounselingSession(data: any): { success: boolean; id: string } {
+export function createCounselingSession(data: Omit<CounselingSession, 'groupName' | 'relationshipType' | 'otherParticipants' | 'parentName' | 'parentRelationship' | 'teacherName' | 'teacherBranch' | 'otherParticipantDescription' | 'disciplineStatus' | 'institutionalCooperation' | 'sessionDetails'> & { groupName?: string; relationshipType?: string; otherParticipants?: string; parentName?: string; parentRelationship?: string; teacherName?: string; teacherBranch?: string; otherParticipantDescription?: string; disciplineStatus?: string; institutionalCooperation?: string; sessionDetails?: string; studentIds: string[] }): { success: boolean; id: string } {
   const session: CounselingSession = {
     id: data.id,
     sessionType: data.sessionType,
@@ -106,7 +106,7 @@ export function completeCounselingSession(
     achievedOutcomes?: string;
     followUpNeeded?: boolean;
     followUpPlan?: string;
-    actionItems?: any[];
+    actionItems?: unknown[];
     autoCompleted?: boolean;
   }
 ): { success: boolean; notFound?: boolean } {
@@ -198,7 +198,7 @@ export function getClassHours(): ClassHour[] {
   const settings = JSON.parse(settingsRow.settings);
   const periods = settings?.school?.periods || [];
   
-  return periods.map((period: any, index: number) => ({
+  return periods.map((period: { start: string; end: string }, index: number) => ({
     id: index + 1,
     name: `${index + 1}. Ders`,
     startTime: period.start,
@@ -218,7 +218,7 @@ export function getCounselingTopics(): CounselingTopic[] {
   
   const topics: CounselingTopic[] = [];
   
-  function extractTopics(categories: any[], parentTitle = '') {
+  function extractTopics(categories: Array<{ title: string; items?: Array<{ id: string; title: string }>; children?: unknown[] }>, parentTitle = '') {
     for (const category of categories) {
       const fullTitle = parentTitle ? `${parentTitle} > ${category.title}` : category.title;
       
@@ -234,7 +234,7 @@ export function getCounselingTopics(): CounselingTopic[] {
       }
       
       if (category.children && category.children.length > 0) {
-        extractTopics(category.children, fullTitle);
+        extractTopics(category.children as Array<{ title: string; items?: Array<{ id: string; title: string }>; children?: unknown[] }>, fullTitle);
       }
     }
   }
@@ -248,12 +248,12 @@ export function getCounselingTopics(): CounselingTopic[] {
   return topics;
 }
 
-export function getStudentSessionStats(studentId: string): any {
+export function getStudentSessionStats(studentId: string): unknown {
   const sanitizedStudentId = sanitizeString(studentId);
   return repository.getStudentSessionHistory(sanitizedStudentId);
 }
 
-export function getFilteredSessionsWithStudents(filters: any): CounselingSessionWithStudents[] {
+export function getFilteredSessionsWithStudents(filters: Partial<SessionFilters>): CounselingSessionWithStudents[] {
   const sanitizedFilters: SessionFilters = {};
   
   if (filters.startDate && typeof filters.startDate === 'string' && filters.startDate.trim() !== '') {
@@ -295,7 +295,7 @@ export function getFilteredSessionsWithStudents(filters: any): CounselingSession
   const sessions = repository.getFilteredSessions(sanitizedFilters);
   
   return sessions.map((session) => {
-    const parsedTags = safeParseJSON(session.sessionTags, []);
+    const parsedTags = safeParseJSON<string[]>(session.sessionTags, []);
     if (session.sessionType === 'group') {
       const students = repository.getStudentsBySessionId(session.id);
       return { ...session, sessionTags: parsedTags, students };

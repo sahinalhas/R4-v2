@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { Evaluation360 } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getEvaluations360ByStudent: Statement; insertEvaluation360: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -22,20 +23,20 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getEvaluations360ByStudent(studentId: string): any[] {
+export function getEvaluations360ByStudent(studentId: string): Evaluation360[] {
   try {
     ensureInitialized();
-    const evals = statements.getEvaluations360ByStudent.all(studentId);
+    const evals = statements!.getEvaluations360ByStudent.all(studentId) as Evaluation360[];
     
-    return evals.map((ev: any) => ({
+    return evals.map((ev) => ({
       ...ev,
-      selfEvaluation: ev.selfEvaluation ? JSON.parse(ev.selfEvaluation) : {},
-      teacherEvaluation: ev.teacherEvaluation ? JSON.parse(ev.teacherEvaluation) : {},
-      peerEvaluation: ev.peerEvaluation ? JSON.parse(ev.peerEvaluation) : {},
-      parentEvaluation: ev.parentEvaluation ? JSON.parse(ev.parentEvaluation) : {},
-      strengths: ev.strengths ? JSON.parse(ev.strengths) : [],
-      areasForImprovement: ev.areasForImprovement ? JSON.parse(ev.areasForImprovement) : [],
-      actionPlan: ev.actionPlan ? JSON.parse(ev.actionPlan) : []
+      selfEvaluation: ev.selfEvaluation ? JSON.parse(ev.selfEvaluation as unknown as string) : {},
+      teacherEvaluation: ev.teacherEvaluation ? JSON.parse(ev.teacherEvaluation as unknown as string) : {},
+      peerEvaluation: ev.peerEvaluation ? JSON.parse(ev.peerEvaluation as unknown as string) : {},
+      parentEvaluation: ev.parentEvaluation ? JSON.parse(ev.parentEvaluation as unknown as string) : {},
+      strengths: ev.strengths ? JSON.parse(ev.strengths as unknown as string) : [],
+      areasForImprovement: ev.areasForImprovement ? JSON.parse(ev.areasForImprovement as unknown as string) : [],
+      actionPlan: ev.actionPlan ? JSON.parse(ev.actionPlan as unknown as string) : []
     }));
   } catch (error) {
     console.error('Database error in getEvaluations360ByStudent:', error);
@@ -55,7 +56,7 @@ export function insertEvaluation360(evaluation: Evaluation360): void {
     const areasJson = JSON.stringify(evaluation.areasForImprovement || []);
     const actionPlanJson = JSON.stringify(evaluation.actionPlan || []);
     
-    statements.insertEvaluation360.run(
+    statements!.insertEvaluation360.run(
       evaluation.id,
       evaluation.studentId,
       evaluation.evaluationDate,

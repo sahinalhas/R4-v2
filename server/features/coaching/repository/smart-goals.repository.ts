@@ -1,8 +1,9 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
 import type { SmartGoal } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: { getSmartGoalsByStudent: Statement; insertSmartGoal: Statement } | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -25,7 +26,7 @@ function ensureInitialized(): void {
 export function getSmartGoalsByStudent(studentId: string): SmartGoal[] {
   try {
     ensureInitialized();
-    return statements.getSmartGoalsByStudent.all(studentId) as SmartGoal[];
+    return statements!.getSmartGoalsByStudent.all(studentId) as SmartGoal[];
   } catch (error) {
     console.error('Database error in getSmartGoalsByStudent:', error);
     throw error;
@@ -35,7 +36,7 @@ export function getSmartGoalsByStudent(studentId: string): SmartGoal[] {
 export function insertSmartGoal(goal: SmartGoal): void {
   try {
     ensureInitialized();
-    statements.insertSmartGoal.run(
+    statements!.insertSmartGoal.run(
       goal.id,
       goal.studentId,
       goal.title,

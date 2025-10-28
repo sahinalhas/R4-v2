@@ -1,7 +1,8 @@
 import getDatabase from '../../../lib/database.js';
 import type { CounselingOutcome } from '../types/index.js';
+import type { Statement } from 'better-sqlite3';
 
-let statements: any = null;
+let statements: Record<string, Statement> | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -49,32 +50,32 @@ function ensureInitialized(): void {
 
 export function getAllOutcomes(): CounselingOutcome[] {
   ensureInitialized();
-  return statements.getAllOutcomes.all() as CounselingOutcome[];
+  return statements!.getAllOutcomes.all() as CounselingOutcome[];
 }
 
 export function getOutcomeById(id: string): CounselingOutcome | null {
   ensureInitialized();
-  return statements.getOutcomeById.get(id) as CounselingOutcome | null;
+  return statements!.getOutcomeById.get(id) as CounselingOutcome | null;
 }
 
 export function getOutcomeBySessionId(sessionId: string): CounselingOutcome | null {
   ensureInitialized();
-  return statements.getOutcomeBySessionId.get(sessionId) as CounselingOutcome | null;
+  return statements!.getOutcomeBySessionId.get(sessionId) as CounselingOutcome | null;
 }
 
 export function getOutcomesRequiringFollowUp(currentDate: string): CounselingOutcome[] {
   ensureInitialized();
-  return statements.getOutcomesRequiringFollowUp.all(currentDate) as CounselingOutcome[];
+  return statements!.getOutcomesRequiringFollowUp.all(currentDate) as CounselingOutcome[];
 }
 
 export function getOutcomesByRating(rating: number): CounselingOutcome[] {
   ensureInitialized();
-  return statements.getOutcomesByRating.all(rating) as CounselingOutcome[];
+  return statements!.getOutcomesByRating.all(rating) as CounselingOutcome[];
 }
 
 export function insertOutcome(outcome: CounselingOutcome): void {
   ensureInitialized();
-  statements.insertOutcome.run(
+  statements!.insertOutcome.run(
     outcome.id,
     outcome.sessionId,
     outcome.effectivenessRating || null,
@@ -89,7 +90,7 @@ export function insertOutcome(outcome: CounselingOutcome): void {
 
 export function updateOutcome(id: string, outcome: Partial<CounselingOutcome>): { changes: number } {
   ensureInitialized();
-  const result = statements.updateOutcome.run(
+  const result = statements!.updateOutcome.run(
     outcome.effectivenessRating || null,
     outcome.progressNotes || null,
     outcome.goalsAchieved || null,
@@ -104,6 +105,6 @@ export function updateOutcome(id: string, outcome: Partial<CounselingOutcome>): 
 
 export function deleteOutcome(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.deleteOutcome.run(id);
+  const result = statements!.deleteOutcome.run(id);
   return { changes: result.changes };
 }
