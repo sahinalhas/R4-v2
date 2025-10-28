@@ -39,7 +39,7 @@ export const getSurveyDistributionByPublicLink: RequestHandler = (req, res) => {
     try {
       surveyService.validateDistributionStatus(distribution);
     } catch (error: any) {
-      return res.status(403).json({ success: false, error: error.message });
+      return res.status(403).json({ success: false, error: error instanceof Error ? error.message : String(error) });
     }
     
     res.json(distribution);

@@ -327,7 +327,7 @@ export function deleteRecommendation(id: string): void {
   }
 }
 
-export function getHighRiskStudents(): any[] {
+export function getHighRiskStudents(): unknown[] {
   try {
     ensureInitialized();
     return statements.getHighRiskStudents.all();
@@ -337,7 +337,7 @@ export function getHighRiskStudents(): any[] {
   }
 }
 
-export function getAlertStatistics(): any[] {
+export function getAlertStatistics(): unknown[] {
   try {
     ensureInitialized();
     return statements.getAlertStatistics.all();

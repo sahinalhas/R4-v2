@@ -18,7 +18,7 @@ export const getDocuments: RequestHandler = (req, res) => {
     res.json(documents);
   } catch (error) {
     console.error('Error fetching documents:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -47,7 +47,7 @@ export const saveDocumentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Doküman kaydedildi' });
   } catch (error) {
     console.error('Error saving document:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("zorunludur")) {
       return res.status(400).json({ 
@@ -79,7 +79,7 @@ export const deleteDocumentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Doküman silindi' });
   } catch (error) {
     console.error('Error deleting document:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 

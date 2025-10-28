@@ -43,7 +43,7 @@ router.get('/careers', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Kariyer profilleri alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -75,7 +75,7 @@ router.get('/careers/:id', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Kariyer profili alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -109,7 +109,7 @@ router.post('/analyze', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Kariyer analizi yapılamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -143,7 +143,7 @@ router.post('/roadmap', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Kariyer yol haritası oluşturulamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -177,7 +177,7 @@ router.get('/students/:studentId/roadmap', async (req: Request, res: Response) =
     res.status(500).json({
       success: false,
       message: 'Yol haritası alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -205,7 +205,7 @@ router.get('/students/:studentId/roadmaps', async (req: Request, res: Response) 
     res.status(500).json({
       success: false,
       message: 'Yol haritaları alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -233,7 +233,7 @@ router.put('/roadmap/:roadmapId', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Yol haritası güncellenemedi',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -261,7 +261,7 @@ router.get('/students/:studentId/competencies', async (req: Request, res: Respon
     res.status(500).json({
       success: false,
       message: 'Yetkinlikler alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -290,7 +290,7 @@ router.post('/students/:studentId/competencies/refresh', async (req: Request, re
     res.status(500).json({
       success: false,
       message: 'Yetkinlikler yenilenemedi',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -317,7 +317,7 @@ router.get('/students/:studentId/competencies/stats', async (req: Request, res: 
     res.status(500).json({
       success: false,
       message: 'Yetkinlik istatistikleri alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -346,7 +346,7 @@ router.get('/students/:studentId/analysis-history', async (req: Request, res: Re
     res.status(500).json({
       success: false,
       message: 'Analiz geçmişi alınamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -380,7 +380,7 @@ router.post('/compare', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Meslekler karşılaştırılamadı',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });
@@ -407,7 +407,7 @@ router.delete('/roadmap/:roadmapId', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Yol haritası silinemedi',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
     });
   }
 });

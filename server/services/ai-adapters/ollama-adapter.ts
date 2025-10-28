@@ -32,7 +32,7 @@ export class OllamaAdapter extends BaseAIAdapter {
       return response.message?.content || '';
     } catch (error) {
       console.error('Ollama API error:', error);
-      throw new Error(`Ollama API failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(`Ollama API failed: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`);
     }
   }
 

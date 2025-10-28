@@ -54,7 +54,7 @@ export class ExportService {
     return excelBuffer.toString('base64');
   }
   
-  private prepareSchoolStatsSheet(report: ComprehensiveReport, options: ExportOptions): any[][] {
+  private prepareSchoolStatsSheet(report: ComprehensiveReport, options: ExportOptions): unknown[][] {
     const { schoolStats } = report;
     const shouldAnonymize = options.anonymize || false;
     
@@ -111,8 +111,8 @@ export class ExportService {
     return data;
   }
   
-  private prepareClassComparisonSheet(report: ComprehensiveReport, options: ExportOptions): any[][] {
-    const data: any[][] = [
+  private prepareClassComparisonSheet(report: ComprehensiveReport, options: ExportOptions): unknown[][] {
+    const data: unknown[][] = [
       ['SINIF KARŞILAŞTIRMALARI'],
       [''],
       ['Sınıf', 'Öğrenci', 'Ort. GPA', 'Devam %', 'Davranış', 'Görüşme', 'Düşük Risk', 'Orta Risk', 'Yüksek Risk', 'Kritik Risk']
@@ -121,15 +121,15 @@ export class ExportService {
     report.classComparisons.forEach(cc => {
       data.push([
         cc.class,
-        cc.studentCount as any,
+        cc.studentCount as unknown,
         cc.averageGPA.toFixed(2),
         (cc.attendanceRate * 100).toFixed(1),
-        cc.behaviorIncidents as any,
-        cc.counselingSessions as any,
-        cc.riskDistribution.low as any,
-        cc.riskDistribution.medium as any,
-        cc.riskDistribution.high as any,
-        cc.riskDistribution.critical as any
+        cc.behaviorIncidents as unknown,
+        cc.counselingSessions as unknown,
+        cc.riskDistribution.low as unknown,
+        cc.riskDistribution.medium as unknown,
+        cc.riskDistribution.high as unknown,
+        cc.riskDistribution.critical as unknown
       ]);
     });
     
@@ -149,10 +149,10 @@ export class ExportService {
     return data;
   }
   
-  private prepareTrendAnalysisSheet(report: ComprehensiveReport, options: ExportOptions): any[][] {
+  private prepareTrendAnalysisSheet(report: ComprehensiveReport, options: ExportOptions): unknown[][] {
     const { timeSeriesAnalysis } = report;
     
-    const data: any[][] = [
+    const data: unknown[][] = [
       ['TREND ANALİZİ'],
       ['Dönem:', timeSeriesAnalysis.period],
       ['Başlangıç:', timeSeriesAnalysis.startDate],
@@ -166,9 +166,9 @@ export class ExportService {
         t.period,
         t.academicAverage.toFixed(2),
         (t.attendanceRate * 100).toFixed(1),
-        t.sessionCount as any,
-        t.riskStudents as any,
-        t.behaviorIncidents as any
+        t.sessionCount as unknown,
+        t.riskStudents as unknown,
+        t.behaviorIncidents as unknown
       ]);
     });
     
@@ -202,7 +202,7 @@ export class ExportService {
     return data;
   }
   
-  private prepareAIInsightsSheet(report: ComprehensiveReport, options: ExportOptions): any[][] {
+  private prepareAIInsightsSheet(report: ComprehensiveReport, options: ExportOptions): unknown[][] {
     const { aiInsights } = report;
     
     if (!aiInsights) {

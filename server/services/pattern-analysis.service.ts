@@ -170,7 +170,7 @@ export class PatternAnalysisService {
   private async analyzeBehavioralPatterns(studentId: string): Promise<PatternInsight[]> {
     const insights: PatternInsight[] = [];
 
-    let incidents: any[] = [];
+    let incidents: unknown[] = [];
     try {
       incidents = this.db.prepare(`
         SELECT behaviorCategory, behaviorType, incidentDate, description

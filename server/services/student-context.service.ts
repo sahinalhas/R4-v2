@@ -210,7 +210,7 @@ export class StudentContextService {
       'SELECT * FROM academic_profiles WHERE studentId = ? ORDER BY assessmentDate DESC LIMIT 1'
     ).get(studentId) as any;
 
-    let exams: any[] = [];
+    let exams: unknown[] = [];
     try {
       exams = this.db.prepare(
         'SELECT * FROM exam_results WHERE studentId = ? ORDER BY examDate DESC LIMIT 5'
@@ -503,7 +503,7 @@ export class StudentContextService {
   /**
    * Calculate performance trend from exams
    */
-  private calculatePerformanceTrend(exams: any[]): 'improving' | 'declining' | 'stable' {
+  private calculatePerformanceTrend(exams: unknown[]): 'improving' | 'declining' | 'stable' {
     if (exams.length < 2) return 'stable';
 
     const recent = exams.slice(0, 3);
@@ -524,7 +524,7 @@ export class StudentContextService {
   /**
    * Analyze behavior trends
    */
-  private analyzeBehaviorTrends(incidents: any[]): string {
+  private analyzeBehaviorTrends(incidents: unknown[]): string {
     if (incidents.length === 0) return 'Davranış kaydı yok';
 
     const recent = incidents.slice(0, 5);

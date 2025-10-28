@@ -9,8 +9,8 @@ export const getStudyAssignments: RequestHandler = (req, res) => {
     res.json(assignments);
   } catch (error) {
     console.error('Error fetching study assignments:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Çalışma ödevleri getirilirken hata oluştu';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Çalışma ödevleri getirilirken hata oluştu';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -25,8 +25,8 @@ export const saveStudyAssignmentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Çalışma ödevi kaydedildi' });
   } catch (error) {
     console.error('Error saving study assignment:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Çalışma ödevi kaydedilemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Çalışma ödevi kaydedilemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -40,8 +40,8 @@ export const updateStudyAssignmentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Çalışma ödevi güncellendi' });
   } catch (error) {
     console.error('Error updating study assignment:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Çalışma ödevi güncellenemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Çalışma ödevi güncellenemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -54,8 +54,8 @@ export const deleteStudyAssignmentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Çalışma ödevi silindi' });
   } catch (error) {
     console.error('Error deleting study assignment:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Çalışma ödevi silinemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Çalışma ödevi silinemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -77,8 +77,8 @@ export const getWeeklySlots: RequestHandler = (req, res) => {
     res.json(slots);
   } catch (error) {
     console.error('Error fetching weekly slots:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Haftalık program getirilirken hata oluştu';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Haftalık program getirilirken hata oluştu';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -93,8 +93,8 @@ export const saveWeeklySlotHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Haftalık program kaydedildi' });
   } catch (error) {
     console.error('Error saving weekly slot:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Haftalık program kaydedilemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Haftalık program kaydedilemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -108,8 +108,8 @@ export const updateWeeklySlotHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Haftalık program güncellendi' });
   } catch (error) {
     console.error('Error updating weekly slot:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Haftalık program güncellenemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Haftalık program güncellenemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };
@@ -122,8 +122,8 @@ export const deleteWeeklySlotHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Haftalık program silindi' });
   } catch (error) {
     console.error('Error deleting weekly slot:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Haftalık program silinemedi';
-    res.status(error instanceof Error && error.message.includes('Geçersiz') ? 400 : 500)
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Haftalık program silinemedi';
+    res.status(error instanceof Error && error instanceof Error ? error.message : String(error).includes('Geçersiz') ? 400 : 500)
       .json({ success: false, error: errorMessage });
   }
 };

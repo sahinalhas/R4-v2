@@ -42,7 +42,7 @@ export function handleDatabaseError(
   throw new DatabaseError(message, operation);
 }
 
-export function wrapRepositoryMethod<T extends any[], R>(
+export function wrapRepositoryMethod<T extends unknown[], R>(
   operation: string,
   method: (...args: T) => R,
   userMessage?: string
@@ -56,7 +56,7 @@ export function wrapRepositoryMethod<T extends any[], R>(
   };
 }
 
-export function asyncWrapRepositoryMethod<T extends any[], R>(
+export function asyncWrapRepositoryMethod<T extends unknown[], R>(
   operation: string,
   method: (...args: T) => Promise<R>,
   userMessage?: string
@@ -109,7 +109,7 @@ export function handleApiError(
 }
 
 export function asyncHandler(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>
 ) {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);

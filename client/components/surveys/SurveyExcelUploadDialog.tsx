@@ -148,11 +148,11 @@ export default function SurveyExcelUploadDialog({
           variant: "destructive"
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Excel upload error:', error);
       toast({
         title: "Hata",
-        description: error.message || "Excel dosyası yüklenirken hata oluştu",
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : "Excel dosyası yüklenirken hata oluştu",
         variant: "destructive"
       });
     } finally {

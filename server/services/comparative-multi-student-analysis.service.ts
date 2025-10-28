@@ -241,7 +241,7 @@ class ComparativeMultiStudentAnalysisService {
     }
   }
 
-  private buildComparativePrompt(classId: string, students: any[], contexts: any[]): string {
+  private buildComparativePrompt(classId: string, students: unknown[], contexts: unknown[]): string {
     return `${students.length} öğrenci için KARŞILAŞTIRMALI SINIF ANALİZİ yap:
 
 📚 SINIF: ${classId}
@@ -318,7 +318,7 @@ ${JSON.stringify(ctx, null, 2)}
 Yanıtını JSON formatında ver (TypeScript ComparativeAnalysisReport tipine uygun).`;
   }
 
-  private parseAnalysisResponse(classId: string, students: any[], response: string): ComparativeAnalysisReport {
+  private parseAnalysisResponse(classId: string, students: unknown[], response: string): ComparativeAnalysisReport {
     try {
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
@@ -351,7 +351,7 @@ Yanıtını JSON formatında ver (TypeScript ComparativeAnalysisReport tipine uy
     return this.generateBasicAnalysisFromText(classId, students, response);
   }
 
-  private generateBasicAnalysisFromText(classId: string, students: any[], text: string): ComparativeAnalysisReport {
+  private generateBasicAnalysisFromText(classId: string, students: unknown[], text: string): ComparativeAnalysisReport {
     const studentComparisons: StudentComparison[] = students.map(s => ({
       studentId: s.id,
       studentName: s.name,
@@ -417,7 +417,7 @@ Yanıtını JSON formatında ver (TypeScript ComparativeAnalysisReport tipine uy
     };
   }
 
-  private generateFallbackAnalysis(classId: string, students: any[], contexts: any[]): ComparativeAnalysisReport {
+  private generateFallbackAnalysis(classId: string, students: unknown[], contexts: unknown[]): ComparativeAnalysisReport {
     const studentComparisons: StudentComparison[] = students.map((s, i) => {
       const ctx = contexts[i];
       const academicScore = ctx.scores?.akademikSkor || 50;

@@ -28,7 +28,7 @@ export const createSurveyQuestion: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Soru başarıyla oluşturuldu' });
   } catch (error) {
     console.error('Error creating survey question:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Soru oluşturulamadı';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Soru oluşturulamadı';
     res.status(500).json({ success: false, error: errorMessage });
   }
 };
@@ -42,7 +42,7 @@ export const updateSurveyQuestionHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Soru başarıyla güncellendi' });
   } catch (error) {
     console.error('Error updating survey question:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Soru güncellenemedi';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Soru güncellenemedi';
     res.status(500).json({ success: false, error: errorMessage });
   }
 };

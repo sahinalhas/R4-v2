@@ -84,7 +84,7 @@ export function calculateQuestionAnalytics(question: SurveyQuestion, responses: 
   return analytics;
 }
 
-export function getResponsesByDay(responses: any[]) {
+export function getResponsesByDay(responses: unknown[]) {
   const byDay: { [key: string]: number } = {};
   responses.forEach(response => {
     const date = new Date(response.created_at).toISOString().split('T')[0];
@@ -93,7 +93,7 @@ export function getResponsesByDay(responses: any[]) {
   return byDay;
 }
 
-export function getDemographicBreakdown(responses: any[]) {
+export function getDemographicBreakdown(responses: unknown[]) {
   const breakdown: any = {
     byClass: {},
     byGender: { E: 0, K: 0, unknown: 0 }
@@ -111,7 +111,7 @@ export function getDemographicBreakdown(responses: any[]) {
   return breakdown;
 }
 
-export function getSubmissionTypeBreakdown(responses: any[]) {
+export function getSubmissionTypeBreakdown(responses: unknown[]) {
   const breakdown: { [key: string]: number } = {};
   responses.forEach(response => {
     const type = response.submissionType || 'ONLINE';
@@ -132,7 +132,7 @@ export function calculateDistributionStatistics(distribution: SurveyDistribution
   };
 }
 
-function calculateOptionCounts(options: string[], responses: any[]): OptionCount[] {
+function calculateOptionCounts(options: string[], responses: unknown[]): OptionCount[] {
   const counts = options.map(option => ({
     option,
     count: responses.filter(r => r === option).length,
@@ -143,7 +143,7 @@ function calculateOptionCounts(options: string[], responses: any[]): OptionCount
   return counts.sort((a, b) => b.count - a.count);
 }
 
-function calculateAverageRating(responses: any[]): number {
+function calculateAverageRating(responses: unknown[]): number {
   const numericResponses = responses
     .map(r => typeof r === 'number' ? r : parseFloat(r))
     .filter(r => !isNaN(r));
@@ -152,7 +152,7 @@ function calculateAverageRating(responses: any[]): number {
     numericResponses.reduce((sum, r) => sum + r, 0) / numericResponses.length : 0;
 }
 
-function calculateRatingDistribution(responses: any[]): RatingDistribution {
+function calculateRatingDistribution(responses: unknown[]): RatingDistribution {
   const distribution: RatingDistribution = {};
   responses.forEach(response => {
     const rating = response.toString();
@@ -161,7 +161,7 @@ function calculateRatingDistribution(responses: any[]): RatingDistribution {
   return distribution;
 }
 
-function analyzeSentiment(responses: any[]): SentimentAnalysis {
+function analyzeSentiment(responses: unknown[]): SentimentAnalysis {
   const positiveKeywords = ['iyi', 'güzel', 'memnun', 'başarılı', 'harika', 'excellent', 'good', 'great'];
   const negativeKeywords = ['kötü', 'berbat', 'memnun değil', 'başarısız', 'poor', 'bad', 'terrible'];
   

@@ -10,7 +10,7 @@ export interface ExcelImportResult {
   successCount: number;
   errorCount: number;
   errors: ExcelImportError[];
-  importedResponses: any[];
+  importedResponses: unknown[];
 }
 
 export interface ExcelImportError {
@@ -25,8 +25,8 @@ export async function importSurveyResponsesFromExcel(
   fileBuffer: Buffer
 ): Promise<ExcelImportResult> {
   const errors: ExcelImportError[] = [];
-  const validResponses: any[] = [];
-  let data: any[] = [];
+  const validResponses: unknown[] = [];
+  let data: unknown[] = [];
 
   try {
     // Validate distribution exists
@@ -149,7 +149,7 @@ export async function importSurveyResponsesFromExcel(
 
   } catch (error: any) {
     console.error('Error importing survey responses from Excel:', error);
-    throw new Error(`Excel yükleme hatası: ${error.message}`);
+    throw new Error(`Excel yükleme hatası: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
@@ -173,7 +173,7 @@ function buildQuestionMap(headers: string[], questions: SurveyQuestion[]): Map<n
 }
 
 function parseResponseRow(
-  row: any[],
+  row: unknown[],
   headers: string[],
   questionMap: Map<number, SurveyQuestion>,
   questions: SurveyQuestion[]

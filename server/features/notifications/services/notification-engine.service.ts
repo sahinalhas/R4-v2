@@ -24,9 +24,9 @@ export class NotificationEngineService {
       this.processNotification(notificationId);
 
       return { success: true, notificationId };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to create notification:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : String(error) };
     }
   }
 
@@ -93,9 +93,9 @@ export class NotificationEngineService {
         alertId: options?.alertId,
         interventionId: options?.interventionId
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to send templated notification:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : String(error) };
     }
   }
 
@@ -116,7 +116,7 @@ export class NotificationEngineService {
     } catch (error) {
       console.error('Failed to process notification:', error);
       repository.updateNotificationStatus(notificationId, 'FAILED', {
-        failureReason: error instanceof Error ? error.message : 'Unknown error'
+        failureReason: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'
       });
     }
   }

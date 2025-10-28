@@ -321,7 +321,7 @@ export class AdvancedAnalyticsDashboardService {
     };
   }
 
-  private identifyUpcomingActions(riskScore: Record<string, any>, insights: any[]) {
+  private identifyUpcomingActions(riskScore: Record<string, any>, insights: unknown[]) {
     const actions: Array<{ priority: 'HIGH' | 'MEDIUM' | 'LOW'; action: string; deadline: string; category: string }> = [];
 
     const criticalInsights = insights.filter(i => i.type === 'critical' && i.actionRequired);

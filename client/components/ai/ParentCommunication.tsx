@@ -45,10 +45,10 @@ export default function ParentCommunication({ studentId, studentName }: ParentCo
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Mesaj oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Mesaj oluşturulamadı',
         variant: 'destructive'
       });
     } finally {
@@ -71,10 +71,10 @@ export default function ParentCommunication({ studentId, studentName }: ParentCo
         });
         console.log('Development report:', data.data);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Rapor oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Rapor oluşturulamadı',
         variant: 'destructive'
       });
     } finally {

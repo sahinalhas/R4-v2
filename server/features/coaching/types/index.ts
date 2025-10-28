@@ -117,8 +117,8 @@ export interface ParentMeeting {
   meetingDate: string;
   time?: string;
   type?: string;
-  participants?: any[];
-  mainTopics?: any[];
+  participants?: unknown[];
+  mainTopics?: unknown[];
   concerns?: string;
   decisions?: string;
   actionPlan?: string;
@@ -136,8 +136,8 @@ export interface HomeVisit {
   date: string;
   time?: string;
   visitDuration?: number;
-  visitors?: any[];
-  familyPresent?: any[];
+  visitors?: unknown[];
+  familyPresent?: unknown[];
   homeEnvironment?: string;
   familyInteraction?: string;
   observations?: string;
@@ -158,7 +158,7 @@ export interface FamilyParticipation {
   eventName?: string;
   eventDate: string;
   participationStatus?: string;
-  participants?: any[];
+  participants?: unknown[];
   engagementLevel?: number;
   communicationFrequency?: string;
   preferredContactMethod?: string;

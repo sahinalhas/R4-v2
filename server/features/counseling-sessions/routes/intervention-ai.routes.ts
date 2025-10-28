@@ -21,11 +21,11 @@ router.post('/generate-plan/:studentId', async (req, res) => {
       success: true,
       data: plan
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Intervention plan error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Müdahale planı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Müdahale planı oluşturulamadı'
     });
   }
 });
@@ -48,11 +48,11 @@ router.post('/targeted/:studentId', async (req, res) => {
       success: true,
       data: recommendations
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Targeted recommendations error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öneriler oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Öneriler oluşturulamadı'
     });
   }
 });
@@ -75,11 +75,11 @@ router.post('/evaluate', async (req, res) => {
       success: true,
       data: evaluation
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Intervention evaluation error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Değerlendirme yapılamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Değerlendirme yapılamadı'
     });
   }
 });

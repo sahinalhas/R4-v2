@@ -202,7 +202,7 @@ export function compareClasses(req: Request, res: Response) {
 
     const classes = classIds.split(',');
     const db = getDatabase();
-    const comparison: any[] = [];
+    const comparison: unknown[] = [];
 
     for (const classId of classes) {
       const studentsStmt = db.prepare(`

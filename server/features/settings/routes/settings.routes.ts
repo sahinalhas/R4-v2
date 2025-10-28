@@ -26,7 +26,7 @@ export const saveSettingsHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Ayarlar kaydedildi' });
   } catch (error) {
     console.error('Error saving settings:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     res.status(500).json({ 
       success: false, 
       error: `Ayarlar kaydedilemedi: ${errorMessage}` 

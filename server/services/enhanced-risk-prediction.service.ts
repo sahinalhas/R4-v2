@@ -383,7 +383,7 @@ export class EnhancedRiskPredictionService {
   }
 
   private async identifyKeyRiskFactors(studentId: string, factorScores: any) {
-    const factors: any[] = [];
+    const factors: unknown[] = [];
 
     Object.entries(factorScores).forEach(([key, score]) => {
       if ((score as number) > 0.5) {
@@ -408,7 +408,7 @@ export class EnhancedRiskPredictionService {
   }
 
   private async identifyProtectiveFactors(studentId: string) {
-    const factors: any[] = [];
+    const factors: unknown[] = [];
 
     const talents = this.db.prepare(`
       SELECT creativeTalents, physicalTalents, primaryInterests

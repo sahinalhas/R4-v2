@@ -65,7 +65,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -140,7 +140,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -164,7 +164,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -205,7 +205,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -246,7 +246,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -282,7 +282,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -322,7 +322,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -362,7 +362,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -398,7 +398,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -439,7 +439,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -479,7 +479,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },
@@ -508,7 +508,7 @@ export function useSessionActions(classHours: ClassHour[]) {
     onError: (error: Error) => {
       toast({
         title: "❌ Hata",
-        description: error.message,
+        description: error instanceof Error ? error.message : String(error),
         variant: "destructive",
       });
     },

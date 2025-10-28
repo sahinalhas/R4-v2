@@ -53,7 +53,7 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getGoalsByStudent(studentId: string): any[] {
+export function getGoalsByStudent(studentId: string): unknown[] {
   try {
     ensureInitialized();
     return statements.getByStudent.all(studentId);
@@ -74,7 +74,7 @@ export function getGoalById(id: string): StudentExamGoal | null {
   }
 }
 
-export function getAllActiveGoals(): any[] {
+export function getAllActiveGoals(): unknown[] {
   try {
     ensureInitialized();
     return statements.getActiveGoals.all();

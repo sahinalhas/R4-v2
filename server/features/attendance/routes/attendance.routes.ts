@@ -17,7 +17,7 @@ export const getAttendanceByStudent: RequestHandler = (req, res) => {
     res.json(attendance);
   } catch (error) {
     console.error('Error fetching attendance:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -52,7 +52,7 @@ export const saveAttendance: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Devam kaydı başarıyla eklendi' });
   } catch (error) {
     console.error('Error saving attendance:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("gereklidir")) {
       return res.status(400).json({ 

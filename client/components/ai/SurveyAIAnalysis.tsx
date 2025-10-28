@@ -34,10 +34,10 @@ export default function SurveyAIAnalysis({ distributionId }: SurveyAIAnalysisPro
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Analiz oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Analiz oluşturulamadı',
         variant: 'destructive'
       });
     } finally {
@@ -64,10 +64,10 @@ export default function SurveyAIAnalysis({ distributionId }: SurveyAIAnalysisPro
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Karşılaştırma oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Karşılaştırma oluşturulamadı',
         variant: 'destructive'
       });
     } finally {

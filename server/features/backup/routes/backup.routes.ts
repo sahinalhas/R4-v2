@@ -32,7 +32,7 @@ router.post('/create', requireAuth, requireRole(['admin', 'counselor']), async (
     res.json(backup);
   } catch (error) {
     console.error('Create backup error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to create backup';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Failed to create backup';
     res.status(500).json({ error: errorMessage });
   }
 });
@@ -43,7 +43,7 @@ router.get('/list', requireAuth, async (req, res) => {
     res.json(backups);
   } catch (error) {
     console.error('List backups error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to list backups';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Failed to list backups';
     res.status(500).json({ error: errorMessage });
   }
 });
@@ -69,7 +69,7 @@ router.post('/restore/:backupId', requireAuth, requireRole(['admin']), async (re
     res.json({ success: true, message: 'Backup restored successfully' });
   } catch (error) {
     console.error('Restore backup error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to restore backup';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Failed to restore backup';
     res.status(500).json({ error: errorMessage });
   }
 });
@@ -95,7 +95,7 @@ router.delete('/:backupId', requireAuth, requireRole(['admin', 'counselor']), as
     res.json({ success: true, message: 'Backup deleted successfully' });
   } catch (error) {
     console.error('Delete backup error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Failed to delete backup';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Failed to delete backup';
     res.status(500).json({ error: errorMessage });
   }
 });

@@ -69,7 +69,7 @@ export function QuickActionsPanel({ examTypes, onNavigateToTab, onCreateSession 
       toast.success('PDF rapor başarıyla indirildi');
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Rapor indirilemedi');
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Rapor indirilemedi');
     },
   });
 

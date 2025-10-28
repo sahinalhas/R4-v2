@@ -254,11 +254,11 @@ export default function AIAssistant() {
 
       setIsStreaming(false);
       abortControllerRef.current = null;
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') {
         toast.info('Yanıt durduruldu');
       } else {
-        toast.error(error.message || 'Streaming chat hatası');
+        toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Streaming chat hatası');
       }
       setIsStreaming(false);
       abortControllerRef.current = null;

@@ -13,7 +13,7 @@ export function calculateHeatmap(studentId: string, examTypeId: string): Heatmap
     SELECT id, subject_name FROM exam_subjects WHERE exam_type_id = ?
   `).all(examTypeId);
   
-  const heatmapSubjects: any[] = [];
+  const heatmapSubjects: unknown[] = [];
   
   for (const subject of subjects as any[]) {
     // Get all results for this student and subject

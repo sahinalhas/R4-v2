@@ -96,7 +96,7 @@ export class BackupService {
       return metadata;
     } catch (error) {
       metadata.status = 'failed';
-      metadata.error = error instanceof Error ? error.message : 'Unknown error';
+      metadata.error = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error';
       await this.updateBackupMetadata(metadata);
       throw error;
     }

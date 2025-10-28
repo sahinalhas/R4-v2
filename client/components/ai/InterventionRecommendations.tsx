@@ -33,10 +33,10 @@ export default function InterventionRecommendations({ studentId, studentName }: 
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Plan oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Plan oluşturulamadı',
         variant: 'destructive'
       });
     } finally {

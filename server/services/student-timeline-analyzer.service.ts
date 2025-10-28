@@ -155,7 +155,7 @@ class StudentTimelineAnalyzerService {
       ? `AND date >= '${startDate}' AND date <= '${endDate}'`
       : '';
 
-    let academicEvents: any[] = [];
+    let academicEvents: unknown[] = [];
     try {
       academicEvents = this.db.prepare(`
         SELECT examDate as eventDate, totalScore as grade, examName as subject, examType
@@ -182,7 +182,7 @@ class StudentTimelineAnalyzerService {
       });
     });
 
-    let behaviorEvents: any[] = [];
+    let behaviorEvents: unknown[] = [];
     try {
       behaviorEvents = this.db.prepare(`
         SELECT incidentDate, behaviorType, behaviorCategory, description, antecedent, consequence
@@ -230,7 +230,7 @@ class StudentTimelineAnalyzerService {
       });
     });
 
-    let counselingEvents: any[] = [];
+    let counselingEvents: unknown[] = [];
     try {
       counselingEvents = this.db.prepare(`
         SELECT sessionDate as date, sessionType, topic, sessionMode as mode, detailedNotes as notes, '' as outcome

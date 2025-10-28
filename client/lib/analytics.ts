@@ -537,7 +537,7 @@ export async function exportAnalyticsData(options: {
   includePersonalData?: boolean;
 } = {}): Promise<any[]> {
   const students = loadStudents();
-  const exportData: any[] = [];
+  const exportData: unknown[] = [];
 
   for (const student of students) {
     const [analytics, attendance, academics] = await Promise.all([

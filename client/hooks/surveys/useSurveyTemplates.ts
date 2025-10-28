@@ -13,8 +13,8 @@ export function useSurveyTemplates() {
       setLoading(true);
       const data = await surveyService.getTemplates(signal);
       setTemplates(data);
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
       console.error("Error loading survey templates:", error);

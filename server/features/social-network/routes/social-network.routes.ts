@@ -17,7 +17,7 @@ router.get('/student/:studentId', async (req, res) => {
     console.error('Student network analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Sosyal ağ analizi yapılamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Sosyal ağ analizi yapılamadı'
     });
   }
 });
@@ -35,7 +35,7 @@ router.get('/class/:className', async (req, res) => {
     console.error('Class network analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Sınıf ağ analizi yapılamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Sınıf ağ analizi yapılamadı'
     });
   }
 });

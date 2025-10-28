@@ -27,11 +27,11 @@ router.post('/progress/:studentId', async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Progress report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Gelişim raporu oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Gelişim raporu oluşturulamadı'
     });
   }
 });
@@ -58,11 +58,11 @@ router.post('/ram/:studentId', async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('RAM report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'RAM raporu oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'RAM raporu oluşturulamadı'
     });
   }
 });
@@ -82,11 +82,11 @@ router.post('/bep/:studentId', async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('BEP report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'BEP raporu oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'BEP raporu oluşturulamadı'
     });
   }
 });
@@ -115,11 +115,11 @@ router.post('/bulk', async (req, res) => {
       success: true,
       data: reports
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Bulk report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Toplu rapor oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Toplu rapor oluşturulamadı'
     });
   }
 });

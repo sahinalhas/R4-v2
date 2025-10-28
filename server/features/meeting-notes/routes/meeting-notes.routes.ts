@@ -16,7 +16,7 @@ export const getMeetingNotes: RequestHandler = (req, res) => {
     res.json(notes);
   } catch (error) {
     console.error('Error fetching meeting notes:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -38,7 +38,7 @@ export const saveMeetingNoteHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Görüşme notu kaydedildi' });
   } catch (error) {
     console.error('Error saving meeting note:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("Zorunlu") || errorMessage.includes("eksik")) {
       return res.status(400).json({ 
@@ -71,7 +71,7 @@ export const updateMeetingNoteHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Görüşme notu güncellendi' });
   } catch (error) {
     console.error('Error updating meeting note:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("zorunludur")) {
       return res.status(400).json({ 
@@ -103,7 +103,7 @@ export const deleteMeetingNoteHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Görüşme notu silindi' });
   } catch (error) {
     console.error('Error deleting meeting note:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 

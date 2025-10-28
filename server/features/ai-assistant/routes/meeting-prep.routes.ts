@@ -41,11 +41,11 @@ export const generateParentMeetingPrep: RequestHandler = async (req, res) => {
       success: true,
       data: { prep }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating parent meeting prep:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Veli görüşmesi hazırlığı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Veli görüşmesi hazırlığı oluşturulamadı'
     });
   }
 };
@@ -85,11 +85,11 @@ export const generateInterventionPlan: RequestHandler = async (req, res) => {
       success: true,
       data: { plan }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating intervention plan:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Müdahale planı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Müdahale planı oluşturulamadı'
     });
   }
 };
@@ -150,11 +150,11 @@ TOPLANTI AMACI: ${meetingPurpose || 'Genel durum değerlendirmesi'}
       success: true,
       data: { brief }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating teacher meeting prep:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öğretmen toplantısı brifingi oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Öğretmen toplantısı brifingi oluşturulamadı'
     });
   }
 };

@@ -408,8 +408,8 @@ Aşağıdaki JSON formatında detaylı bir profil analizi oluştur:
     ];
   }
 
-  private getPriorityInterventions(scores: UnifiedStudentScores): Array<any> {
-    const interventions: Array<any> = [];
+  private getPriorityInterventions(scores: UnifiedStudentScores): Array<unknown> {
+    const interventions: Array<unknown> = [];
     
     if (scores.akademikSkor < 50) {
       interventions.push({
@@ -446,7 +446,7 @@ Aşağıdaki JSON formatında detaylı bir profil analizi oluştur:
     }];
   }
 
-  private getGoalRecommendations(scores: UnifiedStudentScores): Array<any> {
+  private getGoalRecommendations(scores: UnifiedStudentScores): Array<unknown> {
     return [
       {
         boyut: "Akademik",

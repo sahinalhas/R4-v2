@@ -30,11 +30,11 @@ export const generatePsychologicalAnalysis: RequestHandler = async (req, res) =>
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Psychological analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Psikolojik analiz oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Psikolojik analiz oluşturulamadı'
     });
   }
 };
@@ -53,11 +53,11 @@ export const generatePredictiveTimeline: RequestHandler = async (req, res) => {
       success: true,
       data: timeline
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Predictive timeline error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öngörücü zaman çizelgesi oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Öngörücü zaman çizelgesi oluşturulamadı'
     });
   }
 };
@@ -80,11 +80,11 @@ export const generateDailyActionPlan: RequestHandler = async (req, res) => {
       success: true,
       data: plan
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Daily action plan error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Günlük eylem planı oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Günlük eylem planı oluşturulamadı'
     });
   }
 };
@@ -104,11 +104,11 @@ export const generateStudentTimeline: RequestHandler = async (req, res) => {
       success: true,
       data: timeline
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Student timeline error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öğrenci zaman çizelgesi oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Öğrenci zaman çizelgesi oluşturulamadı'
     });
   }
 };
@@ -127,11 +127,11 @@ export const generateClassComparison: RequestHandler = async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Class comparison error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Sınıf analizi oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Sınıf analizi oluşturulamadı'
     });
   }
 };
@@ -157,11 +157,11 @@ export const generateMultiStudentComparison: RequestHandler = async (req, res) =
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Multi-student comparison error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Çoklu öğrenci analizi oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Çoklu öğrenci analizi oluşturulamadı'
     });
   }
 };
@@ -180,11 +180,11 @@ export const getTodayActionPlan: RequestHandler = async (req, res) => {
       data: plan,
       cached: true
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Today action plan error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Günlük plan oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Günlük plan oluşturulamadı'
     });
   }
 };
@@ -212,11 +212,11 @@ export const generateComprehensiveAnalysis: RequestHandler = async (req, res) =>
         generatedAt: new Date().toISOString()
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Comprehensive analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Kapsamlı analiz oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Kapsamlı analiz oluşturulamadı'
     });
   }
 };

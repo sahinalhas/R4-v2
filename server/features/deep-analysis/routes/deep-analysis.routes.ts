@@ -15,11 +15,11 @@ export const generateAnalysis: RequestHandler = async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating deep analysis:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Derin analiz oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Derin analiz oluşturulamadı'
     });
   }
 };
@@ -51,11 +51,11 @@ export const generateBatchAnalysis: RequestHandler = async (req, res) => {
         errors: result.errors
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in batch analysis:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Toplu analiz başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Toplu analiz başarısız'
     });
   }
 };

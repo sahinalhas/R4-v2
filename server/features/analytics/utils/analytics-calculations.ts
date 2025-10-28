@@ -6,7 +6,7 @@ export function calculateAttendanceRate(attendanceTotal: number, presentCount: n
 }
 
 export function calculateAcademicTrend(examDataJson: string | null | any[]): number {
-  let exams: any[];
+  let exams: unknown[];
   
   if (!examDataJson) return 0;
   

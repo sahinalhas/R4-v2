@@ -63,10 +63,10 @@ export function createOutcome(req: Request, res: Response) {
     
     const result = service.createOutcome(req.body);
     res.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating outcome:', error);
-    if (error.message?.includes('Etkinlik puanı')) {
-      return res.status(400).json({ error: error.message });
+    if (error instanceof Error ? error.message : String(error)?.includes('Etkinlik puanı')) {
+      return res.status(400).json({ error: error instanceof Error ? error.message : String(error) });
     }
     res.status(500).json({ error: 'Sonuç kaydedilemedi' });
   }
@@ -82,10 +82,10 @@ export function updateOutcome(req: Request, res: Response) {
     }
     
     res.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating outcome:', error);
-    if (error.message?.includes('Etkinlik puanı')) {
-      return res.status(400).json({ error: error.message });
+    if (error instanceof Error ? error.message : String(error)?.includes('Etkinlik puanı')) {
+      return res.status(400).json({ error: error instanceof Error ? error.message : String(error) });
     }
     res.status(500).json({ error: 'Sonuç güncellenemedi' });
   }

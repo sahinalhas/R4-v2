@@ -16,7 +16,7 @@ export function analyzeQuestions(sessionId: string): any {
     return { success: false, message: 'No results found for this session' };
   }
   
-  const analysisData: any[] = [];
+  const analysisData: unknown[] = [];
   
   // For each subject, analyze question difficulty
   const subjects = Array.from(new Set(results.map((r: any) => r.subject_id)));
@@ -66,7 +66,7 @@ export function analyzeQuestions(sessionId: string): any {
   return { success: true, data: analysisData };
 }
 
-export function getQuestionAnalysis(sessionId: string): any[] {
+export function getQuestionAnalysis(sessionId: string): unknown[] {
   const db = getDatabase();
   
   return db.prepare(`

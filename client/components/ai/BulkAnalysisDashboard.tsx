@@ -22,10 +22,10 @@ export default function BulkAnalysisDashboard() {
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Analiz yüklenemedi',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Analiz yüklenemedi',
         variant: 'destructive'
       });
     } finally {
@@ -42,10 +42,10 @@ export default function BulkAnalysisDashboard() {
       if (data.success) {
         setEarlyWarnings(data.data);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Uyarılar yüklenemedi',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Uyarılar yüklenemedi',
         variant: 'destructive'
       });
     } finally {

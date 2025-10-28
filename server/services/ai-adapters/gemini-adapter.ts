@@ -57,7 +57,7 @@ export class GeminiAdapter extends BaseAIAdapter {
       return response.text || '';
     } catch (error) {
       console.error('Gemini API error:', error);
-      throw new Error(`Gemini API failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(`Gemini API failed: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`);
     }
   }
 

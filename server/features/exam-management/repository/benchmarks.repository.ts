@@ -57,7 +57,7 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getBenchmarksBySession(sessionId: string): any[] {
+export function getBenchmarksBySession(sessionId: string): unknown[] {
   try {
     ensureInitialized();
     return statements.getBySession.all(sessionId);
@@ -67,7 +67,7 @@ export function getBenchmarksBySession(sessionId: string): any[] {
   }
 }
 
-export function getBenchmarksByStudent(studentId: string): any[] {
+export function getBenchmarksByStudent(studentId: string): unknown[] {
   try {
     ensureInitialized();
     return statements.getByStudent.all(studentId);

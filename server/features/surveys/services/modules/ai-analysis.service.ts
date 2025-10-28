@@ -49,8 +49,8 @@ export class SurveyAIAnalysisService {
     surveyData: {
       title: string;
       description?: string;
-      responses: any[];
-      questions: any[];
+      responses: unknown[];
+      questions: unknown[];
     }
   ): Promise<SurveyAnalysisResult> {
     const prompt = this.buildAnalysisPrompt(surveyData);
@@ -86,7 +86,7 @@ export class SurveyAIAnalysisService {
    */
   async compareClassResults(classesData: Array<{
     className: string;
-    responses: any[];
+    responses: unknown[];
     studentCount: number;
   }>): Promise<ClassAnalysis[]> {
     const prompt = this.buildClassComparisonPrompt(classesData);
@@ -289,7 +289,7 @@ Lütfen şu formatta detaylı bir analiz yap:
 `;
   }
 
-  private buildClassComparisonPrompt(classesData: any[]): string {
+  private buildClassComparisonPrompt(classesData: unknown[]): string {
     return `
 Sınıf Karşılaştırma Analizi:
 
@@ -362,7 +362,7 @@ Yanıt Sayısı: ${questionResponses.length}
     };
   }
 
-  private getFallbackClassAnalysis(classesData: any[]): ClassAnalysis[] {
+  private getFallbackClassAnalysis(classesData: unknown[]): ClassAnalysis[] {
     return classesData.map(c => ({
       className: c.className,
       averageScore: 0,

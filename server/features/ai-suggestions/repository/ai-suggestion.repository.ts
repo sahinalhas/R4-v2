@@ -117,7 +117,7 @@ export function getAllPendingSuggestions(limit: number = 100): AISuggestion[] {
  */
 export function searchSuggestions(filters: SuggestionFilters): AISuggestion[] {
   let query = 'SELECT * FROM ai_suggestion_queue WHERE 1=1';
-  const params: any[] = [];
+  const params: unknown[] = [];
 
   if (filters.studentId) {
     query += ' AND studentId = ?';

@@ -36,7 +36,7 @@ export const saveStudentHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: SUCCESS_MESSAGES.STUDENT_SAVED });
   } catch (error) {
     console.error('Error saving student:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("zorunludur")) {
       return res.status(400).json({ 
@@ -72,7 +72,7 @@ export const saveStudentsHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: `${students.length} ${SUCCESS_MESSAGES.STUDENTS_SAVED}` });
   } catch (error) {
     console.error('Error saving students:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -101,7 +101,7 @@ export const getStudentAcademics: RequestHandler = (req, res) => {
     res.json(academics);
   } catch (error) {
     console.error('Error fetching student academics:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -129,7 +129,7 @@ export const addStudentAcademic: RequestHandler = (req, res) => {
     res.json({ success: true, message: "Akademik kayıt eklendi" });
   } catch (error) {
     console.error('Error adding academic record:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("zorunludur")) {
       return res.status(400).json({ 
@@ -158,7 +158,7 @@ export const getStudentProgress: RequestHandler = (req, res) => {
     res.json(progress);
   } catch (error) {
     console.error('Error fetching student progress:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("Geçersiz")) {
       return res.status(400).json({ 
@@ -184,7 +184,7 @@ export const deleteStudentHandler: RequestHandler = (req, res) => {
     });
   } catch (error) {
     console.error('Error deleting student:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
     
     if (errorMessage.includes("bulunamadı")) {
       return res.status(404).json({ 

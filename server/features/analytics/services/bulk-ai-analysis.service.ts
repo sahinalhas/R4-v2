@@ -100,7 +100,7 @@ export class BulkAIAnalysisService {
   /**
    * Tek bir sınıfı analiz et
    */
-  private async analyzeClass(className: string, students: any[]): Promise<ClassComparison> {
+  private async analyzeClass(className: string, students: unknown[]): Promise<ClassComparison> {
     const prompt = `
 Sınıf: ${className}
 Öğrenci Sayısı: ${students.length}
@@ -355,7 +355,7 @@ JSON formatında döndür:
     };
   }
 
-  private calculateRiskDistribution(students: any[]): ClassComparison['riskDistribution'] {
+  private calculateRiskDistribution(students: unknown[]): ClassComparison['riskDistribution'] {
     const dist = { low: 0, medium: 0, high: 0, critical: 0 };
 
     students.forEach(s => {
@@ -377,7 +377,7 @@ JSON formatında döndür:
     return dist;
   }
 
-  private getFallbackClassAnalysis(className: string, students: any[]): ClassComparison {
+  private getFallbackClassAnalysis(className: string, students: unknown[]): ClassComparison {
     const avgGPA = students.reduce((sum, s) => sum + (s.notOrtalamasi || 0), 0) / students.length;
 
     return {
@@ -420,7 +420,7 @@ JSON formatında döndür:
     };
   }
 
-  private getFallbackEarlyWarningReport(students: any[]): EarlyWarningSystemReport {
+  private getFallbackEarlyWarningReport(students: unknown[]): EarlyWarningSystemReport {
     return {
       timestamp: new Date().toISOString(),
       criticalAlerts: students.slice(0, 5).map(s => ({

@@ -78,7 +78,7 @@ export function getPendingConflicts(req: Request, res: Response) {
     
     const db = getDatabase();
     let stmt;
-    let params: any[];
+    let params: unknown[];
     
     if (studentId) {
       stmt = db.prepare(`
@@ -132,7 +132,7 @@ export function bulkResolveConflicts(req: Request, res: Response) {
     }
 
     const db = getDatabase();
-    const results: any[] = [];
+    const results: unknown[] = [];
     
     for (const resolution of resolutions) {
       try {

@@ -308,7 +308,7 @@ export class ProfileAggregationService {
   /**
    * JSON array formatını garanti eder
    */
-  private ensureJsonArray(value: any): any[] {
+  private ensureJsonArray(value: any): unknown[] {
     if (Array.isArray(value)) return value;
     if (typeof value === 'string') {
       try {

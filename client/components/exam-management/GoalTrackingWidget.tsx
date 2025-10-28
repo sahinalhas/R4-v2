@@ -61,7 +61,7 @@ export function GoalTrackingWidget({ studentId, examTypes, subjects }: GoalTrack
       setFormData({ exam_type_id: '', subject_id: '', target_net: '', deadline: '', priority: 'medium' });
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Hedef oluşturulamadı');
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Hedef oluşturulamadı');
     },
   });
 

@@ -1,7 +1,24 @@
 import getDatabase from '../../../lib/database.js';
 import type { CounselingSession, CounselingSessionWithStudents, SessionFilters } from '../types/index.js';
 
-let statements: any = null;
+interface DBStatements {
+  getAllSessions: any;
+  getActiveSessions: any;
+  getSessionById: any;
+  getStudentsBySession: any;
+  getStudentBySession: any;
+  getStudentSessions: any;
+  insertSession: any;
+  insertSessionStudent: any;
+  completeSession: any;
+  extendSession: any;
+  getSessionsToAutoComplete: any;
+  autoCompleteSession: any;
+  deleteSession: any;
+  getAppSettings: any;
+}
+
+let statements: DBStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -97,27 +114,27 @@ function ensureInitialized(): void {
 
 export function getAllSessions(): CounselingSession[] {
   ensureInitialized();
-  return statements.getAllSessions.all() as CounselingSession[];
+  return statements!.getAllSessions.all() as CounselingSession[];
 }
 
 export function getActiveSessions(): CounselingSession[] {
   ensureInitialized();
-  return statements.getActiveSessions.all() as CounselingSession[];
+  return statements!.getActiveSessions.all() as CounselingSession[];
 }
 
 export function getSessionById(id: string): CounselingSession | null {
   ensureInitialized();
-  return statements.getSessionById.get(id) as CounselingSession | null;
+  return statements!.getSessionById.get(id) as CounselingSession | null;
 }
 
-export function getStudentsBySessionId(sessionId: string): any[] {
+export function getStudentsBySessionId(sessionId: string): Array<{ id: string; ad: string; soyad: string; class: string }> {
   ensureInitialized();
-  return statements.getStudentsBySession.all(sessionId);
+  return statements!.getStudentsBySession.all(sessionId);
 }
 
-export function getStudentBySessionId(sessionId: string): any | null {
+export function getStudentBySessionId(sessionId: string): { id: string; ad: string; soyad: string; class: string } | null {
   ensureInitialized();
-  return statements.getStudentBySession.get(sessionId);
+  return statements!.getStudentBySession.get(sessionId);
 }
 
 export function createSession(session: CounselingSession, studentIds: string[]): void {
@@ -125,7 +142,7 @@ export function createSession(session: CounselingSession, studentIds: string[]):
   const db = getDatabase();
   
   const transaction = db.transaction(() => {
-    statements.insertSession.run(
+    statements!.insertSession.run(
       session.id,
       session.sessionType,
       session.groupName || null,
@@ -151,7 +168,7 @@ export function createSession(session: CounselingSession, studentIds: string[]):
     );
     
     for (const studentId of studentIds) {
-      statements.insertSessionStudent.run(session.id, studentId);
+      statements!.insertSessionStudent.run(session.id, studentId);
     }
   });
   
@@ -177,7 +194,7 @@ export function completeSession(
   actionItems?: string | null
 ): { changes: number } {
   ensureInitialized();
-  const result = statements.completeSession.run(
+  const result = statements!.completeSession.run(
     exitTime,
     exitClassHourId || null,
     detailedNotes || null,
@@ -200,36 +217,50 @@ export function completeSession(
 
 export function extendSession(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.extendSession.run(id);
+  const result = statements!.extendSession.run(id);
   return { changes: result.changes };
 }
 
 export function getSessionsToAutoComplete(): CounselingSession[] {
   ensureInitialized();
-  return statements.getSessionsToAutoComplete.all() as CounselingSession[];
+  return statements!.getSessionsToAutoComplete.all() as CounselingSession[];
 }
 
 export function autoCompleteSession(id: string, exitTime: string): void {
   ensureInitialized();
-  statements.autoCompleteSession.run(exitTime, id);
+  statements!.autoCompleteSession.run(exitTime, id);
 }
 
 export function deleteSession(id: string): { changes: number } {
   ensureInitialized();
-  const result = statements.deleteSession.run(id);
+  const result = statements!.deleteSession.run(id);
   return { changes: result.changes };
 }
 
-export function getAppSettings(): any {
+export function getAppSettings(): { settings: string } | undefined {
   ensureInitialized();
-  const row = statements.getAppSettings.get();
+  const row = statements!.getAppSettings.get();
   return row;
 }
 
-export function getStudentSessionHistory(studentId: string): any {
+export function getStudentSessionHistory(studentId: string): {
+  sessionCount: number;
+  lastSessionDate: string | null;
+  topics: string[];
+  history: Array<{ sessionId: string; sessionDate: string; topic: string; sessionMode: string; duration: number }>;
+} {
   ensureInitialized();
   const db = getDatabase();
   
+  interface SessionRow {
+    id: string;
+    sessionDate: string;
+    topic: string;
+    sessionMode: string;
+    entryTime: string;
+    exitTime: string | null;
+  }
+
   // Get all completed sessions for this student
   const sessions = db.prepare(`
     SELECT cs.*, css.studentId
@@ -237,16 +268,16 @@ export function getStudentSessionHistory(studentId: string): any {
     INNER JOIN counseling_session_students css ON cs.id = css.sessionId
     WHERE css.studentId = ? AND cs.completed = 1
     ORDER BY cs.sessionDate DESC, cs.entryTime DESC
-  `).all(studentId);
-  
+  `).all(studentId) as SessionRow[];
+
   // Extract topics
-  const topics = [...new Set(sessions.map((s: any) => s.topic).filter(Boolean))];
+  const topics = [...new Set(sessions.map(s => s.topic).filter(Boolean))];
   
   // Get last session date
   const lastSessionDate = sessions.length > 0 ? sessions[0].sessionDate : null;
   
   // Map to history format
-  const history = sessions.map((session: any) => {
+  const history = sessions.map((session: SessionRow) => {
     let duration = 0;
     if (session.exitTime && session.entryTime) {
       const [entryHour, entryMin] = session.entryTime.split(':').map(Number);
@@ -275,7 +306,7 @@ export function getFilteredSessions(filters: SessionFilters): CounselingSession[
   const db = getDatabase();
   
   let query = 'SELECT DISTINCT cs.* FROM counseling_sessions cs';
-  const params: any[] = [];
+  const params: (string | number)[] = [];
   const whereConditions: string[] = [];
   
   if (filters.className || filters.studentId) {

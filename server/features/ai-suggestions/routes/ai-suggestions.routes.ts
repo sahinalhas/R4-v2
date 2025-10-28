@@ -24,12 +24,12 @@ router.get('/pending', async (req: Request, res: Response) => {
       data: suggestions,
       count: suggestions.length
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching pending suggestions:', error);
     res.status(500).json({
       success: false,
       error: 'Öneriler alınamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -48,12 +48,12 @@ router.get('/student/:studentId', async (req: Request, res: Response) => {
       data: suggestions,
       count: suggestions.length
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching student suggestions:', error);
     res.status(500).json({
       success: false,
       error: 'Öğrenci önerileri alınamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -78,12 +78,12 @@ router.get('/:id', async (req: Request, res: Response) => {
       success: true,
       data: suggestion
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri alınamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -102,12 +102,12 @@ router.post('/search', async (req: Request, res: Response) => {
       data: suggestions,
       count: suggestions.length
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error searching suggestions:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri araması yapılamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -128,12 +128,12 @@ router.post('/create', async (req: Request, res: Response) => {
       },
       message: 'Öneri oluşturuldu'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri oluşturulamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -166,12 +166,12 @@ router.post('/:id/approve', async (req: Request, res: Response) => {
       success: true,
       message: 'Öneri onaylandı ve uygulandı'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error approving suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri onaylanamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -204,12 +204,12 @@ router.post('/:id/reject', async (req: Request, res: Response) => {
       success: true,
       message: 'Öneri reddedildi'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error rejecting suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri reddedilemedi',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -243,12 +243,12 @@ router.post('/:id/modify', async (req: Request, res: Response) => {
       success: true,
       message: 'Öneri düzenlendi ve uygulandı'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error modifying suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri düzenlenemedi',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -271,12 +271,12 @@ router.post('/:id/review', async (req: Request, res: Response) => {
       success: true,
       message: 'Öneri incelendi'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error reviewing suggestion:', error);
     res.status(500).json({
       success: false,
       error: 'Öneri incelenemedi',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -293,12 +293,12 @@ router.get('/stats/overview', async (req: Request, res: Response) => {
       success: true,
       data: stats
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching suggestion stats:', error);
     res.status(500).json({
       success: false,
       error: 'İstatistikler alınamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -316,12 +316,12 @@ router.post('/cleanup', async (req: Request, res: Response) => {
       message: `${cleanedCount} süresi dolmuş öneri temizlendi`,
       data: { cleanedCount }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error cleaning up suggestions:', error);
     res.status(500).json({
       success: false,
       error: 'Temizlik yapılamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });
@@ -348,12 +348,12 @@ router.post('/bulk-create', async (req: Request, res: Response) => {
       data: { ids: suggestionIds },
       message: `${suggestionIds.length} öneri oluşturuldu`
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating bulk suggestions:', error);
     res.status(500).json({
       success: false,
       error: 'Toplu öneri oluşturulamadı',
-      message: error.message
+      message: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)
     });
   }
 });

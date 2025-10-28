@@ -91,7 +91,7 @@ export default function AISuggestionPanel({ studentId, className }: AISuggestion
       setSelectedSuggestion(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Öneri onaylanamadı');
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Öneri onaylanamadı');
     }
   });
 
@@ -106,7 +106,7 @@ export default function AISuggestionPanel({ studentId, className }: AISuggestion
       setSelectedSuggestion(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Öneri reddedilemedi');
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Öneri reddedilemedi');
     }
   });
 

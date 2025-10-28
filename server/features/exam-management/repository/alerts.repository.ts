@@ -45,7 +45,7 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getAlertsByStudent(studentId: string): any[] {
+export function getAlertsByStudent(studentId: string): unknown[] {
   try {
     ensureInitialized();
     return statements.getByStudent.all(studentId);
@@ -55,7 +55,7 @@ export function getAlertsByStudent(studentId: string): any[] {
   }
 }
 
-export function getUnreadAlerts(): any[] {
+export function getUnreadAlerts(): unknown[] {
   try {
     ensureInitialized();
     return statements.getUnread.all();
@@ -65,7 +65,7 @@ export function getUnreadAlerts(): any[] {
   }
 }
 
-export function getRecentAlerts(limit: number = 50): any[] {
+export function getRecentAlerts(limit: number = 50): unknown[] {
   try {
     ensureInitialized();
     return statements.getRecent.all(limit);

@@ -216,11 +216,11 @@ export default function AISettingsTab() {
       } else {
         throw new Error('Bağlantı başarısız');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Connection error:', error);
       setConnectionStatus('error');
       const providerName = PROVIDER_INFO[provider].name;
-      toast.error(`Bağlantı hatası: ${error.message || providerName + ' servisi erişilemiyor'}`);
+      toast.error(`Bağlantı hatası: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : providerName + ' servisi erişilemiyor'}`);
     } finally {
       setIsChecking(false);
     }
@@ -251,9 +251,9 @@ export default function AISettingsTab() {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || 'Ayarlar kaydedilemedi');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Save error:', error);
-      toast.error(`Ayarlar kaydedilemedi: ${error.message}`);
+      toast.error(`Ayarlar kaydedilemedi: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsSaving(false);
     }

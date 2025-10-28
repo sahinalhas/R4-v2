@@ -25,8 +25,8 @@ export function safeJsonParse<T>(
     return JSON.parse(jsonString) as T;
   } catch (error) {
     const errorMessage = context 
-      ? `JSON parse error in ${context}: ${error instanceof Error ? error.message : 'Unknown error'}`
-      : `JSON parse error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      ? `JSON parse error in ${context}: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`
+      : `JSON parse error: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`;
     
     console.error(errorMessage, {
       jsonPreview: jsonString.substring(0, 100),

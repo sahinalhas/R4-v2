@@ -21,11 +21,11 @@ router.post('/development-report/:studentId', async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Development report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Gelişim raporu oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Gelişim raporu oluşturulamadı'
     });
   }
 });
@@ -49,11 +49,11 @@ router.post('/message/:studentId', async (req, res) => {
       success: true,
       data: message
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Parent message error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Veli mesajı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Veli mesajı oluşturulamadı'
     });
   }
 });
@@ -77,11 +77,11 @@ router.post('/meeting-invitation/:studentId', async (req, res) => {
       success: true,
       data: invitation
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Meeting invitation error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Toplantı daveti oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Toplantı daveti oluşturulamadı'
     });
   }
 });
@@ -104,11 +104,11 @@ router.post('/achievement/:studentId', async (req, res) => {
       success: true,
       data: message
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Achievement message error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Başarı mesajı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Başarı mesajı oluşturulamadı'
     });
   }
 });
@@ -132,11 +132,11 @@ router.post('/concern/:studentId', async (req, res) => {
       success: true,
       data: message
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Concern message error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Endişe mesajı oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Endişe mesajı oluşturulamadı'
     });
   }
 });

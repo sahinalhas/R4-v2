@@ -19,7 +19,7 @@ router.get('/score/:studentId', async (req, res) => {
     console.error('Enhanced risk score error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Risk skoru hesaplanamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Risk skoru hesaplanamadı'
     });
   }
 });
@@ -37,7 +37,7 @@ router.get('/trend/:studentId', async (req, res) => {
     console.error('Trend analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Trend analizi yapılamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Trend analizi yapılamadı'
     });
   }
 });
@@ -74,7 +74,7 @@ router.post('/batch-calculate', async (req, res) => {
     console.error('Batch calculation error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Toplu hesaplama başarısız'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Toplu hesaplama başarısız'
     });
   }
 });

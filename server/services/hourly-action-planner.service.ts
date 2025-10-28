@@ -193,7 +193,7 @@ class HourlyActionPlannerService {
   }
 
   private async identifyPriorityStudents(date: string): Promise<any[]> {
-    const students: any[] = [];
+    const students: unknown[] = [];
 
     const highRiskStudents = this.db.prepare(`
       SELECT DISTINCT s.id, s.name, ewa.alertLevel, ewa.title
@@ -266,7 +266,7 @@ class HourlyActionPlannerService {
   }
 
   private async getPendingTasks(date: string): Promise<any[]> {
-    const tasks: any[] = [];
+    const tasks: unknown[] = [];
 
     const pendingFollowUps = this.db.prepare(`
       SELECT fu.*
@@ -291,7 +291,7 @@ class HourlyActionPlannerService {
     return tasks;
   }
 
-  private buildDailyPlanPrompt(date: string, priorityStudents: any[], appointments: any[], tasks: any[]): string {
+  private buildDailyPlanPrompt(date: string, priorityStudents: unknown[], appointments: unknown[], tasks: unknown[]): string {
     return `${date} tarihi için DETAYLI GÜNLÜK EYLEM PLANI oluştur:
 
 📅 TARİH: ${date}
@@ -355,7 +355,7 @@ ${JSON.stringify(tasks, null, 2)}
 Yanıtını JSON formatında ver (TypeScript CounselorDailyPlan tipine uygun).`;
   }
 
-  private parseDailyPlanResponse(date: string, counselorName: string, response: string, priorityStudents: any[]): CounselorDailyPlan {
+  private parseDailyPlanResponse(date: string, counselorName: string, response: string, priorityStudents: unknown[]): CounselorDailyPlan {
     try {
       const jsonMatch = response.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
@@ -363,7 +363,7 @@ Yanıtını JSON formatında ver (TypeScript CounselorDailyPlan tipine uygun).`;
         
         const fallbackPlan = this.generateFallbackDailyPlan(date, counselorName, priorityStudents);
         
-        const normalizeHourlySchedule = (schedule: any[]): HourlyAction[] => {
+        const normalizeHourlySchedule = (schedule: unknown[]): HourlyAction[] => {
           return schedule.map((action: any) => ({
             ...action,
             preparationNeeded: Array.isArray(action.preparationNeeded) 
@@ -486,7 +486,7 @@ Yanıtını JSON formatında ver (TypeScript CounselorDailyPlan tipine uygun).`;
     };
   }
 
-  private generateFallbackDailyPlan(date: string, counselorName: string, priorityStudents: any[]): CounselorDailyPlan {
+  private generateFallbackDailyPlan(date: string, counselorName: string, priorityStudents: unknown[]): CounselorDailyPlan {
     const criticalStudents = priorityStudents.filter(s => s.priority === 'ACİL');
     const highPriorityStudents = priorityStudents.filter(s => s.priority === 'YÜKSEK');
 

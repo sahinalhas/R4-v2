@@ -69,7 +69,7 @@ async function migrateStudentProfiles() {
         
       } catch (error) {
         errorCount++;
-        console.error(`  ✗ Hata: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error(`  ✗ Hata: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`);
       }
     }
     

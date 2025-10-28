@@ -57,11 +57,11 @@ router.post('/analyze/:distributionId', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Survey analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Anket analizi başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Anket analizi başarısız'
     });
   }
 });
@@ -111,11 +111,11 @@ router.post('/compare-classes', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Class comparison error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Sınıf karşılaştırması başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Sınıf karşılaştırması başarısız'
     });
   }
 });
@@ -151,11 +151,11 @@ router.post('/trends', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Trend analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Trend analizi başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Trend analizi başarısız'
     });
   }
 });
@@ -194,11 +194,11 @@ router.post('/open-ended', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Open-ended analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Açık uçlu analiz başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Açık uçlu analiz başarısız'
     });
   }
 });

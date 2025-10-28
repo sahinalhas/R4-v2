@@ -68,7 +68,7 @@ export class AuditService {
     const { userId, action, resource, startDate, endDate, limit = 100 } = query;
     
     let sql = `SELECT * FROM audit_logs WHERE 1=1`;
-    const params: any[] = [];
+    const params: unknown[] = [];
     
     if (userId) {
       sql += ` AND user_id = ?`;

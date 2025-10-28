@@ -40,7 +40,7 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
-export function getHeatmapByStudent(studentId: string, examTypeId: string): any[] {
+export function getHeatmapByStudent(studentId: string, examTypeId: string): unknown[] {
   try {
     ensureInitialized();
     return statements.getByStudent.all(studentId, examTypeId);

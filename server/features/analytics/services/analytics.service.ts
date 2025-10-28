@@ -140,7 +140,7 @@ export async function getStudentAnalytics(studentId: string): Promise<StudentAna
   return analytics;
 }
 
-function buildReportsFromSnapshots(snapshots: any[], cacheKey: string): ReportsOverview {
+function buildReportsFromSnapshots(snapshots: unknown[], cacheKey: string): ReportsOverview {
   const studentAnalytics: StudentAnalytics[] = snapshots.map(snapshotToStudentAnalytics);
 
   const riskDistribution = {
@@ -150,7 +150,7 @@ function buildReportsFromSnapshots(snapshots: any[], cacheKey: string): ReportsO
     kritik: snapshots.filter(s => s.risk_level === 'Kritik').length
   };
 
-  const classMap = new Map<string, { students: any[]; totalGPA: number; totalAttendance: number }>();
+  const classMap = new Map<string, { students: unknown[]; totalGPA: number; totalAttendance: number }>();
 
   for (const snapshot of snapshots) {
     const className = snapshot.class_name || 'Belirtilmemiş';

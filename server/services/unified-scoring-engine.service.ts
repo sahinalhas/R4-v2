@@ -233,7 +233,7 @@ export class UnifiedScoringEngine {
     return Math.round((score / total) * 100);
   }
 
-  private calculateBehaviorProfileCompleteness(incidents: any[]): number {
+  private calculateBehaviorProfileCompleteness(incidents: unknown[]): number {
     if (!incidents || incidents.length === 0) return 100; // Davranış kaydı yoksa tam kabul ediyoruz
     
     let totalFields = 0;

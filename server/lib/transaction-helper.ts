@@ -85,7 +85,7 @@ export async function withRetryableTransaction<T>(
       lastError = error as Error;
 
       // Retry on database locked errors
-      if (error instanceof Error && error.message.includes('database is locked')) {
+      if (error instanceof Error && error instanceof Error ? error.message : String(error).includes('database is locked')) {
         if (attempt < maxRetries - 1) {
           await new Promise(resolve => setTimeout(resolve, retryDelay * (attempt + 1)));
           continue;

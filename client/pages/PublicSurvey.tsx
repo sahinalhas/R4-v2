@@ -113,12 +113,12 @@ export default function PublicSurvey() {
       setQuestions(questionsData.sort((a: SurveyQuestion, b: SurveyQuestion) => a.orderIndex - b.orderIndex));
 
       setLoading(false);
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
       console.error('Error loading survey data:', error);
-      setError(error.message || 'Anket yüklenirken hata oluştu');
+      setError(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Anket yüklenirken hata oluştu');
       setLoading(false);
     }
   };
@@ -158,7 +158,7 @@ export default function PublicSurvey() {
       });
     } catch (error) {
       console.error('Error submitting survey response:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Yanıt gönderilirken hata oluştu';
+      const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Yanıt gönderilirken hata oluştu';
       setValidationError(errorMessage);
       toast({ 
         title: "Hata", 

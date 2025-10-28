@@ -67,11 +67,11 @@ export const getPriorityStudents: RequestHandler = async (req, res) => {
         recommendations: generateRecommendations(topPriorities)
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting priority students:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öncelikli öğrenciler alınamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Öncelikli öğrenciler alınamadı'
     });
   }
 };
@@ -113,11 +113,11 @@ export const getInterventionRecommendations: RequestHandler = async (req, res) =
         implementationGuide: generateImplementationGuide(prioritizedRecommendations.slice(0, 3))
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting intervention recommendations:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Müdahale önerileri alınamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Müdahale önerileri alınamadı'
     });
   }
 };
@@ -162,17 +162,17 @@ export const getResourceRecommendations: RequestHandler = (req, res) => {
         resources: selectedResources
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting resource recommendations:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Kaynak önerileri alınamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error) || 'Kaynak önerileri alınamadı'
     });
   }
 };
 
 // Helper functions
-function generatePriorityReason(status: any, criticalAlerts: number): string {
+function generatePriorityReason(status: Record<string, any>, criticalAlerts: number): string {
   const reasons: string[] = [];
   
   if (status.overallStatus === 'ACİL') {
@@ -190,7 +190,17 @@ function generatePriorityReason(status: any, criticalAlerts: number): string {
   return reasons.join(', ') || 'Dikkat gerektirir';
 }
 
-function generateRecommendations(priorities: any[]): string[] {
+interface PriorityStudent {
+  studentId: string;
+  studentName: string;
+  class: string;
+  priorityScore: number;
+  status: string;
+  criticalAlerts: number;
+  reason: string;
+}
+
+function generateRecommendations(priorities: PriorityStudent[]): string[] {
   const recommendations: string[] = [];
   
   const urgent = priorities.filter(p => p.status === 'ACİL');
@@ -210,7 +220,7 @@ function generateRecommendations(priorities: any[]): string[] {
   return recommendations;
 }
 
-function calculateEffectivenessScore(rec: any, riskAnalysis: any): number {
+function calculateEffectivenessScore(rec: Record<string, any>, riskAnalysis: Record<string, any>): number {
   let score = 50; // Base score
   
   // Öncelik bazlı skor
@@ -235,7 +245,7 @@ function suggestResources(type: string): string[] {
   return resourceMap[type] || ['Rehber öğretmen desteği'];
 }
 
-function generateImplementationGuide(recommendations: any[]): string[] {
+function generateImplementationGuide(recommendations: unknown[]): string[] {
   return [
     '1. Hafta: Başlangıç değerlendirmesi ve baseline oluşturma',
     '2-4. Hafta: Yoğun müdahale uygulama',

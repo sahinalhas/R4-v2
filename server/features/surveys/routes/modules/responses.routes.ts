@@ -88,7 +88,7 @@ export const createSurveyResponse: RequestHandler = (req, res) => {
     } catch (error: any) {
       return res.status(400).json({ 
         success: false, 
-        error: error.message 
+        error: error instanceof Error ? error.message : String(error) 
       });
     }
 
@@ -184,7 +184,7 @@ export const importExcelResponsesHandler: RequestHandler = async (req, res) => {
     console.error('Error importing Excel responses:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Excel yükleme işlemi başarısız oldu'
+      error: error instanceof Error ? error.message : String(error) || 'Excel yükleme işlemi başarısız oldu'
     });
   }
 };

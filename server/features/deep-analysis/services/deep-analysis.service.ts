@@ -432,10 +432,10 @@ export async function generateBatchAnalysis(studentIds: string[]): Promise<{
     try {
       const report = await generateDeepAnalysis(studentId);
       reports.push(report);
-    } catch (error: any) {
+    } catch (error: unknown) {
       errors.push({
         studentId,
-        error: error.message || 'Bilinmeyen hata'
+        error: error instanceof Error ? error.message : String(error) || 'Bilinmeyen hata'
       });
     }
   }

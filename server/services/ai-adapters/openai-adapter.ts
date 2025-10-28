@@ -47,7 +47,7 @@ export class OpenAIAdapter extends BaseAIAdapter {
       return data.choices[0]?.message?.content || '';
     } catch (error) {
       console.error('OpenAI API call failed:', error);
-      throw new Error(`OpenAI API failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(`OpenAI API failed: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error'}`);
     }
   }
 

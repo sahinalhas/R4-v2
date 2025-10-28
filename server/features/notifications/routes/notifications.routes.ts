@@ -12,7 +12,7 @@ router.post('/send', async (req, res) => {
     const result = await notificationEngine.sendNotification(req.body);
     res.json(result);
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -22,7 +22,7 @@ router.post('/send-bulk', async (req, res) => {
     const result = await notificationEngine.sendBulkNotifications(notifications);
     res.json(result);
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -38,7 +38,7 @@ router.post('/send-templated', async (req, res) => {
     );
     res.json(result);
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -48,7 +48,7 @@ router.get('/student/:studentId', async (req, res) => {
     const notifications = repository.getNotificationsByStudent(studentId);
     res.json({ success: true, data: notifications });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -57,7 +57,7 @@ router.get('/pending', async (req, res) => {
     const notifications = await notificationEngine.getPendingNotifications();
     res.json({ success: true, data: notifications });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -70,7 +70,7 @@ router.get('/logs', async (req, res) => {
     );
     res.json({ success: true, data: notifications });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -80,7 +80,7 @@ router.get('/stats', async (req, res) => {
     const stats = await notificationEngine.getNotificationStats(dateFrom as string);
     res.json({ success: true, data: stats });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -89,7 +89,7 @@ router.post('/retry-failed', async (req, res) => {
     const retried = await notificationEngine.retryFailedNotifications();
     res.json({ success: true, data: { retried } });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -100,7 +100,7 @@ router.patch('/:id/status', async (req, res) => {
     repository.updateNotificationStatus(id, status, additionalData);
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -110,7 +110,7 @@ router.post('/alert-notification', async (req, res) => {
     await notificationRules.processAlertNotifications(alert);
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -125,7 +125,7 @@ router.post('/intervention-notification', async (req, res) => {
     );
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -136,7 +136,7 @@ router.post('/weekly-digest/:studentId', async (req, res) => {
     await notificationRules.sendWeeklyDigest(studentId, progressSummary);
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -151,7 +151,7 @@ router.post('/meeting-invitation', async (req, res) => {
     );
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -162,7 +162,7 @@ router.get('/preferences/:userId', async (req, res) => {
     const prefs = repository.getPreferenceByUser(userId, userType as string);
     res.json({ success: true, data: prefs });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -171,7 +171,7 @@ router.post('/preferences', async (req, res) => {
     const id = repository.createOrUpdatePreference(req.body);
     res.json({ success: true, id });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -181,7 +181,7 @@ router.get('/templates', async (req, res) => {
     const templates = repository.getAllTemplates(category as string);
     res.json({ success: true, data: templates });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -191,7 +191,7 @@ router.get('/templates/:id', async (req, res) => {
     const template = repository.getTemplateById(id);
     res.json({ success: true, data: template });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -201,7 +201,7 @@ router.post('/parent-access', async (req, res) => {
     const token = repository.getTokensByStudent(req.body.studentId).find(t => t.id === id);
     res.json({ success: true, data: token });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -217,7 +217,7 @@ router.get('/parent-access/:token', async (req, res) => {
     repository.updateTokenAccess(token);
     res.json({ success: true, data: accessToken });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -227,7 +227,7 @@ router.delete('/parent-access/:id', async (req, res) => {
     repository.revokeToken(id);
     res.json({ success: true });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 
@@ -237,7 +237,7 @@ router.get('/parent-access/student/:studentId', async (req, res) => {
     const tokens = repository.getTokensByStudent(studentId);
     res.json({ success: true, data: tokens });
   } catch (error: unknown) {
-    res.status(500).json({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+    res.status(500).json({ success: false, error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Unknown error' });
   }
 });
 

@@ -55,7 +55,7 @@ export function calculateTimeAnalysis(studentId: string, examTypeId: string): Ti
   else studyFrequency = 'low';
   
   // Calculate performance trends
-  const trends: any[] = [];
+  const trends: unknown[] = [];
   const chunkSize = Math.max(3, Math.floor((sessions as any[]).length / 3));
   
   for (let i = 0; i < (sessions as any[]).length; i += chunkSize) {

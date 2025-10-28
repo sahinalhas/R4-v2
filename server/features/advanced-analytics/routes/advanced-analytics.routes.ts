@@ -17,7 +17,7 @@ router.get('/dashboard/:studentId', async (req, res) => {
     console.error('Dashboard overview error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Dashboard oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Dashboard oluşturulamadı'
     });
   }
 });
@@ -43,7 +43,7 @@ router.post('/generate-report', async (req, res) => {
     console.error('Report generation error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Rapor oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Rapor oluşturulamadı'
     });
   }
 });

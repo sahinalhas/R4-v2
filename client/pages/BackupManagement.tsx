@@ -86,7 +86,7 @@ export default function BackupManagement() {
     onError: (error: Error) => {
       toast({
         title: '❌ Hata',
-        description: error.message || 'Yedekleme oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Yedekleme oluşturulamadı',
         variant: 'destructive',
       });
       setCreatingBackup(false);
@@ -109,7 +109,7 @@ export default function BackupManagement() {
     onError: (error: Error) => {
       toast({
         title: '❌ Hata',
-        description: error.message || 'Geri yükleme başarısız',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Geri yükleme başarısız',
         variant: 'destructive',
       });
     },
@@ -129,7 +129,7 @@ export default function BackupManagement() {
     onError: (error: Error) => {
       toast({
         title: '❌ Hata',
-        description: error.message || 'Yedek dosyası silinemedi',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Yedek dosyası silinemedi',
         variant: 'destructive',
       });
     },

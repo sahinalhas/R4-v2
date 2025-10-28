@@ -350,7 +350,7 @@ export function parseExcelResponses(base64Data: string): any[] {
     const data = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false });
     
     // Parse the response data
-    const responses: any[] = [];
+    const responses: unknown[] = [];
     
     // Find the header row (after instructions if present)
     let headerRowIndex = 0;

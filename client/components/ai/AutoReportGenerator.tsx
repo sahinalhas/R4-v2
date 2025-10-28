@@ -61,10 +61,10 @@ export default function AutoReportGenerator({ studentId, studentName }: AutoRepo
       } else {
         throw new Error(data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: 'Hata',
-        description: error.message || 'Rapor oluşturulamadı',
+        description: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Rapor oluşturulamadı',
         variant: 'destructive'
       });
     } finally {

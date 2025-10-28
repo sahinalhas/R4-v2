@@ -27,18 +27,18 @@ export function generateExcelTemplate(config: ExcelTemplateConfig): Buffer {
       headers.push(`${subject.subject_name} - Boş`);
     });
 
-    const rows: any[][] = [headers];
+    const rows: unknown[][] = [headers];
 
     if (config.include_student_info && students.length > 0) {
       students.forEach(student => {
-        const row: any[] = [student.id, student.name];
+        const row: unknown[] = [student.id, student.name];
         subjects.forEach(() => {
           row.push('', '', '');
         });
         rows.push(row);
       });
     } else {
-      const exampleRow: any[] = ['12345', 'Örnek Öğrenci'];
+      const exampleRow: unknown[] = ['12345', 'Örnek Öğrenci'];
       subjects.forEach(() => {
         exampleRow.push('', '', '');
       });
@@ -168,7 +168,7 @@ export async function importExcelResults(
       errors,
       results: savedResults
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in importExcelResults:', error);
     return {
       success: false,
@@ -176,7 +176,7 @@ export async function importExcelResults(
       failed_count: data?.length || 0,
       errors: [{
         row: 0,
-        error: error.message || 'Excel dosyası işlenirken hata oluştu'
+        error: error instanceof Error ? error.message : String(error) || 'Excel dosyası işlenirken hata oluştu'
       }],
       results: []
     };
@@ -211,11 +211,11 @@ export function exportExamResultsToExcel(sessionId: string): Buffer {
       studentResultsMap.get(result.student_id)!.set(result.subject_id, result);
     });
 
-    const rows: any[][] = [headers];
+    const rows: unknown[][] = [headers];
 
     studentResultsMap.forEach((subjectResults, studentId) => {
       const firstResult = Array.from(subjectResults.values())[0];
-      const row: any[] = [studentId, firstResult.student_name || studentId];
+      const row: unknown[] = [studentId, firstResult.student_name || studentId];
       
       let totalNet = 0;
       subjects.forEach(subject => {

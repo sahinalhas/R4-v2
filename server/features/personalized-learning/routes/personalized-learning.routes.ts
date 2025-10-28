@@ -17,7 +17,7 @@ router.get('/learning-style/:studentId', async (req, res) => {
     console.error('Learning style analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Öğrenme stili analizi yapılamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Öğrenme stili analizi yapılamadı'
     });
   }
 });
@@ -35,7 +35,7 @@ router.get('/academic-strengths/:studentId', async (req, res) => {
     console.error('Academic strengths analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Akademik analiz yapılamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Akademik analiz yapılamadı'
     });
   }
 });
@@ -53,7 +53,7 @@ router.get('/study-plan/:studentId', async (req, res) => {
     console.error('Study plan generation error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Çalışma planı oluşturulamadı'
+      error: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Çalışma planı oluşturulamadı'
     });
   }
 });

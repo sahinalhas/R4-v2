@@ -125,7 +125,7 @@ export function EnhancedExcelImport({
       const workbook = XLSX.read(buffer, { type: 'array', codepage: 65001 });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
-      const data: any[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+      const data: unknown[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
 
       if (!data || data.length === 0) {
         setUploadResult({
@@ -492,7 +492,7 @@ export function EnhancedExcelImport({
                                 {error.student_name || error.student || '-'}
                               </TableCell>
                               <TableCell className="text-sm text-destructive">
-                                {error.error || error.message}
+                                {error.error || error instanceof Error ? error.message : String(error)}
                               </TableCell>
                             </TableRow>
                           ))}

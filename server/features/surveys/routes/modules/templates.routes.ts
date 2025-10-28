@@ -43,7 +43,7 @@ export const createSurveyTemplate: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Anket şablonu başarıyla oluşturuldu' });
   } catch (error) {
     console.error('Error creating survey template:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Anket şablonu oluşturulamadı';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Anket şablonu oluşturulamadı';
     res.status(500).json({ success: false, error: errorMessage });
   }
 };
@@ -57,7 +57,7 @@ export const updateSurveyTemplateHandler: RequestHandler = (req, res) => {
     res.json({ success: true, message: 'Anket şablonu başarıyla güncellendi' });
   } catch (error) {
     console.error('Error updating survey template:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Anket şablonu güncellenemedi';
+    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Anket şablonu güncellenemedi';
     res.status(500).json({ success: false, error: errorMessage });
   }
 };

@@ -96,7 +96,7 @@ export function getPendingNotifications(): NotificationLog[] {
 
 export function getNotificationsByStatus(status?: string, limit?: number): NotificationLog[] {
   let query = 'SELECT * FROM notification_logs';
-  const params: any[] = [];
+  const params: unknown[] = [];
   
   if (status) {
     query += ' WHERE status = ?';

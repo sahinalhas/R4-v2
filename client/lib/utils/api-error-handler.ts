@@ -94,14 +94,14 @@ export function parseApiError(response: Response, data: unknown): ApiError {
  * Handle network errors
  */
 export function handleNetworkError(error: Error): ApiError {
-  if (error.name === 'AbortError') {
+  if (error instanceof Error && error.name === 'AbortError') {
     return createApiError(
       'İstek iptal edildi.',
       ApiErrorCode.TIMEOUT_ERROR
     );
   }
   
-  if (error.message.includes('Failed to fetch') || error.message.includes('Network')) {
+  if (error instanceof Error && error.message.includes('Failed to fetch') || error instanceof Error ? error.message : String(error).includes('Network')) {
     return createApiError(
       'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.',
       ApiErrorCode.NETWORK_ERROR
@@ -109,7 +109,7 @@ export function handleNetworkError(error: Error): ApiError {
   }
   
   return createApiError(
-    error.message || 'Beklenmeyen bir hata oluştu',
+    error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Beklenmeyen bir hata oluştu',
     ApiErrorCode.INTERNAL_ERROR
   );
 }
@@ -137,7 +137,7 @@ export function showErrorToast(error: ApiError | Error): void {
         : undefined
     });
   } else {
-    toast.error(error.message || API_ERROR_MESSAGES.GENERIC.OPERATION_ERROR);
+    toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : API_ERROR_MESSAGES.GENERIC.OPERATION_ERROR);
   }
 }
 

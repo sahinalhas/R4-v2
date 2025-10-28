@@ -153,7 +153,12 @@ router.post('/chat', sanitizeAIRequest, async (req, res) => {
       systemPrompt = AIPromptBuilder.buildCounselorSystemPrompt();
     }
 
-    const messages: any[] = [
+    interface ChatMessage {
+      role: 'system' | 'user' | 'assistant';
+      content: string;
+    }
+    
+    const messages: ChatMessage[] = [
       { role: 'system', content: systemPrompt }
     ];
 
@@ -179,11 +184,11 @@ router.post('/chat', sanitizeAIRequest, async (req, res) => {
         model: aiProvider.getModel()
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in chat:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Chat hatası'
+      error: error instanceof Error ? error.message : String(error) || 'Chat hatası'
     });
   }
 });
@@ -216,7 +221,12 @@ router.post('/chat-stream', sanitizeAIRequest, async (req, res) => {
       systemPrompt = AIPromptBuilder.buildCounselorSystemPrompt();
     }
 
-    const messages: any[] = [
+    interface ChatMessage {
+      role: 'system' | 'user' | 'assistant';
+      content: string;
+    }
+    
+    const messages: ChatMessage[] = [
       { role: 'system', content: systemPrompt }
     ];
 
@@ -244,15 +254,15 @@ router.post('/chat-stream', sanitizeAIRequest, async (req, res) => {
 
     res.write('data: [DONE]\n\n');
     res.end();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in chat stream:', error);
     if (!res.headersSent) {
       res.status(500).json({
         success: false,
-        error: error.message || 'Streaming chat hatası'
+        error: error instanceof Error ? error.message : String(error) || 'Streaming chat hatası'
       });
     } else {
-      res.write(`data: ${JSON.stringify({ error: error.message })}\n\n`);
+      res.write(`data: ${JSON.stringify({ error: error instanceof Error ? error.message : String(error) })}\n\n`);
       res.end();
     }
   }
@@ -297,11 +307,11 @@ router.post('/generate-meeting-summary', async (req, res) => {
       success: true,
       data: { summary }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating summary:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Özet oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Özet oluşturulamadı'
     });
   }
 });
@@ -357,11 +367,11 @@ router.post('/analyze-risk', async (req, res) => {
       success: true,
       data: { analysis }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error analyzing risk:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Risk analizi yapılamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Risk analizi yapılamadı'
     });
   }
 });
@@ -379,11 +389,11 @@ router.get('/student-context/:studentId', async (req, res) => {
       success: true,
       data: { context }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting student context:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Öğrenci bağlamı alınamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Öğrenci bağlamı alınamadı'
     });
   }
 });

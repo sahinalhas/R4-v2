@@ -45,7 +45,7 @@ export default function ExcelLoader() {
       const buf = await file.arrayBuffer();
       const wb = read(buf, { type: 'array', codepage: 65001 });
       const sheet = wb.Sheets[wb.SheetNames[0]];
-      const rows: any[][] = utils.sheet_to_json(sheet, { header: 1, raw: false });
+      const rows: unknown[][] = utils.sheet_to_json(sheet, { header: 1, raw: false });
       
       if (!rows || rows.length === 0) {
         toast.error("Excel dosyası boş");

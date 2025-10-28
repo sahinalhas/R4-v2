@@ -10,7 +10,22 @@ import type {
   SessionHistory
 } from '../types/index.js';
 
-let statements: any = null;
+interface AnalyticsStatements {
+  getOverallStats: any;
+  getTimeSeriesDaily: any;
+  getTimeSeriesWeekly: any;
+  getTimeSeriesMonthly: any;
+  getTopicAnalysis: any;
+  getParticipantTypeAnalysis: any;
+  getClassAnalysis: any;
+  getSessionModeAnalysis: any;
+  getStudentSessionCount: any;
+  getStudentLastSession: any;
+  getStudentTopics: any;
+  getStudentHistory: any;
+}
+
+let statements: AnalyticsStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -196,7 +211,7 @@ function ensureInitialized(): void {
 
 export function getOverallStats(): OverallStats {
   ensureInitialized();
-  const result = statements.getOverallStats.get();
+  const result = statements!.getOverallStats.get();
   
   return {
     totalSessions: result.totalSessions || 0,
@@ -223,20 +238,20 @@ export function getTimeSeriesData(
   let statement;
   switch (period) {
     case 'daily':
-      statement = statements.getTimeSeriesDaily;
+      statement = statements!.getTimeSeriesDaily;
       break;
     case 'weekly':
-      statement = statements.getTimeSeriesWeekly;
+      statement = statements!.getTimeSeriesWeekly;
       break;
     case 'monthly':
-      statement = statements.getTimeSeriesMonthly;
+      statement = statements!.getTimeSeriesMonthly;
       break;
     default:
-      statement = statements.getTimeSeriesDaily;
+      statement = statements!.getTimeSeriesDaily;
   }
   
   const results = statement.all(startDate, endDate);
-  return results.map((row: any) => ({
+  return results.map((row: Record<string, any>) => ({
     date: row.date,
     count: row.count || 0,
     completed: row.completed || 0,
@@ -246,9 +261,9 @@ export function getTimeSeriesData(
 
 export function getTopicAnalysis(): TopicAnalysis[] {
   ensureInitialized();
-  const results = statements.getTopicAnalysis.all();
+  const results = statements!.getTopicAnalysis.all();
   
-  return results.map((row: any) => ({
+  return results.map((row: Record<string, any>) => ({
     topic: row.topic,
     count: row.count || 0,
     avgDuration: row.avgDuration || 0
@@ -257,9 +272,9 @@ export function getTopicAnalysis(): TopicAnalysis[] {
 
 export function getParticipantTypeAnalysis(): ParticipantAnalysis[] {
   ensureInitialized();
-  const results = statements.getParticipantTypeAnalysis.all();
+  const results = statements!.getParticipantTypeAnalysis.all();
   
-  return results.map((row: any) => ({
+  return results.map((row: Record<string, any>) => ({
     type: row.type,
     count: row.count || 0,
     percentage: row.percentage || 0
@@ -268,9 +283,9 @@ export function getParticipantTypeAnalysis(): ParticipantAnalysis[] {
 
 export function getClassAnalysis(): ClassAnalysis[] {
   ensureInitialized();
-  const results = statements.getClassAnalysis.all();
+  const results = statements!.getClassAnalysis.all();
   
-  return results.map((row: any) => ({
+  return results.map((row: Record<string, any>) => ({
     className: row.className,
     count: row.count || 0
   }));
@@ -278,9 +293,9 @@ export function getClassAnalysis(): ClassAnalysis[] {
 
 export function getSessionModeAnalysis(): SessionModeAnalysis[] {
   ensureInitialized();
-  const results = statements.getSessionModeAnalysis.all();
+  const results = statements!.getSessionModeAnalysis.all();
   
-  return results.map((row: any) => ({
+  return results.map((row: Record<string, any>) => ({
     mode: row.mode,
     count: row.count || 0,
     percentage: row.percentage || 0
@@ -290,16 +305,16 @@ export function getSessionModeAnalysis(): SessionModeAnalysis[] {
 export function getStudentSessionStats(studentId: string): StudentSessionStats {
   ensureInitialized();
   
-  const countResult = statements.getStudentSessionCount.get(studentId);
-  const lastSessionResult = statements.getStudentLastSession.get(studentId);
-  const topicsResults = statements.getStudentTopics.all(studentId);
-  const historyResults = statements.getStudentHistory.all(studentId);
+  const countResult = statements!.getStudentSessionCount.get(studentId);
+  const lastSessionResult = statements!.getStudentLastSession.get(studentId);
+  const topicsResults = statements!.getStudentTopics.all(studentId);
+  const historyResults = statements!.getStudentHistory.all(studentId);
   
   return {
     totalSessions: countResult?.totalSessions || 0,
     lastSessionDate: lastSessionResult?.lastSessionDate || null,
-    topics: topicsResults.map((row: any) => row.topic),
-    history: historyResults.map((row: any) => ({
+    topics: topicsResults.map((row: Record<string, any>) => row.topic),
+    history: historyResults.map((row: Record<string, any>) => ({
       sessionId: row.sessionId,
       sessionDate: row.sessionDate,
       topic: row.topic,

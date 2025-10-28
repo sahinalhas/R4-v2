@@ -338,7 +338,7 @@ JSON formatında döndür (BEPReport tipine uygun)
     studentIds: string[],
     reportType: 'progress' | 'summary'
   ): Promise<any[]> {
-    const reports: any[] = [];
+    const reports: unknown[] = [];
 
     for (const studentId of studentIds) {
       try {

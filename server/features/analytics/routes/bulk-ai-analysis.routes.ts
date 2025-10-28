@@ -20,11 +20,11 @@ router.get('/classes', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Class comparison error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Sınıf karşılaştırması başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Sınıf karşılaştırması başarısız'
     });
   }
 });
@@ -41,11 +41,11 @@ router.get('/school-wide', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('School-wide analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Okul geneli analiz başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Okul geneli analiz başarısız'
     });
   }
 });
@@ -62,11 +62,11 @@ router.get('/early-warning', async (req, res) => {
       success: true,
       data: report
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Early warning report error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Erken uyarı raporu oluşturulamadı'
+      error: error instanceof Error ? error.message : String(error) || 'Erken uyarı raporu oluşturulamadı'
     });
   }
 });
@@ -94,11 +94,11 @@ router.get('/trends/:timeRange', async (req, res) => {
       success: true,
       data: analysis
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Trend analysis error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Trend analizi başarısız'
+      error: error instanceof Error ? error.message : String(error) || 'Trend analizi başarısız'
     });
   }
 });

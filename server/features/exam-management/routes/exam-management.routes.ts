@@ -90,9 +90,9 @@ export const updateExamSession: RequestHandler = (req, res) => {
     
     const session = examSessionsRepo.updateExamSession(id, input);
     res.json({ success: true, data: session, message: 'Deneme sınavı güncellendi' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating exam session:', error);
-    if (error.message.includes('not found')) {
+    if (error instanceof Error ? error.message : String(error).includes('not found')) {
       return res.status(404).json({ success: false, error: 'Deneme sınavı bulunamadı' });
     }
     res.status(500).json({ success: false, error: 'Deneme sınavı güncellenemedi' });
@@ -156,9 +156,9 @@ export const createExamResult: RequestHandler = (req, res) => {
     
     const result = examResultsRepo.createExamResult(input);
     res.json({ success: true, data: result, message: 'Sonuç kaydedildi' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating exam result:', error);
-    if (error.message.includes('already exists')) {
+    if (error instanceof Error ? error.message : String(error).includes('already exists')) {
       return res.status(409).json({ success: false, error: 'Bu sonuç zaten mevcut' });
     }
     res.status(500).json({ success: false, error: 'Sonuç kaydedilemedi' });
@@ -214,9 +214,9 @@ export const updateExamResult: RequestHandler = (req, res) => {
     
     const result = examResultsRepo.updateExamResult(id, input);
     res.json({ success: true, data: result, message: 'Sonuç güncellendi' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating exam result:', error);
-    if (error.message.includes('not found')) {
+    if (error instanceof Error ? error.message : String(error).includes('not found')) {
       return res.status(404).json({ success: false, error: 'Sonuç bulunamadı' });
     }
     res.status(500).json({ success: false, error: 'Sonuç güncellenemedi' });
@@ -378,9 +378,9 @@ export const updateSchoolExam: RequestHandler = (req, res) => {
     
     const result = schoolExamsRepo.updateSchoolExamResult(id, input);
     res.json({ success: true, data: result, message: 'Okul sınav sonucu güncellendi' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating school exam result:', error);
-    if (error.message.includes('not found')) {
+    if (error instanceof Error ? error.message : String(error).includes('not found')) {
       return res.status(404).json({ success: false, error: 'Sonuç bulunamadı' });
     }
     res.status(500).json({ success: false, error: 'Okul sınav sonucu güncellenemedi' });

@@ -13,8 +13,8 @@ export function useSurveyDistributions() {
       setLoading(true);
       const data = await surveyService.getDistributions(signal);
       setDistributions(data);
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
       console.error("Error loading survey distributions:", error);

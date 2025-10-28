@@ -97,22 +97,22 @@ class AIErrorHandlerService {
     fallbackUsed: boolean
   ): AIErrorSeverity {
     // API anahtarı veya kimlik doğrulama hataları
-    if (error.message.includes('API key') || 
-        error.message.includes('authentication') ||
-        error.message.includes('unauthorized')) {
+    if (error instanceof Error ? error.message : String(error).includes('API key') || 
+        error instanceof Error ? error.message : String(error).includes('authentication') ||
+        error instanceof Error ? error.message : String(error).includes('unauthorized')) {
       return 'CRITICAL';
     }
 
     // Rate limit hataları
-    if (error.message.includes('rate limit') || 
-        error.message.includes('quota exceeded')) {
+    if (error instanceof Error ? error.message : String(error).includes('rate limit') || 
+        error instanceof Error ? error.message : String(error).includes('quota exceeded')) {
       return 'HIGH';
     }
 
     // Network hataları
-    if (error.message.includes('ECONNREFUSED') ||
-        error.message.includes('ETIMEDOUT') ||
-        error.message.includes('network')) {
+    if (error instanceof Error ? error.message : String(error).includes('ECONNREFUSED') ||
+        error instanceof Error ? error.message : String(error).includes('ETIMEDOUT') ||
+        error instanceof Error ? error.message : String(error).includes('network')) {
       return 'MEDIUM';
     }
 
@@ -160,7 +160,7 @@ ${severityEmoji[severity]} AI SERVICE ERROR [${severity}]
 🔧 Provider: ${context.provider}${context.model ? ` (${context.model})` : ''}
 ⚙️  Operation: ${context.operation}
 ${context.studentId ? `👤 Student ID: ${context.studentId}` : ''}
-💥 Error: ${error.name}: ${error.message}
+💥 Error: ${error.name}: ${error instanceof Error ? error.message : String(error)}
 ${error.stack ? `📍 Stack: ${error.stack.split('\n').slice(0, 3).join('\n')}` : ''}
 ${fallbackUsed ? '🔄 Fallback: ✅ Used' : '🔄 Fallback: ❌ Not Available'}
 ${context.additionalData ? `📊 Additional: ${JSON.stringify(context.additionalData, null, 2)}` : ''}
@@ -189,7 +189,7 @@ AI servisi hatası tespit edildi:
 ⚙️ İşlem: ${context.operation}
 ${context.studentId ? `👤 Öğrenci: ${context.studentId}` : ''}
 
-💥 Hata: ${error.message}
+💥 Hata: ${error instanceof Error ? error.message : String(error)}
 
 🕐 Zaman: ${timestamp}
 

@@ -165,11 +165,11 @@ export default function ExamManagementPage() {
       const result = await importExcel.mutateAsync({ sessionId, file });
       toast.success(result.message || 'Dosya başarıyla yüklendi');
       return { success: true, message: result.message || 'İçe aktarma başarılı' };
-    } catch (error: any) {
-      toast.error(error.message || 'Dosya yüklenemedi');
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Dosya yüklenemedi');
       return {
         success: false,
-        message: error.message || 'Bir hata oluştu',
+        message: error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Bir hata oluştu',
       };
     }
   };

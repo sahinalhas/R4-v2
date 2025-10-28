@@ -47,7 +47,7 @@ function parseExamResult(result: any): any {
   };
 }
 
-export function getExamResultsByStudent(studentId: string): any[] {
+export function getExamResultsByStudent(studentId: string): unknown[] {
   try {
     ensureInitialized();
     const results = statements.getExamResultsByStudent.all(studentId);
@@ -58,7 +58,7 @@ export function getExamResultsByStudent(studentId: string): any[] {
   }
 }
 
-export function getExamResultsByType(studentId: string, examType: string): any[] {
+export function getExamResultsByType(studentId: string, examType: string): unknown[] {
   try {
     ensureInitialized();
     const results = statements.getExamResultsByType.all(studentId, examType);

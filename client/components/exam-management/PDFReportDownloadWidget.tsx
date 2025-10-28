@@ -51,7 +51,7 @@ export function PDFReportDownloadWidget({ studentId, examTypes, studentName }: P
       toast.success('Rapor başarıyla indirildi');
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Rapor indirilemedi');
+      toast.error(error instanceof Error ? error instanceof Error ? error.message : String(error) : 'Rapor indirilemedi');
     },
   });
 

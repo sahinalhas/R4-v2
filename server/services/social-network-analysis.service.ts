@@ -260,7 +260,7 @@ export class SocialNetworkAnalysisService {
   }
 
   private async generateSocialInsights(studentId: string, relationships: any, metrics: any) {
-    const insights: any[] = [];
+    const insights: unknown[] = [];
 
     if (metrics.isolationRisk === 'CRITICAL' || metrics.isolationRisk === 'HIGH') {
       insights.push({
@@ -367,7 +367,7 @@ export class SocialNetworkAnalysisService {
       AND pr.relationshipStrength >= 5
     `).all(className) as any[];
 
-    const clusters: any[] = [];
+    const clusters: unknown[] = [];
     const processed = new Set<string>();
 
     relationships.forEach(rel => {
@@ -387,7 +387,7 @@ export class SocialNetworkAnalysisService {
     return clusters;
   }
 
-  private findCluster(startId: string, relationships: any[], processed: Set<string>): Set<string> {
+  private findCluster(startId: string, relationships: unknown[], processed: Set<string>): Set<string> {
     const cluster = new Set<string>([startId]);
     const toProcess = [startId];
     processed.add(startId);
@@ -409,7 +409,7 @@ export class SocialNetworkAnalysisService {
     return cluster;
   }
 
-  private calculateClusterCohesion(members: string[], relationships: any[]): number {
+  private calculateClusterCohesion(members: string[], relationships: unknown[]): number {
     // Guard against empty or single-member clusters
     if (members.length <= 1) {
       return 0;

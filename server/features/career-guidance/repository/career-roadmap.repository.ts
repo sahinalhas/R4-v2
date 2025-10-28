@@ -67,7 +67,7 @@ export class CareerRoadmapRepository {
 
   updateRoadmap(id: string, updates: Partial<CareerRoadmap>): void {
     const fields: string[] = [];
-    const values: any[] = [];
+    const values: unknown[] = [];
 
     if (updates.currentMatchScore !== undefined) {
       fields.push('currentMatchScore = ?');

@@ -25,7 +25,7 @@ export interface AIReadySessionData {
   actions: {
     followUpNeeded: boolean;
     followUpPlan?: string;
-    actionItems: any[];
+    actionItems: unknown[];
   };
   metadata: {
     studentId?: string;
