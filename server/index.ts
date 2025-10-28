@@ -87,9 +87,15 @@ export function createServer() {
     
     const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
     const isGetRequest = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
+    const isViteHMR = req.path.includes('/@vite') || req.path.includes('/__vite') || req.path.includes('/node_modules');
+    const isAPIRequest = req.path.startsWith('/api/');
     
-    // Skip CSRF protection for public endpoints or safe methods
-    if (isPublicEndpoint || isGetRequest) {
+    // Skip CSRF protection for:
+    // - Public endpoints
+    // - Safe HTTP methods (GET, HEAD, OPTIONS)
+    // - Vite dev server requests (HMR, module imports, etc.)
+    // - Non-API requests (static files, etc.)
+    if (isPublicEndpoint || isGetRequest || isViteHMR || !isAPIRequest) {
       return next();
     }
     
