@@ -91,17 +91,17 @@ function initializeCsrf() {
   return csrfInstance;
 }
 
-const generateCsrfToken = (req: Request, res: Response, options?: any) => {
+function generateCsrfToken(req: Request, res: Response, options?: any) {
   return initializeCsrf().generateCsrfToken(req, res, options);
-};
+}
 
-const doubleCsrfProtection = (req: Request, res: Response, next: NextFunction) => {
+function doubleCsrfProtection(req: Request, res: Response, next: NextFunction) {
   return initializeCsrf().doubleCsrfProtection(req, res, next);
-};
+}
 
-const getInvalidCsrfTokenError = () => {
+function getInvalidCsrfTokenError() {
   return initializeCsrf().invalidCsrfTokenError;
-};
+}
 
 export { generateCsrfToken, doubleCsrfProtection, getInvalidCsrfTokenError as invalidCsrfTokenError, ensureCsrfSession };
 
