@@ -39,7 +39,7 @@ export const getStudents: RequestHandler<
 
 export const saveStudentHandler: RequestHandler<
   Record<string, never>,
-  GetStudentsResponse
+  ApiSuccessResponse<StudentResponse> | ApiErrorResponse
 > = (req, res) => {
   try {
     const student = req.body;
@@ -53,9 +53,16 @@ export const saveStudentHandler: RequestHandler<
     };
     
     studentsService.createOrUpdateStudent(mappedStudent);
+    const responseStudent: StudentResponse = {
+      ...mappedStudent,
+      ad: mappedStudent.name,
+      soyad: mappedStudent.surname,
+      class: mappedStudent.class,
+      cinsiyet: mappedStudent.gender,
+    };
     res.json(
       createSuccessResponse(
-        mappedStudent,
+        responseStudent,
         SUCCESS_MESSAGES.STUDENT_SAVED
       )
     );

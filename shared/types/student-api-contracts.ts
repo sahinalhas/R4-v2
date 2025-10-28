@@ -56,7 +56,7 @@ export type GetPaginatedStudentsResponse = PaginatedResponse<StudentResponse>;
 export interface StudentFilterParams extends FilterParams {
   class?: string;
   status?: 'active' | 'inactive' | 'graduated';
-  risk?: 'Düşük' | 'Orta' | 'Yüksük';
+  risk?: 'Düşük' | 'Orta' | 'Yüksek';
   gender?: 'K' | 'E';
   enrollmentYear?: number;
   hasAvatar?: boolean;

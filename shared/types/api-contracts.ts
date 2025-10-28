@@ -14,7 +14,7 @@
 
 export interface ApiSuccessResponse<T = unknown> {
   success: true;
-  data: T;
+  data?: T;
   message?: string;
   timestamp?: string;
 }
@@ -205,15 +205,23 @@ export interface AuditFields extends TimestampFields {
  */
 
 export function createSuccessResponse<T>(
-  data: T,
+  data?: T,
   message?: string
 ): ApiSuccessResponse<T> {
-  return {
+  const response: ApiSuccessResponse<T> = {
     success: true,
-    data,
-    message,
     timestamp: new Date().toISOString(),
   };
+  
+  if (data !== undefined) {
+    response.data = data;
+  }
+  
+  if (message) {
+    response.message = message;
+  }
+  
+  return response;
 }
 
 export function createErrorResponse(
