@@ -12,6 +12,13 @@ Rehber360 is a comprehensive Turkish-language student guidance and management sy
 - Background schedulers configured (analytics, auto-complete, daily action plans)
 - Deployment configuration set up for production (VM target with build and start scripts)
 - AI Provider initialized with Ollama (llama3 model)
+- **Rate Limiting Görev 6 eksiklikleri tamamlandı:**
+  - Excel template/export endpoint'lerine exportRateLimiter eklendi
+  - PDF report generation endpoint'ine exportRateLimiter eklendi
+  - Excel import bulkOperationsRateLimiter ile güncellendi
+  - Auth session endpoint'lerine authRateLimiter eklendi
+  - Login endpoint CSRF protection'dan muaf tutuldu (public endpoint)
+  - CSRF token sorunları çözüldü
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

@@ -59,9 +59,6 @@ export function createServer() {
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
 
-  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
-  app.use(doubleCsrfProtection);
-
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
@@ -77,6 +74,23 @@ export function createServer() {
       console.error('CSRF token generation failed:', error);
       res.status(500).json({ error: 'Failed to generate CSRF token' });
     }
+  });
+
+  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
+  // Exceptions: Public endpoints like login don't need CSRF protection
+  app.use((req, res, next) => {
+    const publicEndpoints = [
+      '/api/users/login',
+      '/api/auth/demo-user',
+    ];
+    
+    const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
+    
+    if (isPublicEndpoint) {
+      return next();
+    }
+    
+    doubleCsrfProtection(req, res, next);
   });
 
   // ========================================================================
