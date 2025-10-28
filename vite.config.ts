@@ -95,10 +95,15 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      const app = createServer();
-
-      // Add Express app as middleware to Vite dev server
-      server.middlewares.use(app);
+      // Lazy-load Express app to avoid CSRF initialization during config
+      let expressApp: any = null;
+      
+      server.middlewares.use((req, res, next) => {
+        if (!expressApp) {
+          expressApp = createServer();
+        }
+        expressApp(req, res, next);
+      });
       
       // Start analytics scheduler in development mode
       import('./server/features/analytics/services/analytics-scheduler.service.js')
