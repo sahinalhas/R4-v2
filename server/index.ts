@@ -113,9 +113,10 @@ export function createServer() {
 }
 
 // Start Express on port 3000 (Vite will proxy to this)
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 const app = createServer();
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Express API server running on port ${PORT}`);
+  console.log(`\n🚀 Express API server running on http://0.0.0.0:${PORT}`);
+  console.log(`📡 Ready to receive proxied requests from Vite\n`);
 });
