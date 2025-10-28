@@ -21,6 +21,12 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5000,
     strictPort: true,
+    // Allow Replit domains
+    allowedHosts: [
+      '.replit.dev',
+      '.repl.co',
+      'localhost',
+    ],
     // Proxy API requests to Express server
     proxy: {
       '/api': {
