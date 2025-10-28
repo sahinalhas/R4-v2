@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { simpleRateLimit } from '../../middleware/validation.js';
+import { authRateLimiter } from '../../middleware/rate-limit.middleware.js';
 import * as usersRoutes from './routes/users.routes.js';
 
 const router = Router();
 
-router.post('/login', simpleRateLimit(10, 15 * 60 * 1000), usersRoutes.login);
+router.post('/login', authRateLimiter, usersRoutes.login);
 router.post('/', simpleRateLimit(10, 60 * 60 * 1000), usersRoutes.createUser);
 router.get('/', simpleRateLimit(100, 15 * 60 * 1000), usersRoutes.getAllUsers);
 router.get('/count', simpleRateLimit(100, 15 * 60 * 1000), usersRoutes.getUsersCount);

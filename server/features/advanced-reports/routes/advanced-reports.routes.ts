@@ -7,6 +7,7 @@ import { Router, Request, Response } from 'express';
 import { advancedReportsService } from '../services/advanced-reports.service.js';
 import { exportService } from '../services/export.service.js';
 import { simpleRateLimit } from '../../../middleware/validation.js';
+import { exportRateLimiter } from '../../../middleware/rate-limit.middleware.js';
 
 const router = Router();
 
@@ -130,7 +131,7 @@ router.get('/available-classes', simpleRateLimit(100, 60 * 1000), async (req: Re
  * POST /api/advanced-reports/export/excel
  * Excel rapor export
  */
-router.post('/export/excel', simpleRateLimit(20, 60 * 1000), async (req: Request, res: Response) => {
+router.post('/export/excel', exportRateLimiter, async (req: Request, res: Response) => {
   try {
     const { generatedBy, includeAIAnalysis, classNames, period, startDate, endDate, anonymize } = req.body;
     

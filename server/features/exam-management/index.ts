@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { simpleRateLimit } from '../../middleware/validation.js';
+import { exportRateLimiter } from '../../middleware/rate-limit.middleware.js';
 import * as routes from './routes/exam-management.routes.js';
 
 const router = Router();
@@ -27,7 +28,7 @@ router.get('/statistics/student/:studentId', routes.getStudentStatistics);
 
 router.get('/excel/template/:examTypeId', routes.downloadExcelTemplate);
 router.post('/excel/import', simpleRateLimit(10, 60 * 60 * 1000), ...routes.importExcelResults);
-router.get('/excel/export/:sessionId', routes.exportExcelResults);
+router.get('/excel/export/:sessionId', exportRateLimiter, routes.exportExcelResults);
 
 router.get('/school-exams/student/:studentId', routes.getSchoolExamsByStudent);
 router.post('/school-exams', simpleRateLimit(100, 60 * 60 * 1000), routes.createSchoolExam);
