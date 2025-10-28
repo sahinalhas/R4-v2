@@ -15,7 +15,7 @@ import StudentInsightCard from "../form-widgets/StudentInsightCard";
 import { getStudentSessionHistory } from "@/lib/api/counseling.api";
 
 interface ParticipantStepProps {
-  form: UseFormReturn<IndividualSessionFormValues | GroupSessionFormValues>;
+  form: UseFormReturn<any>;
   students: Student[];
   topics: CounselingTopic[];
   sessionType: 'individual' | 'group';

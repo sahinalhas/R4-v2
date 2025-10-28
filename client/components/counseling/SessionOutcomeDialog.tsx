@@ -39,7 +39,7 @@ export default function SessionOutcomeDialog({
   const [rating, setRating] = useState<number | undefined>(initialData?.effectivenessRating);
 
   const form = useForm<OutcomeFormValues>({
-    resolver: zodResolver(outcomeSchema),
+    resolver: zodResolver(outcomeSchema) as any,
     defaultValues: {
       sessionId: session?.id || initialData?.sessionId || "",
       effectivenessRating: initialData?.effectivenessRating,

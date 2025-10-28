@@ -165,6 +165,7 @@ export interface Student {
   name: string;
   surname: string;
   class: string;
+  className?: string;
 }
 
 export interface ClassHour {

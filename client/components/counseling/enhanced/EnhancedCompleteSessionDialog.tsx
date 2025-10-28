@@ -58,7 +58,7 @@ export default function EnhancedCompleteSessionDialog({
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const form = useForm<CompleteSessionFormValues>({
-    resolver: zodResolver(completeSessionSchema),
+    resolver: zodResolver(completeSessionSchema) as any,
     mode: "onBlur",
     defaultValues: {
       exitTime: new Date().toTimeString().slice(0, 5),

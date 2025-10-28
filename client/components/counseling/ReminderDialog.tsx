@@ -48,7 +48,7 @@ export default function ReminderDialog({
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
 
   const form = useForm<ReminderFormValues>({
-    resolver: zodResolver(reminderSchema),
+    resolver: zodResolver(reminderSchema) as any,
     defaultValues: {
       reminderType: initialData?.reminderType || "planned_session",
       reminderDate: initialData?.reminderDate || new Date(),

@@ -18,7 +18,7 @@ import { SESSION_MODES } from "@shared/constants/common.constants";
 import type { IndividualSessionFormValues, GroupSessionFormValues } from "../types";
 
 interface SessionDetailsStepProps {
-  form: UseFormReturn<IndividualSessionFormValues | GroupSessionFormValues>;
+  form: UseFormReturn<any>;
 }
 
 export default function SessionDetailsStep({ form }: SessionDetailsStepProps) {

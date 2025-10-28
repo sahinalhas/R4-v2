@@ -34,11 +34,13 @@ export default function ActionItemsManager({ items, onItemsChange }: ActionItems
     setNewItem("");
   };
 
-  const removeItem = (id: string) => {
+  const removeItem = (id: string | undefined) => {
+    if (!id) return;
     onItemsChange(items.filter(item => item.id !== id));
   };
 
-  const updateItem = (id: string, updates: Partial<ActionItem>) => {
+  const updateItem = (id: string | undefined, updates: Partial<ActionItem>) => {
+    if (!id) return;
     onItemsChange(items.map(item => 
       item.id === id ? { ...item, ...updates } : item
     ));

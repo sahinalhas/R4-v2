@@ -71,7 +71,7 @@ export default function PriorityStudentsWidget() {
               Öneriler
             </div>
             <ul className="text-sm space-y-1 text-muted-foreground">
-              {recommendations.map((rec, idx) => (
+              {recommendations.map((rec: string, idx: number) => (
                 <li key={idx} className="flex items-start gap-2">
                   <span className="text-orange-600 dark:text-orange-400 mt-0.5">•</span>
                   <span>{rec}</span>
@@ -91,7 +91,7 @@ export default function PriorityStudentsWidget() {
                 </p>
               </div>
             ) : (
-              priorities.map((student) => (
+              priorities.map((student: any) => (
                 <Card key={student.studentId} className="hover:bg-accent/50 transition-colors">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between gap-3">

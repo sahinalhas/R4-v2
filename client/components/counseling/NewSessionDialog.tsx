@@ -45,7 +45,7 @@ export default function NewSessionDialog({
   const currentTime = now.toTimeString().slice(0, 5);
 
   const individualForm = useForm<IndividualSessionFormValues>({
-    resolver: zodResolver(individualSessionSchema),
+    resolver: zodResolver(individualSessionSchema) as any,
     defaultValues: {
       studentId: "",
       topic: "",
@@ -61,7 +61,7 @@ export default function NewSessionDialog({
   });
 
   const groupForm = useForm<GroupSessionFormValues>({
-    resolver: zodResolver(groupSessionSchema),
+    resolver: zodResolver(groupSessionSchema) as any,
     defaultValues: {
       groupName: "",
       studentIds: [],

@@ -5,10 +5,16 @@ import { Brain, AlertTriangle, CheckCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/api-client';
 
+interface AIStatus {
+  isActive: boolean;
+  providerName?: string;
+  model?: string;
+}
+
 export function AIStatusBanner() {
-  const { data: status } = useQuery({
+  const { data: status } = useQuery<AIStatus>({
     queryKey: ['ai-status'],
-    queryFn: () => apiClient.get('/api/ai-status/status', { showErrorToast: false }),
+    queryFn: () => apiClient.get<AIStatus>('/api/ai-status/status', { showErrorToast: false }),
     refetchInterval: 30000
   });
 

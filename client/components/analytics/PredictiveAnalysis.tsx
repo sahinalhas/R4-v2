@@ -60,6 +60,7 @@ interface PredictionResult {
 
 interface ClassPrediction {
   class: string;
+  className?: string;
   totalStudents: number;
   highSuccessProbability: number; // >80%
   mediumSuccessProbability: number; // 50-80%
