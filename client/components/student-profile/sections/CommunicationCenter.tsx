@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { getNotesByStudent } from "@/lib/api/notes.api";
 import { getParentMeetingsByStudent, getHomeVisitsByStudent, getFamilyParticipationByStudent } from "@/lib/api/family.api";
 import { format } from "date-fns";
-import { tr } from "date-fns/locale";
+import { tr } from "date-fns/locale";ns/locale";
 
 interface CommunicationCenterProps {
   studentId: string;

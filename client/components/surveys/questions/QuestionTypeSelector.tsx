@@ -61,4 +61,4 @@ export function QuestionTypeSelector({ onTypeSelect }: QuestionTypeSelectorProps
   );
 }
 
-export { questionTypeIcons, questionTypeLabels };
+export { questionTypeIcons, questionTypeLabels };TypeLabels };

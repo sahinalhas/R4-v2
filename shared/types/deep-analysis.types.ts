@@ -27,6 +27,11 @@ export interface StudentTrajectory {
     nextMonthOutlook: 'İYİLEŞME' | 'STABIL' | 'RİSK_ARTIŞI';
     confidence: number; // 0-100
     factors: string[];
+  };
+  
+  interventionPriority: 'ACİL' | 'YÜKSEK' | 'ORTA' | 'DÜŞÜK';
+  recommendedActions: string[];
+}
     recommendedInterventions: string[];
   };
 }

@@ -57,7 +57,7 @@ export default [
         { allowConstantExport: true },
       ],
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-require-imports': 'warn',
       'react/prop-types': 'off',
       'no-console': 'off', // Allow console in development

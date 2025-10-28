@@ -137,7 +137,7 @@ export function QuestionEditor({
         <FormField
           control={control}
           name={`questions.${questionIndex}.required`}
-          render={({ field }) => (
+          render={({ field }: { field: { value: boolean; onChange: (value: boolean) => void } }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
               <div className="space-y-0.5">
                 <FormLabel>Zorunlu Soru</FormLabel>

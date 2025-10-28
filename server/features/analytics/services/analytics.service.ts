@@ -7,6 +7,14 @@ import { getCachedData, setCachedData, cleanupExpiredCache, invalidateCache } fr
 
 // Define a type for the expected analytics data structure for better type safety
 interface AnalyticsData {
+  studentId: string;
+  riskLevel?: string;
+  academicPerformance?: number;
+  attendanceRate?: number;
+  behaviorScore?: number;
+  [key: string]: unknown;
+}
+interface AnalyticsData {
   totalStudents: number;
   riskDistribution: {
     düşük: number;

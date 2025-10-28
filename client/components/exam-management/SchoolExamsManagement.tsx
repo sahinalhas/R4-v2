@@ -62,6 +62,8 @@ type FormValues = z.infer<typeof formSchema>;
 interface Student {
   id: string;
   name: string;
+  class?: string;
+  studentNumber?: string;ame: string;
 }
 
 interface SchoolExamsManagementProps {

@@ -54,7 +54,9 @@ export interface StudentDailyStatus {
   // Pattern tespitleri
   detectedPatterns?: string;
   
-  created_at: string;
+  createdAt: string;
+  updatedAt: string;
+}ated_at: string;
 }
 
 export interface ProactiveAlert {

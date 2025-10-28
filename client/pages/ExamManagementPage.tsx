@@ -36,6 +36,9 @@ import type {
 interface Student {
   id: string;
   name: string;
+  class?: string;
+  studentNumber?: string;
+  grade?: number;
 }
 
 function useStudents() {
