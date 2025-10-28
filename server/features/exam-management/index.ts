@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { simpleRateLimit } from '../../middleware/validation.js';
-import { exportRateLimiter } from '../../middleware/rate-limit.middleware.js';
+import { exportRateLimiter, bulkOperationsRateLimiter } from '../../middleware/rate-limit.middleware.js';
 import * as routes from './routes/exam-management.routes.js';
 
 const router = Router();
@@ -26,8 +26,8 @@ router.delete('/results/:id', simpleRateLimit(50, 60 * 60 * 1000), routes.delete
 router.get('/statistics/session/:sessionId', routes.getSessionStatistics);
 router.get('/statistics/student/:studentId', routes.getStudentStatistics);
 
-router.get('/excel/template/:examTypeId', routes.downloadExcelTemplate);
-router.post('/excel/import', simpleRateLimit(10, 60 * 60 * 1000), ...routes.importExcelResults);
+router.get('/excel/template/:examTypeId', exportRateLimiter, routes.downloadExcelTemplate);
+router.post('/excel/import', bulkOperationsRateLimiter, ...routes.importExcelResults);
 router.get('/excel/export/:sessionId', exportRateLimiter, routes.exportExcelResults);
 
 router.get('/school-exams/student/:studentId', routes.getSchoolExamsByStudent);
@@ -73,6 +73,6 @@ router.get('/alerts/unread', routes.getAllUnreadAlerts);
 router.put('/alerts/:id/read', routes.markAlertRead);
 
 router.get('/reports/detailed/:studentId/:examTypeId/data', routes.getDetailedReportData);
-router.get('/reports/detailed/:studentId/:examTypeId/pdf', routes.generateDetailedPDFReport);
+router.get('/reports/detailed/:studentId/:examTypeId/pdf', exportRateLimiter, routes.generateDetailedPDFReport);
 
 export default router;

@@ -300,8 +300,10 @@ Rehber360 projesinde yapılan kapsamlı mimari analiz sonucunda aşağıdaki kri
 1. ✅ `express-rate-limit` paketi yüklendi ve konfigüre edildi
 2. ✅ Farklı kategorilerde rate limiter'lar oluşturuldu:
    - AI endpoints: 10 req/min (AI Assistant, Deep Analysis, Advanced AI, Daily Insights, Bulk AI Analysis)
-   - Backup operations: 5 req/min (Database backup endpoints)
-   - Bulk operations: 10 req/15min (Students bulk, Surveys bulk)
+   - Export operations: 5 req/min (Excel/PDF downloads ve exports)
+   - Backup operations: 3 req/5min (Database backup endpoints)
+   - Bulk operations: 10 req/15min (Students bulk, Surveys bulk, Excel imports)
+   - Authentication: 5 req/15min (Login, session operations - brute force koruması)
    - General API: 100 req/min (Global baseline protection)
 3. ✅ Rate limiter'lar tüm kritik endpoint'lere uygulandı:
    - `/api/ai-assistant/*` → aiRateLimiter
@@ -309,11 +311,20 @@ Rehber360 projesinde yapılan kapsamlı mimari analiz sonucunda aşağıdaki kri
    - `/api/advanced-ai-analysis/*` → aiRateLimiter
    - `/api/daily-insights/*` → aiRateLimiter
    - `/api/bulk-analysis/*` → aiRateLimiter
+   - `/api/exam-management/excel/template/*` → exportRateLimiter (EKLENDI)
+   - `/api/exam-management/excel/export/*` → exportRateLimiter
+   - `/api/exam-management/reports/*/pdf` → exportRateLimiter (EKLENDI)
+   - `/api/exam-management/excel/import` → bulkOperationsRateLimiter (GÜNCELLENDİ)
+   - `/api/advanced-reports/export/excel` → exportRateLimiter
    - `/api/backup/*` → backupRateLimiter
    - `/api/students/bulk/*` → bulkOperationsRateLimiter
-   - `/api/surveys/bulk/*` → bulkOperationsRateLimiter
+   - `/api/surveys/survey-responses/import/*` → bulkOperationsRateLimiter
+   - `/api/users/login` → authRateLimiter
+   - `/api/auth/*` → authRateLimiter (EKLENDI)
    - `/api/*` (global) → generalApiRateLimiter
 4. ✅ Custom error messages ve standardized response handler eklendi
+5. ✅ Eksik export/import endpoint'lerine rate limiting eklendi
+6. ✅ Authentication endpoint'lerine brute force koruması eklendi
 
 **Etkilenen Dosyalar:**
 - ✅ `server/middleware/rate-limit.middleware.ts` (YENİ) - Tüm rate limiter tanımları
@@ -323,26 +334,34 @@ Rehber360 projesinde yapılan kapsamlı mimari analiz sonucunda aşağıdaki kri
 - ✅ `server/features/advanced-ai-analysis/index.ts` - AI rate limiter uygulandı
 - ✅ `server/features/daily-insights/index.ts` - AI rate limiter uygulandı
 - ✅ `server/features/analytics/routes/bulk-ai-analysis.routes.ts` - AI rate limiter uygulandı
+- ✅ `server/features/exam-management/index.ts` - Export ve bulk rate limiter'lar eklendi
+- ✅ `server/features/advanced-reports/routes/advanced-reports.routes.ts` - Export rate limiter uygulandı
 - ✅ `server/features/backup/routes/backup.routes.ts` - Backup rate limiter uygulandı
 - ✅ `server/features/students/index.ts` - Bulk operations rate limiter uygulandı
 - ✅ `server/features/surveys/index.ts` - Bulk operations rate limiter uygulandı
+- ✅ `server/features/users/index.ts` - Auth rate limiter uygulandı
+- ✅ `server/features/auth/index.ts` - Auth rate limiter uygulandı (session operations)
 
 **Güvenlik İyileştirmeleri:**
 - ✅ DoS attack protection - Rate limiting prevents abuse
 - ✅ Cost control for AI API calls - 10 requests per minute limit
 - ✅ Resource exhaustion prevention - Backup and bulk operations throttled
+- ✅ Export flood protection - Excel/PDF download abuse prevention
+- ✅ Brute force protection - Authentication endpoints locked down (5 attempts/15min)
 - ✅ IP-based tracking with standardized error responses
 - ✅ Layered protection: specific endpoint limits + global API baseline
 
 **Başarı Kriteri:**
 - ✅ Rate limiter middleware hazır ve modüler
-- ✅ 10+ kritik endpoint korunuyor
+- ✅ 15+ kritik endpoint korunuyor (AI, Export, Bulk, Auth, Backup)
 - ✅ 429 Too Many Requests responses configured
+- ✅ Tüm export/import endpoint'leri korunuyor
+- ✅ Authentication brute force koruması aktif
 - ✅ Server başarıyla başlatıldı ve çalışıyor
 - ✅ LSP hataları temizlendi
 
 **Sonuç:**
-✨ **BAŞARILI!** Professional rate limiting sistemi başarıyla implement edildi. Tüm kritik endpoint'ler (AI, backup, bulk operations) artık DoS saldırılarına ve abuse'e karşı korunuyor. Global API rate limiter tüm endpoint'lere baseline koruma sağlıyor.
+✨ **BAŞARILI!** Professional rate limiting sistemi başarıyla implement edildi ve tamamlandı. Tüm kritik endpoint'ler (AI, export, backup, bulk operations, authentication) artık DoS saldırılarına, brute force attack'lere ve abuse'e karşı korunuyor. Global API rate limiter tüm endpoint'lere baseline koruma sağlıyor. Eksik kalan export/import endpoint'leri ve authentication endpoint'leri de korunma altına alındı.
 
 ---
 
