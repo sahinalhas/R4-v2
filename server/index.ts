@@ -75,33 +75,32 @@ export function createServer() {
   // Apply rate limiting to all /api routes
   app.use('/api', generalApiRateLimiter);
 
-  // CSRF Protection middleware - sadece mutation requests için
-  const csrfProtectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    // Public endpoints that don't need CSRF protection
-    const publicEndpoints = [
-      '/api/users/login',
-      '/api/auth/demo-user',
-      '/api/csrf-token',
-      '/api/ping',
-    ];
-    
-    const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
-    const isSafeMethod = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
-    
-    // Skip CSRF for public endpoints or safe methods
-    if (isPublicEndpoint || isSafeMethod) {
+  // CSRF Protection - modern approach
+  // 1. Safe methods (GET, HEAD, OPTIONS) don't need CSRF
+  // 2. Public endpoints are exempt
+  // 3. All other mutations require valid CSRF token
+  app.use('/api', (req: Request, res: Response, next: NextFunction) => {
+    // Safe HTTP methods don't need CSRF protection
+    if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
       return next();
     }
+
+    // Public mutation endpoints that don't need CSRF
+    const publicMutations = [
+      '/api/users/login',
+      '/api/auth/demo-user',
+    ];
     
-    // Ensure CSRF session exists before applying protection
+    if (publicMutations.includes(req.path)) {
+      return next();
+    }
+
+    // All other mutations need CSRF protection
     ensureCsrfSession(req, res, (err) => {
       if (err) return next(err);
       doubleCsrfProtection(req, res, next);
     });
-  };
-
-  // Apply CSRF protection to /api routes (after public endpoints are defined)
-  app.use('/api', csrfProtectionMiddleware);
+  });
 
   // ========================================================================
   // FEATURE REGISTRY - MODULAR ROUTES
