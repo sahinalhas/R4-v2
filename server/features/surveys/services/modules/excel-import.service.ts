@@ -3,6 +3,7 @@ import * as distributionsRepo from '../../repository/distributions.repository.js
 import * as questionsRepo from '../../repository/questions.repository.js';
 import * as responsesRepo from '../../repository/responses.repository.js';
 import { SurveyResponse, SurveyQuestion } from '../../types/surveys.types.js';
+import { sanitizeExcelData } from '../../../../utils/sanitization.js';
 
 export interface ExcelImportResult {
   success: boolean;
@@ -10,7 +11,7 @@ export interface ExcelImportResult {
   successCount: number;
   errorCount: number;
   errors: ExcelImportError[];
-  importedResponses: unknown[];
+  importedResponses: Partial<SurveyResponse>[];
 }
 
 export interface ExcelImportError {
@@ -25,7 +26,7 @@ export async function importSurveyResponsesFromExcel(
   fileBuffer: Buffer
 ): Promise<ExcelImportResult> {
   const errors: ExcelImportError[] = [];
-  const validResponses: unknown[] = [];
+  const validResponses: Partial<SurveyResponse>[] = [];
   let data: unknown[] = [];
 
   try {
@@ -107,13 +108,17 @@ export async function importSurveyResponsesFromExcel(
           continue;
         }
 
+        // Sanitize all data before saving
+        const sanitizedStudentInfo = sanitizeExcelData(responseData.studentInfo);
+        const sanitizedResponseData = sanitizeExcelData(responseData.responseData);
+
         // Prepare response for bulk save
-        const response: any = {
+        const response: Partial<SurveyResponse> = {
           id: `response_${distributionId}_${responseData.studentInfo.number}_${Date.now()}_${rowIndex}`,
           distributionId,
           studentId: responseData.studentInfo.number,
-          studentInfo: responseData.studentInfo,
-          responseData: responseData.responseData,
+          studentInfo: sanitizedStudentInfo as any,
+          responseData: sanitizedResponseData as any,
           submittedAt: new Date().toISOString(),
           submissionType: 'EXCEL_IMPORT',
           isComplete: true,

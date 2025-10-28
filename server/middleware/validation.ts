@@ -1,46 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import {
+  sanitizeString as sanitizeStringUtil,
+  sanitizeObject as sanitizeObjectUtil,
+  sanitizeAIPrompt as sanitizeAIPromptUtil,
+  sanitizeAIObject as sanitizeAIObjectUtil,
+} from '../utils/sanitization.js';
 
-// Input sanitization utility with comprehensive XSS protection
-export function sanitizeString(input: string): string {
-  if (typeof input !== 'string') return '';
-  
-  return input
-    .trim()
-    .replace(/[<>'"&]/g, (char) => {
-      // HTML entity encoding for dangerous characters
-      const entities: Record<string, string> = {
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#x27;',
-        '&': '&amp;'
-      };
-      return entities[char] || char;
-    })
-    .replace(/javascript:/gi, '') // Remove javascript: protocol
-    .replace(/on\w+\s*=/gi, '') // Remove event handlers like onclick=
-    .substring(0, 10000); // Limit length to prevent DoS
-}
-
-// Sanitize object recursively
-export function sanitizeObject<T extends Record<string, any>>(obj: T): T {
-  const sanitized: any = Array.isArray(obj) ? [] : {};
-  
-  for (const key in obj) {
-    const value = obj[key];
-    
-    if (typeof value === 'string') {
-      sanitized[key] = sanitizeString(value);
-    } else if (typeof value === 'object' && value !== null) {
-      sanitized[key] = sanitizeObject(value);
-    } else {
-      sanitized[key] = value;
-    }
-  }
-  
-  return sanitized as T;
-}
+// Re-export sanitization utilities for backward compatibility
+export const sanitizeString = sanitizeStringUtil;
+export const sanitizeObject = sanitizeObjectUtil;
+export const sanitizeAIPrompt = sanitizeAIPromptUtil;
+export const sanitizeAIPromptObject = sanitizeAIObjectUtil;
 
 // Middleware to sanitize request body
 export function sanitizeRequestBody(req: Request, res: Response, next: NextFunction) {
@@ -159,75 +130,17 @@ export function validateParams(allowedParams: string[]) {
   };
 }
 
-/**
- * AI Prompt Sanitization
- * Prompt injection saldırılarına karşı koruma sağlar
- */
-export function sanitizeAIPrompt(input: string): string {
-  if (typeof input !== 'string') return '';
-  
-  return input
-    .trim()
-    // HTML ve script tehditlerini temizle
-    .replace(/[<>]/g, '')
-    // Prompt injection pattern'lerini temizle
-    .replace(/ignore\s+(previous|all|above|prior)\s+(instructions?|prompts?|commands?)/gi, '')
-    .replace(/system\s*:\s*/gi, '')
-    .replace(/assistant\s*:\s*/gi, '')
-    .replace(/\[INST\]/gi, '')
-    .replace(/\[\/INST\]/gi, '')
-    .replace(/<\|.*?\|>/g, '')
-    // Rol değiştirme girişimlerini engelle
-    .replace(/you\s+are\s+(now|a|an)\s+/gi, '')
-    .replace(/act\s+as\s+(a|an)\s+/gi, '')
-    .replace(/pretend\s+(to\s+be|you\s+are)\s+/gi, '')
-    // Komut enjeksiyonunu engelle
-    .replace(/```[\s\S]*?```/g, '')
-    .replace(/exec\(/gi, '')
-    .replace(/eval\(/gi, '')
-    // Çok uzun girdileri sınırla (DoS önlemi)
-    .substring(0, 5000);
-}
-
-/**
- * AI Prompt için nesneyi sanitize et
- */
-export function sanitizeAIPromptObject<T extends Record<string, any>>(obj: T): T {
-  const sanitized: any = Array.isArray(obj) ? [] : {};
-  
-  for (const key in obj) {
-    const value = obj[key];
-    
-    if (typeof value === 'string') {
-      // AI prompt alanları için özel sanitizasyon
-      if (key.toLowerCase().includes('message') || 
-          key.toLowerCase().includes('prompt') ||
-          key.toLowerCase().includes('content') ||
-          key.toLowerCase().includes('query')) {
-        sanitized[key] = sanitizeAIPrompt(value);
-      } else {
-        sanitized[key] = sanitizeString(value);
-      }
-    } else if (typeof value === 'object' && value !== null) {
-      sanitized[key] = sanitizeAIPromptObject(value);
-    } else {
-      sanitized[key] = value;
-    }
-  }
-  
-  return sanitized as T;
-}
 
 /**
  * Middleware: AI endpoint'leri için özel sanitizasyon
  */
 export function sanitizeAIRequest(req: Request, res: Response, next: NextFunction) {
   if (req.body && typeof req.body === 'object') {
-    req.body = sanitizeAIPromptObject(req.body);
+    req.body = sanitizeAIObjectUtil(req.body);
   }
   
   if (req.query && typeof req.query === 'object') {
-    const sanitized = sanitizeAIPromptObject(req.query as any);
+    const sanitized = sanitizeAIObjectUtil(req.query as Record<string, any>);
     for (const key in req.query) {
       delete req.query[key];
     }

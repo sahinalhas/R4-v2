@@ -1,38 +1,7 @@
 import { RequestHandler } from "express";
-import multer from 'multer';
 import * as surveyService from '../../services/surveys.service.js';
 import { autoSyncHooks } from '../../../profile-sync/index.js';
-
-// File upload configuration with validation
-const upload = multer({ 
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB max
-    files: 1
-  },
-  fileFilter: (req, file, cb) => {
-    // Validate MIME type
-    const allowedMimes = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      'application/vnd.ms-excel', // .xls
-      'application/octet-stream' // Sometimes Excel files are sent as binary
-    ];
-    
-    if (allowedMimes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      // Also check file extension as fallback
-      const allowedExtensions = ['.xlsx', '.xls'];
-      const fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.')).toLowerCase();
-      
-      if (allowedExtensions.includes(fileExtension)) {
-        cb(null, true);
-      } else {
-        cb(new Error('Sadece Excel dosyaları (.xlsx, .xls) yüklenebilir'));
-      }
-    }
-  }
-});
+import { uploadExcelFile } from '../../../../middleware/file-validation.middleware.js';
 
 export const getSurveyResponses: RequestHandler = (req, res) => {
   try {
@@ -144,25 +113,11 @@ export const importExcelResponsesHandler: RequestHandler = async (req, res) => {
       });
     }
     
-    if (!req.file) {
+    // File validation is already done by uploadExcelFile middleware
+    if (!req.file || !req.file.buffer) {
       return res.status(400).json({
         success: false,
         error: 'Excel dosyası yüklenmedi'
-      });
-    }
-
-    // Additional file validation
-    if (req.file.size === 0) {
-      return res.status(400).json({
-        success: false,
-        error: 'Dosya boş'
-      });
-    }
-
-    if (req.file.size > 10 * 1024 * 1024) {
-      return res.status(400).json({
-        success: false,
-        error: 'Dosya boyutu 10MB\'dan büyük olamaz'
       });
     }
 
@@ -189,4 +144,5 @@ export const importExcelResponsesHandler: RequestHandler = async (req, res) => {
   }
 };
 
-export const uploadMiddleware = upload.single('file');
+// Secure Excel upload middleware with comprehensive validation
+export const uploadMiddleware = uploadExcelFile;

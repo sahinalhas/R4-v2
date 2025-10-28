@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import multer from 'multer';
 import * as examTypesRepo from '../repository/exam-types.repository.js';
 import * as examSessionsRepo from '../repository/exam-sessions.repository.js';
 import * as examResultsRepo from '../repository/exam-results.repository.js';
@@ -11,8 +10,7 @@ import * as comparisonService from '../services/comparison.service.js';
 import * as aiAnalysisService from '../services/ai-analysis.service.js';
 import * as pdfReportService from '../services/pdf-report.service.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-
-const upload = multer({ storage: multer.memoryStorage() });
+import { uploadExcelFile } from '../../../middleware/file-validation.middleware.js';
 
 export const getExamTypes: RequestHandler = (req, res) => {
   try {
@@ -294,7 +292,7 @@ export const downloadExcelTemplate: RequestHandler = (req, res) => {
 };
 
 export const importExcelResults = [
-  upload.single('file'),
+  ...uploadExcelFile,
   (async (req: Request, res: Response) => {
     try {
       const { sessionId } = req.body;
@@ -303,8 +301,9 @@ export const importExcelResults = [
         return res.status(400).json({ success: false, error: 'Deneme sınavı ID gerekli' });
       }
       
-      const file = (req as any).file;
-      if (!file) {
+      // File validation is already done by uploadExcelFile middleware
+      const file = req.file;
+      if (!file || !file.buffer) {
         return res.status(400).json({ success: false, error: 'Excel dosyası yüklenmedi' });
       }
       

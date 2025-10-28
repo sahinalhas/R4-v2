@@ -8,6 +8,7 @@ import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
 import { ensureCsrfSession } from "./middleware/csrf.middleware";
 import { generalApiRateLimiter } from "./middleware/rate-limit.middleware";
+import { handleMulterError } from "./middleware/file-validation.middleware";
 
 /**
  * BACKEND MODULARIZATION - COMPLETE ✅
@@ -71,6 +72,27 @@ export function createServer() {
   // All API routes are handled through the feature registry.
   // Each feature follows: repository (data) → services (logic) → routes (handlers)
   app.use("/api", featureRegistry);
+
+  // ========================================================================
+  // GLOBAL ERROR HANDLERS
+  // ========================================================================
+  // File upload (Multer) error handling middleware
+  app.use(handleMulterError);
+
+  // Catch-all error handler for unhandled errors
+  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error('Unhandled error:', err);
+    
+    // Don't expose internal error details in production
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    
+    res.status(err.statusCode || 500).json({
+      success: false,
+      error: isDevelopment ? err.message : 'Internal server error',
+      code: err.code || 'INTERNAL_ERROR',
+      ...(isDevelopment && { stack: err.stack }),
+    });
+  });
 
   return app;
 }
