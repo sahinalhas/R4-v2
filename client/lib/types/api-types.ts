@@ -1,23 +1,29 @@
 /**
  * API Response Types
- * Centralized type definitions for all API responses
+ * Re-exports from shared API contracts for backward compatibility
+ * 
+ * @deprecated Import directly from '@/shared/types/api-contracts' instead
  */
 
-export interface ApiSuccessResponse<T = unknown> {
-  success: true;
-  data?: T;
-  message?: string;
-}
+export type {
+  ApiSuccessResponse,
+  ApiErrorResponse,
+  ApiResponse,
+  ValidationError,
+  ApiError,
+  PaginatedResponse,
+  PaginatedData,
+  PaginationParams,
+} from '../../../shared/types/api-contracts.js';
 
-export interface ApiErrorResponse {
-  success: false;
-  error: string;
-  message?: string;
-  details?: Record<string, string>;
-  code?: string;
-}
-
-export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse;
+export {
+  ApiErrorCode,
+  isApiSuccessResponse,
+  isApiErrorResponse,
+  createSuccessResponse,
+  createErrorResponse,
+  createPaginatedResponse,
+} from '../../../shared/types/api-contracts.js';
 
 /**
  * User API Types
@@ -44,56 +50,11 @@ export interface UserPublic {
   permissions: string[];
 }
 
-export interface UserLoginResponse extends ApiSuccessResponse<UserPublic> {
+export interface UserLoginResponse {
+  success: true;
+  data?: UserPublic;
   user?: UserPublic;
-}
-
-/**
- * Error Types
- */
-export enum ApiErrorCode {
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
-  AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR',
-  AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR',
-  NOT_FOUND = 'NOT_FOUND',
-  CONFLICT = 'CONFLICT',
-  INTERNAL_ERROR = 'INTERNAL_ERROR',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  TIMEOUT_ERROR = 'TIMEOUT_ERROR',
-}
-
-export interface ValidationError {
-  field: string;
-  message: string;
-}
-
-export interface ApiError extends Error {
-  code: ApiErrorCode;
-  statusCode?: number;
-  details?: Record<string, string> | ValidationError[];
-}
-
-/**
- * Type Guards
- */
-export function isApiSuccessResponse<T>(response: unknown): response is ApiSuccessResponse<T> {
-  return typeof response === 'object' && response !== null && (response as ApiResponse<T>).success === true;
-}
-
-export function isApiErrorResponse(response: unknown): response is ApiErrorResponse {
-  return typeof response === 'object' && response !== null && (response as ApiResponse).success === false;
-}
-
-/**
- * Survey API Types
- */
-export interface SurveyResponse {
-  id: string;
-  templateId: string;
-  distributionId: string;
-  responseData: Record<string, unknown>;
-  respondentId?: string;
-  submittedAt: string;
+  message?: string;
 }
 
 /**
@@ -110,23 +71,6 @@ export interface BackupMetadata {
   tables: string[];
   status: 'pending' | 'completed' | 'failed';
   error?: string;
-}
-
-/**
- * Student API Types
- */
-export interface Student {
-  id: string;
-  studentNo: string;
-  name: string;
-  surname: string;
-  className: string;
-  gender: 'male' | 'female';
-  birthDate: string;
-  enrollmentYear: number;
-  parentPhone?: string;
-  parentEmail?: string;
-  notes?: string;
 }
 
 /**

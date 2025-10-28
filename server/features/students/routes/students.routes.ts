@@ -2,25 +2,45 @@ import { RequestHandler } from "express";
 import * as studentsService from '../services/students.service.js';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../../constants/errors.js";
 import { sanitizeString } from "../../../middleware/validation.js";
+import { 
+  createSuccessResponse, 
+  createErrorResponse,
+  ApiErrorCode,
+} from "../../../../shared/types/api-contracts.js";
+import type { 
+  StudentResponse,
+  GetStudentsResponse,
+} from "../../../../shared/types/student-api-contracts.js";
 
-export const getStudents: RequestHandler = (req, res) => {
+export const getStudents: RequestHandler<
+  Record<string, never>,
+  GetStudentsResponse
+> = (req, res) => {
   try {
     const students = studentsService.getAllStudents();
-    const mappedStudents = students.map((s) => ({
+    const mappedStudents: StudentResponse[] = students.map((s) => ({
       ...s,
       ad: s.name,
       soyad: s.surname,
       class: s.class,
       cinsiyet: s.gender,
     }));
-    res.json(mappedStudents);
+    res.json(createSuccessResponse(mappedStudents));
   } catch (error) {
     console.error('Error fetching students:', error);
-    res.status(500).json({ error: ERROR_MESSAGES.FAILED_TO_FETCH_STUDENTS });
+    res.status(500).json(
+      createErrorResponse(
+        ERROR_MESSAGES.FAILED_TO_FETCH_STUDENTS,
+        ApiErrorCode.INTERNAL_ERROR
+      )
+    );
   }
 };
 
-export const saveStudentHandler: RequestHandler = (req, res) => {
+export const saveStudentHandler: RequestHandler<
+  Record<string, never>,
+  GetStudentsResponse
+> = (req, res) => {
   try {
     const student = req.body;
     
@@ -33,22 +53,31 @@ export const saveStudentHandler: RequestHandler = (req, res) => {
     };
     
     studentsService.createOrUpdateStudent(mappedStudent);
-    res.json({ success: true, message: SUCCESS_MESSAGES.STUDENT_SAVED });
+    res.json(
+      createSuccessResponse(
+        mappedStudent,
+        SUCCESS_MESSAGES.STUDENT_SAVED
+      )
+    );
   } catch (error) {
     console.error('Error saving student:', error);
-    const errorMessage = error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     
     if (errorMessage.includes("Geçersiz") || errorMessage.includes("zorunludur")) {
-      return res.status(400).json({ 
-        success: false, 
-        error: errorMessage 
-      });
+      return res.status(400).json(
+        createErrorResponse(
+          errorMessage,
+          ApiErrorCode.VALIDATION_ERROR
+        )
+      );
     }
     
-    res.status(500).json({ 
-      success: false, 
-      error: `${ERROR_MESSAGES.FAILED_TO_SAVE_STUDENT}: ${errorMessage}` 
-    });
+    res.status(500).json(
+      createErrorResponse(
+        `${ERROR_MESSAGES.FAILED_TO_SAVE_STUDENT}: ${errorMessage}`,
+        ApiErrorCode.INTERNAL_ERROR
+      )
+    );
   }
 };
 
