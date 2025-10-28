@@ -1,3 +1,14 @@
+
+/**
+ * Helper function to extract error message from various error types
+ */
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+}
+
 /**
  * AI Error Handler Service
  * AI servislerinde oluşan hataları merkezi olarak yönetir, loglar ve kritik durumlarda bildirim gönderir
@@ -96,23 +107,25 @@ class AIErrorHandlerService {
     context: AIErrorContext,
     fallbackUsed: boolean
   ): AIErrorSeverity {
+    const errorMsg = getErrorMessage(error);
+    
     // API anahtarı veya kimlik doğrulama hataları
-    if (error instanceof Error ? error.message : String(error).includes('API key') || 
-        error instanceof Error ? error.message : String(error).includes('authentication') ||
-        error instanceof Error ? error.message : String(error).includes('unauthorized')) {
+    if (errorMsg.includes('API key') || 
+        errorMsg.includes('authentication') ||
+        errorMsg.includes('unauthorized')) {
       return 'CRITICAL';
     }
 
     // Rate limit hataları
-    if (error instanceof Error ? error.message : String(error).includes('rate limit') || 
-        error instanceof Error ? error.message : String(error).includes('quota exceeded')) {
+    if (errorMsg.includes('rate limit') || 
+        errorMsg.includes('quota exceeded')) {
       return 'HIGH';
     }
 
     // Network hataları
-    if (error instanceof Error ? error.message : String(error).includes('ECONNREFUSED') ||
-        error instanceof Error ? error.message : String(error).includes('ETIMEDOUT') ||
-        error instanceof Error ? error.message : String(error).includes('network')) {
+    if (errorMsg.includes('ECONNREFUSED') ||
+        errorMsg.includes('ETIMEDOUT') ||
+        errorMsg.includes('network')) {
       return 'MEDIUM';
     }
 

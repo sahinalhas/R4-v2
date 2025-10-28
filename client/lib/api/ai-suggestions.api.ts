@@ -201,3 +201,27 @@ export async function createBulkSuggestions(requests: CreateSuggestionRequest[])
   );
   return response.data.ids;
 }
+
+export async function fetchPendingSuggestions(): Promise<any> {
+  try {
+    const response = await fetch('/api/ai-suggestions/pending');
+    if (!response.ok) throw new Error('Failed to fetch pending suggestions');
+    const data = await response.json();
+    return data ?? [];
+  } catch (error) {
+    console.error('Error fetching pending suggestions:', error);
+    return [];
+  }
+}
+
+export async function fetchSuggestionStats(): Promise<any> {
+  try {
+    const response = await fetch('/api/ai-suggestions/stats');
+    if (!response.ok) throw new Error('Failed to fetch suggestion stats');
+    const data = await response.json();
+    return data ?? { total: 0, pending: 0, approved: 0, rejected: 0 };
+  } catch (error) {
+    console.error('Error fetching suggestion stats:', error);
+    return { total: 0, pending: 0, approved: 0, rejected: 0 };
+  }
+}
