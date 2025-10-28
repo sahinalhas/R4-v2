@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -49,13 +50,6 @@ export function createServer() {
   // Cookie parser - required for CSRF protection
   app.use(cookieParser());
 
-  // CSRF Session - server-managed session identifier (must run before CSRF protection)
-  app.use(ensureCsrfSession);
-
-  // Global API Rate Limiting - baseline protection for all API endpoints
-  // This prevents abuse and DoS attacks (100 requests per minute per IP)
-  app.use('/api', generalApiRateLimiter);
-
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
 
@@ -66,7 +60,7 @@ export function createServer() {
   });
 
   // CSRF Token endpoint - frontend will call this to get CSRF token
-  app.get("/api/csrf-token", (req, res) => {
+  app.get("/api/csrf-token", ensureCsrfSession, (req, res) => {
     try {
       const token = getCsrfToken(req, res);
       res.json({ csrfToken: token });
@@ -76,31 +70,31 @@ export function createServer() {
     }
   });
 
-  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
-  // Exceptions: Public endpoints like login don't need CSRF protection
-  app.use((req, res, next) => {
+  // CSRF Protection middleware - SADECE /api/* route'lara uygula
+  const csrfProtectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    // Public endpoints that don't need CSRF protection
     const publicEndpoints = [
       '/api/users/login',
       '/api/auth/demo-user',
-      '/api/csrf-token', // CSRF token endpoint itself doesn't need protection
+      '/api/csrf-token',
     ];
     
     const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
-    const isGetRequest = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
-    const isViteHMR = req.path.includes('/@vite') || req.path.includes('/__vite') || req.path.includes('/node_modules');
-    const isAPIRequest = req.path.startsWith('/api/');
+    const isSafeMethod = req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS';
     
-    // Skip CSRF protection for:
-    // - Public endpoints
-    // - Safe HTTP methods (GET, HEAD, OPTIONS)
-    // - Vite dev server requests (HMR, module imports, etc.)
-    // - Non-API requests (static files, etc.)
-    if (isPublicEndpoint || isGetRequest || isViteHMR || !isAPIRequest) {
+    // Skip CSRF for public endpoints or safe methods
+    if (isPublicEndpoint || isSafeMethod) {
       return next();
     }
     
+    // Apply CSRF protection
     doubleCsrfProtection(req, res, next);
-  });
+  };
+
+  // Apply CSRF and rate limiting ONLY to /api routes
+  app.use('/api', ensureCsrfSession);
+  app.use('/api', generalApiRateLimiter);
+  app.use('/api', csrfProtectionMiddleware);
 
   // ========================================================================
   // FEATURE REGISTRY - MODULAR ROUTES
