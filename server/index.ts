@@ -6,7 +6,7 @@ import featureRegistry from "./features";
 import { getCorsOptions } from "./middleware/cors-config";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
-import { doubleCsrfProtection, getCsrfToken } from "./middleware/csrf.middleware";
+import { doubleCsrfProtection, getCsrfToken, ensureCsrfSession } from "./middleware/csrf.middleware";
 
 /**
  * BACKEND MODULARIZATION - COMPLETE ✅
@@ -47,6 +47,9 @@ export function createServer() {
 
   // Cookie parser - required for CSRF protection
   app.use(cookieParser());
+
+  // CSRF Session - server-managed session identifier (must run before CSRF protection)
+  app.use(ensureCsrfSession);
 
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
