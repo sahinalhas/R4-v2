@@ -1,10 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import featureRegistry from "./features";
 import { getCorsOptions } from "./middleware/cors-config";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
+import { doubleCsrfProtection, getCsrfToken } from "./middleware/csrf.middleware";
 
 /**
  * BACKEND MODULARIZATION - COMPLETE ✅
@@ -43,13 +45,30 @@ export function createServer() {
     parameterLimit: 1000 // Limit number of parameters
   }));
 
+  // Cookie parser - required for CSRF protection
+  app.use(cookieParser());
+
   // Global input sanitization - tüm endpoint'lerde otomatik sanitizasyon
   app.use(sanitizeAllInputs);
+
+  // CSRF Protection - protects all POST/PUT/DELETE/PATCH requests
+  app.use(doubleCsrfProtection);
 
   // Example API routes
   app.get("/api/ping", (_req, res) => {
     const ping = process.env.PING_MESSAGE ?? "ping";
     res.json({ message: ping });
+  });
+
+  // CSRF Token endpoint - frontend will call this to get CSRF token
+  app.get("/api/csrf-token", (req, res) => {
+    try {
+      const token = getCsrfToken(req, res);
+      res.json({ csrfToken: token });
+    } catch (error) {
+      console.error('CSRF token generation failed:', error);
+      res.status(500).json({ error: 'Failed to generate CSRF token' });
+    }
   });
 
   // ========================================================================
