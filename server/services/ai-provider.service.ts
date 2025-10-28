@@ -96,7 +96,7 @@ export class AIProviderService {
    */
   private selectProvider(
     config?: Partial<AIProviderConfig>,
-    savedSettings?: any
+    savedSettings?: Record<string, unknown>
   ): AIProvider {
     // 1. ÖNCELİK: Programatik config
     if (config?.provider) {
@@ -134,7 +134,7 @@ export class AIProviderService {
    */
   private selectModel(
     config: Partial<AIProviderConfig> | undefined,
-    savedSettings: any,
+    savedSettings: Record<string, unknown> | undefined,
     provider: AIProvider
   ): string {
     // 1. Config'den gelen model öncelikli
@@ -144,7 +144,7 @@ export class AIProviderService {
 
     // 2. Kaydedilmiş provider ile aynıysa, kaydedilmiş modeli kullan
     if (savedSettings?.provider === provider && savedSettings?.model) {
-      return savedSettings.model;
+      return savedSettings.model as string;
     }
 
     // 3. Provider'a uygun varsayılan model

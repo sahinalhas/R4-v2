@@ -15,7 +15,7 @@ export function validateDistributionStatus(distribution: SurveyDistribution) {
   }
 }
 
-export function validateResponseData(distribution: SurveyDistribution, questions: SurveyQuestion[], responseData: any, studentInfo?: any) {
+export function validateResponseData(distribution: SurveyDistribution, questions: SurveyQuestion[], responseData: Record<string, unknown>, studentInfo?: Record<string, unknown>) {
   if (!distribution.allowAnonymous) {
     if (!studentInfo?.name || !studentInfo?.class || !studentInfo?.number) {
       throw new Error('Öğrenci bilgileri zorunludur (ad, sınıf, numara)');

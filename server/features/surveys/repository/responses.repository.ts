@@ -1,7 +1,18 @@
 import getDatabase from '../../../lib/database.js';
 import type { SurveyResponse } from '../types/surveys.types.js';
+import type BetterSqlite3 from 'better-sqlite3';
 
-let statements: any = null;
+interface PreparedStatements {
+  getSurveyResponses: BetterSqlite3.Statement;
+  getSurveyResponsesByDistribution: BetterSqlite3.Statement;
+  getSurveyResponsesByStudent: BetterSqlite3.Statement;
+  getSurveyResponse: BetterSqlite3.Statement;
+  insertSurveyResponse: BetterSqlite3.Statement;
+  updateSurveyResponse: BetterSqlite3.Statement;
+  deleteSurveyResponse: BetterSqlite3.Statement;
+}
+
+let statements: PreparedStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -29,17 +40,22 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
+interface SurveyResponseRaw extends Omit<SurveyResponse, 'responseData' | 'studentInfo'> {
+  responseData: string | null;
+  studentInfo: string | null;
+}
+
 export function loadSurveyResponses(filters?: { distributionId?: string; studentId?: string }): SurveyResponse[] {
   try {
     ensureInitialized();
-    let responses: any[];
+    let responses: SurveyResponseRaw[];
     
     if (filters?.distributionId) {
-      responses = statements.getSurveyResponsesByDistribution.all(filters.distributionId) as any[];
+      responses = statements!.getSurveyResponsesByDistribution.all(filters.distributionId) as SurveyResponseRaw[];
     } else if (filters?.studentId) {
-      responses = statements.getSurveyResponsesByStudent.all(filters.studentId) as any[];
+      responses = statements!.getSurveyResponsesByStudent.all(filters.studentId) as SurveyResponseRaw[];
     } else {
-      responses = statements.getSurveyResponses.all() as any[];
+      responses = statements!.getSurveyResponses.all() as SurveyResponseRaw[];
     }
     
     return responses.map(response => ({
@@ -53,10 +69,10 @@ export function loadSurveyResponses(filters?: { distributionId?: string; student
   }
 }
 
-export function saveSurveyResponse(response: any): void {
+export function saveSurveyResponse(response: Partial<SurveyResponse>): void {
   try {
     ensureInitialized();
-    statements.insertSurveyResponse.run(
+    statements!.insertSurveyResponse.run(
       response.id,
       response.distributionId,
       response.studentId || null,
@@ -74,10 +90,10 @@ export function saveSurveyResponse(response: any): void {
   }
 }
 
-export function updateSurveyResponse(id: string, response: any): void {
+export function updateSurveyResponse(id: string, response: Partial<SurveyResponse>): void {
   try {
     ensureInitialized();
-    statements.updateSurveyResponse.run(
+    statements!.updateSurveyResponse.run(
       response.responseData ? JSON.stringify(response.responseData) : '{}',
       (response.isComplete || false) ? 1 : 0,
       response.submittedAt || null,
@@ -92,14 +108,14 @@ export function updateSurveyResponse(id: string, response: any): void {
 export function deleteSurveyResponse(id: string): void {
   try {
     ensureInitialized();
-    statements.deleteSurveyResponse.run(id);
+    statements!.deleteSurveyResponse.run(id);
   } catch (error) {
     console.error('Error deleting survey response:', error);
     throw error;
   }
 }
 
-export function bulkSaveSurveyResponses(responses: any[]): void {
+export function bulkSaveSurveyResponses(responses: Partial<SurveyResponse>[]): void {
   if (!responses || responses.length === 0) {
     return;
   }
@@ -110,7 +126,7 @@ export function bulkSaveSurveyResponses(responses: any[]): void {
     
     const transaction = db.transaction(() => {
       for (const response of responses) {
-        statements.insertSurveyResponse.run(
+        statements!.insertSurveyResponse.run(
           response.id,
           response.distributionId,
           response.studentId || null,

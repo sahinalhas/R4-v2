@@ -60,9 +60,9 @@ export interface ConflictResolution {
   studentId: string;
   conflictType: string;
   domain?: string;
-  oldValue: any;
-  newValue: any;
-  resolvedValue?: any;
+  oldValue: unknown;
+  newValue: unknown;
+  resolvedValue?: unknown;
   resolutionMethod: string;
   severity: string;
   reasoning?: string;
@@ -74,8 +74,8 @@ export interface ManualCorrectionRequest {
   studentId: string;
   domain: string;
   field: string;
-  oldValue: any;
-  newValue: any;
+  oldValue: unknown;
+  newValue: unknown;
   reason: string;
   correctedBy: string;
 }

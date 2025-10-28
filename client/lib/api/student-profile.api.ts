@@ -49,6 +49,12 @@ import type {
   ExamResult,
 } from '../storage';
 
+export interface RiskFactors {
+  level: string;
+  factors: string[];
+  lastUpdated: string;
+}
+
 export interface StudentProfileData {
   notes: MeetingNote[];
   surveyResults: SurveyResult[];
@@ -56,7 +62,7 @@ export interface StudentProfileData {
   academicRecords: AcademicRecord[];
   interventions: Intervention[];
   specialEducation: SpecialEducation[];
-  riskFactors: any | null;
+  riskFactors: RiskFactors | null;
   behaviorIncidents: BehaviorIncident[];
   examResults: ExamResult[];
   coachingRecommendations: CoachingRecommendation[];
@@ -156,8 +162,8 @@ export async function getStudentProfileData(studentId: string): Promise<StudentP
     examResults,
     coachingRecommendations,
     academicGoals,
-    multipleIntelligence,
-    learningStyle,
+    multipleIntelligence: multipleIntelligence || null,
+    learningStyle: learningStyle || null,
     smartGoals,
     evaluations360,
     achievements,

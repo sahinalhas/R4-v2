@@ -6,7 +6,7 @@ import { sanitizeString } from "../../../middleware/validation.js";
 export const getStudents: RequestHandler = (req, res) => {
   try {
     const students = studentsService.getAllStudents();
-    const mappedStudents = students.map((s: any) => ({
+    const mappedStudents = students.map((s) => ({
       ...s,
       ad: s.name,
       soyad: s.surname,

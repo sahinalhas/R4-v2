@@ -1,7 +1,21 @@
 import getDatabase from '../../../lib/database.js';
 import type { Student, AcademicRecord, Progress } from '../types/students.types.js';
+import type BetterSqlite3 from 'better-sqlite3';
 
-let statements: any = null;
+interface PreparedStatements {
+  getStudents: BetterSqlite3.Statement;
+  getStudent: BetterSqlite3.Statement;
+  insertStudent: BetterSqlite3.Statement;
+  upsertStudent: BetterSqlite3.Statement;
+  updateStudent: BetterSqlite3.Statement;
+  deleteStudent: BetterSqlite3.Statement;
+  getAcademicsByStudent: BetterSqlite3.Statement;
+  insertAcademic: BetterSqlite3.Statement;
+  getProgressByStudent: BetterSqlite3.Statement;
+  upsertProgress: BetterSqlite3.Statement;
+}
+
+let statements: PreparedStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -65,7 +79,7 @@ function ensureInitialized(): void {
 export function loadStudents(): Student[] {
   try {
     ensureInitialized();
-    const students = statements.getStudents.all() as Student[];
+    const students = statements!.getStudents.all() as Student[];
     return students.filter(student => {
       if (!student || !student.id) {
         console.warn('Skipping invalid student: missing id', student);
@@ -96,12 +110,12 @@ export function saveStudents(students: Student[]): void {
     ensureInitialized();
     const transaction = getDatabase().transaction(() => {
       try {
-        const existingStudents = statements.getStudents.all() as Student[];
+        const existingStudents = statements!.getStudents.all() as Student[];
         const incomingIds = new Set(students.map(s => s.id));
         
         for (const existing of existingStudents) {
           if (!incomingIds.has(existing.id)) {
-            statements.deleteStudent.run(existing.id);
+            statements!.deleteStudent.run(existing.id);
           }
         }
         
@@ -110,7 +124,7 @@ export function saveStudents(students: Student[]): void {
             throw new Error(`Invalid student data: missing required fields (id: ${student.id}, name: ${student.name}, surname: ${student.surname})`);
           }
           
-          statements.upsertStudent.run(
+          statements!.upsertStudent.run(
             student.id, student.name, student.surname, student.email, student.phone,
             student.birthDate, student.address, student.class,
             student.enrollmentDate, student.status, student.avatar,
@@ -140,16 +154,16 @@ export function saveStudent(student: Student): void {
   
   try {
     ensureInitialized();
-    const existing = statements.getStudent.get(student.id);
+    const existing = statements!.getStudent.get(student.id);
     if (existing) {
-      statements.updateStudent.run(
+      statements!.updateStudent.run(
         student.name, student.surname, student.email, student.phone, student.birthDate,
         student.address, student.class, student.status,
         student.avatar, student.parentContact, student.notes, student.gender, student.risk,
         student.id
       );
     } else {
-      statements.insertStudent.run(
+      statements!.insertStudent.run(
         student.id, student.name, student.surname, student.email, student.phone,
         student.birthDate, student.address, student.class,
         student.enrollmentDate, student.status, student.avatar,
@@ -165,17 +179,27 @@ export function saveStudent(student: Student): void {
 export function deleteStudent(id: string): void {
   try {
     ensureInitialized();
-    statements.deleteStudent.run(id);
+    statements!.deleteStudent.run(id);
   } catch (error) {
     console.error('Error deleting student:', error);
     throw error;
   }
 }
 
+interface AcademicRecordRaw {
+  id?: number;
+  studentId: string;
+  semester: string;
+  gpa?: number;
+  year: number;
+  exams?: string;
+  notes?: string;
+}
+
 export function getAcademicsByStudent(studentId: string): AcademicRecord[] {
   try {
     ensureInitialized();
-    const records = statements.getAcademicsByStudent.all(studentId) as any[];
+    const records = statements!.getAcademicsByStudent.all(studentId) as AcademicRecordRaw[];
     return records.map(record => ({
       ...record,
       exams: record.exams ? JSON.parse(record.exams) : []
@@ -190,7 +214,7 @@ export function addAcademic(record: AcademicRecord): void {
   try {
     ensureInitialized();
     const examsJson = record.exams ? JSON.stringify(record.exams) : null;
-    statements.insertAcademic.run(
+    statements!.insertAcademic.run(
       record.studentId,
       record.semester,
       record.gpa !== undefined && record.gpa !== null ? record.gpa : null,
@@ -207,7 +231,7 @@ export function addAcademic(record: AcademicRecord): void {
 export function getProgressByStudent(studentId: string): Progress[] {
   try {
     ensureInitialized();
-    return statements.getProgressByStudent.all(studentId) as Progress[];
+    return statements!.getProgressByStudent.all(studentId) as Progress[];
   } catch (error) {
     console.error('Error loading progress:', error);
     return [];
@@ -218,7 +242,7 @@ function saveProgress(progress: Progress[]): void {
   ensureInitialized();
   const transaction = getDatabase().transaction(() => {
     for (const p of progress) {
-      statements.upsertProgress.run(
+      statements!.upsertProgress.run(
         p.id, p.studentId, p.topicId, p.completed,
         p.remaining, p.lastStudied, p.notes
       );
@@ -228,10 +252,16 @@ function saveProgress(progress: Progress[]): void {
   transaction();
 }
 
+interface Topic {
+  id: string;
+  name: string;
+  estimatedHours: number;
+}
+
 export function ensureProgressForStudent(studentId: string): void {
   const db = getDatabase();
   const getTopics = db.prepare('SELECT * FROM topics ORDER BY name');
-  const topics = getTopics.all() as any[];
+  const topics = getTopics.all() as Topic[];
   
   const existingProgress = getProgressByStudent(studentId);
   const existingTopicIds = new Set(existingProgress.map(p => p.topicId));

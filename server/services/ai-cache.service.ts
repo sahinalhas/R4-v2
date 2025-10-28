@@ -5,6 +5,7 @@
  */
 
 import crypto from 'crypto';
+import type { ChatMessage } from './ai-provider.service.js';
 
 interface CacheEntry {
   response: string;
@@ -22,7 +23,7 @@ export class AICacheService {
   /**
    * Cache key oluştur
    */
-  private static generateKey(messages: any[], temperature: number): string {
+  private static generateKey(messages: ChatMessage[], temperature: number): string {
     const content = JSON.stringify({ messages, temperature });
     return crypto.createHash('sha256').update(content).digest('hex');
   }
@@ -30,7 +31,7 @@ export class AICacheService {
   /**
    * Cache'den al
    */
-  static get(messages: any[], temperature: number): string | null {
+  static get(messages: ChatMessage[], temperature: number): string | null {
     const key = this.generateKey(messages, temperature);
     const entry = this.cache.get(key);
     
@@ -53,7 +54,7 @@ export class AICacheService {
   /**
    * Cache'e kaydet
    */
-  static set(messages: any[], temperature: number, response: string, provider: string, model: string): void {
+  static set(messages: ChatMessage[], temperature: number, response: string, provider: string, model: string): void {
     // Cache size kontrolü
     if (this.cache.size >= this.MAX_CACHE_SIZE) {
       // En az kullanılanı sil (LRU)

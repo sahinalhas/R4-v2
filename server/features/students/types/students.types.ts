@@ -16,13 +16,20 @@ export interface Student {
   risk?: 'Düşük' | 'Orta' | 'Yüksek';
 }
 
+export interface ExamSummary {
+  examId?: string;
+  examName?: string;
+  score?: number;
+  date?: string;
+}
+
 export interface AcademicRecord {
   id?: number;
   studentId: string;
   semester: string;
   gpa?: number;
   year: number;
-  exams?: any[];
+  exams?: ExamSummary[];
   notes?: string;
 }
 

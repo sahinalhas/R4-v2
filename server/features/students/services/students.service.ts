@@ -1,54 +1,99 @@
 import * as repository from '../repository/students.repository.js';
 import type { Student, AcademicRecord, Progress } from '../types/students.types.js';
 
-export function normalizeStudentData(student: any): Student {
-  const normalized: any = {
+type StudentInput = Record<string, unknown>;
+
+function normalizeGender(value: unknown): 'K' | 'E' | undefined {
+  if (!value) return undefined;
+  const str = String(value).toUpperCase();
+  if (str === 'K' || str === 'E' || str === 'KADIN' || str === 'ERKEK') {
+    return str === 'ERKEK' ? 'E' : str === 'KADIN' ? 'K' : str as 'K' | 'E';
+  }
+  return undefined;
+}
+
+function normalizeRisk(value: unknown): 'Düşük' | 'Orta' | 'Yüksek' | undefined {
+  if (!value) return undefined;
+  const str = String(value).toLowerCase();
+  const riskMap: Record<string, 'Düşük' | 'Orta' | 'Yüksek'> = {
+    'düşük': 'Düşük',
+    'dusuk': 'Düşük',
+    'low': 'Düşük',
+    'orta': 'Orta',
+    'medium': 'Orta',
+    'yüksek': 'Yüksek',
+    'yuksek': 'Yüksek',
+    'high': 'Yüksek'
+  };
+  return riskMap[str];
+}
+
+function normalizeStatus(value: unknown): 'active' | 'inactive' | 'graduated' {
+  if (!value) return 'active';
+  const str = String(value).toLowerCase();
+  const statusMap: Record<string, 'active' | 'inactive' | 'graduated'> = {
+    'active': 'active',
+    'aktif': 'active',
+    'inactive': 'inactive',
+    'pasif': 'inactive',
+    'graduated': 'graduated',
+    'mezun': 'graduated'
+  };
+  return statusMap[str] || 'active';
+}
+
+export function normalizeStudentData(student: StudentInput): Student {
+  const normalized: Student = {
     id: student.id ? String(student.id).trim() : '',
     name: student.name ? String(student.name).trim() : '',
     surname: student.surname ? String(student.surname).trim() : '',
     email: student.email ? String(student.email).trim() : undefined,
     phone: student.phone ? String(student.phone).trim() : undefined,
-    birthDate: student.birthDate || undefined,
+    birthDate: (student.birthDate as string | undefined) || undefined,
     address: student.address ? String(student.address).trim() : undefined,
     class: student.class ? String(student.class).trim() : undefined,
-    enrollmentDate: student.enrollmentDate || new Date().toISOString().split('T')[0],
-    status: student.status || 'active',
-    avatar: student.avatar || undefined,
+    enrollmentDate: (student.enrollmentDate as string | undefined) || new Date().toISOString().split('T')[0],
+    status: normalizeStatus(student.status),
+    avatar: (student.avatar as string | undefined) || undefined,
     parentContact: student.parentContact ? String(student.parentContact).trim() : undefined,
     notes: student.notes ? String(student.notes).trim() : undefined,
-    gender: student.gender || 'K',
-    risk: student.risk || 'Düşük',
+    gender: normalizeGender(student.gender),
+    risk: normalizeRisk(student.risk),
   };
   
-  return normalized as Student;
+  return normalized;
 }
 
-export function validateStudent(student: any): { valid: boolean; error?: string } {
+export function validateStudent(student: unknown): { valid: boolean; error?: string } {
   if (!student || typeof student !== 'object') {
     return { valid: false, error: "Geçersiz öğrenci verisi" };
   }
   
-  if (!student.id || typeof student.id !== 'string' || student.id.trim().length === 0) {
+  const studentObj = student as Record<string, unknown>;
+  
+  if (!studentObj.id || typeof studentObj.id !== 'string' || studentObj.id.trim().length === 0) {
     return { valid: false, error: "Öğrenci ID zorunludur" };
   }
   
-  if (!student.name || typeof student.name !== 'string' || student.name.trim().length === 0) {
+  if (!studentObj.name || typeof studentObj.name !== 'string' || studentObj.name.trim().length === 0) {
     return { valid: false, error: "Öğrenci adı zorunludur" };
   }
   
-  if (!student.surname || typeof student.surname !== 'string' || student.surname.trim().length === 0) {
+  if (!studentObj.surname || typeof studentObj.surname !== 'string' || studentObj.surname.trim().length === 0) {
     return { valid: false, error: "Öğrenci soyadı zorunludur" };
   }
   
   return { valid: true };
 }
 
-export function validateAcademic(academic: any): { valid: boolean; error?: string } {
+export function validateAcademic(academic: unknown): { valid: boolean; error?: string } {
   if (!academic || typeof academic !== 'object') {
     return { valid: false, error: "Geçersiz akademik kayıt verisi" };
   }
   
-  if (!academic.studentId || !academic.semester || academic.year === undefined) {
+  const academicObj = academic as Record<string, unknown>;
+  
+  if (!academicObj.studentId || !academicObj.semester || academicObj.year === undefined) {
     return { valid: false, error: "studentId, semester ve year alanları zorunludur" };
   }
   
@@ -59,17 +104,17 @@ export function getAllStudents(): Student[] {
   return repository.loadStudents();
 }
 
-export function createOrUpdateStudent(student: any): void {
+export function createOrUpdateStudent(student: unknown): void {
   const validation = validateStudent(student);
   if (!validation.valid) {
     throw new Error(validation.error);
   }
   
-  const normalizedStudent = normalizeStudentData(student);
+  const normalizedStudent = normalizeStudentData(student as StudentInput);
   repository.saveStudent(normalizedStudent);
 }
 
-export function bulkSaveStudents(students: any[]): void {
+export function bulkSaveStudents(students: unknown[]): void {
   if (!Array.isArray(students)) {
     throw new Error('Expected array of students');
   }
@@ -86,7 +131,7 @@ export function bulkSaveStudents(students: any[]): void {
     throw new Error(`Geçersiz öğrenci verileri (indeksler: ${invalidIndices.join(', ')})`);
   }
   
-  const normalizedStudents = students.map(student => normalizeStudentData(student));
+  const normalizedStudents = students.map(student => normalizeStudentData(student as StudentInput));
   repository.saveStudents(normalizedStudents);
 }
 
@@ -119,19 +164,21 @@ export function getStudentAcademics(studentId: string): AcademicRecord[] {
   return repository.getAcademicsByStudent(studentId);
 }
 
-export function createAcademic(academic: any): void {
+export function createAcademic(academic: unknown): void {
   const validation = validateAcademic(academic);
   if (!validation.valid) {
     throw new Error(validation.error);
   }
   
-  const sanitizedAcademic = {
-    studentId: academic.studentId,
-    semester: academic.semester,
-    gpa: academic.gpa !== undefined && academic.gpa !== null ? Number(academic.gpa) : undefined,
-    year: Number(academic.year),
-    exams: academic.exams || [],
-    notes: academic.notes || undefined
+  const academicObj = academic as Record<string, unknown>;
+  
+  const sanitizedAcademic: AcademicRecord = {
+    studentId: academicObj.studentId as string,
+    semester: academicObj.semester as string,
+    gpa: academicObj.gpa !== undefined && academicObj.gpa !== null ? Number(academicObj.gpa) : undefined,
+    year: Number(academicObj.year),
+    exams: (academicObj.exams as AcademicRecord['exams']) || [],
+    notes: (academicObj.notes as string | undefined) || undefined
   };
   
   repository.addAcademic(sanitizedAcademic);

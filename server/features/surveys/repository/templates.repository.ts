@@ -1,7 +1,16 @@
 import getDatabase from '../../../lib/database.js';
 import type { SurveyTemplate } from '../types/surveys.types.js';
+import type BetterSqlite3 from 'better-sqlite3';
 
-let statements: any = null;
+interface PreparedStatements {
+  getSurveyTemplates: BetterSqlite3.Statement;
+  getSurveyTemplate: BetterSqlite3.Statement;
+  insertSurveyTemplate: BetterSqlite3.Statement;
+  updateSurveyTemplate: BetterSqlite3.Statement;
+  deleteSurveyTemplate: BetterSqlite3.Statement;
+}
+
+let statements: PreparedStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -30,7 +39,7 @@ function ensureInitialized(): void {
 export function loadSurveyTemplates(): SurveyTemplate[] {
   try {
     ensureInitialized();
-    const templates = statements.getSurveyTemplates.all() as (SurveyTemplate & { tags: string | null; targetGrades: string | null })[];
+    const templates = statements!.getSurveyTemplates.all() as (SurveyTemplate & { tags: string | null; targetGrades: string | null })[];
     return templates.map(template => ({
       ...template,
       tags: template.tags ? JSON.parse(template.tags) : [],
@@ -45,7 +54,7 @@ export function loadSurveyTemplates(): SurveyTemplate[] {
 export function getSurveyTemplate(id: string): SurveyTemplate | null {
   try {
     ensureInitialized();
-    const template = statements.getSurveyTemplate.get(id) as (SurveyTemplate & { tags: string | null; targetGrades: string | null }) | undefined;
+    const template = statements!.getSurveyTemplate.get(id) as (SurveyTemplate & { tags: string | null; targetGrades: string | null }) | undefined;
     if (!template) return null;
     
     return {
@@ -62,7 +71,7 @@ export function getSurveyTemplate(id: string): SurveyTemplate | null {
 export function saveSurveyTemplate(template: SurveyTemplate): void {
   try {
     ensureInitialized();
-    statements.insertSurveyTemplate.run(
+    statements!.insertSurveyTemplate.run(
       template.id,
       template.title,
       template.description || null,
@@ -83,7 +92,7 @@ export function saveSurveyTemplate(template: SurveyTemplate): void {
 export function updateSurveyTemplate(id: string, template: Partial<SurveyTemplate>): void {
   try {
     ensureInitialized();
-    statements.updateSurveyTemplate.run(
+    statements!.updateSurveyTemplate.run(
       template.title,
       template.description || null,
       template.type,
@@ -103,7 +112,7 @@ export function updateSurveyTemplate(id: string, template: Partial<SurveyTemplat
 export function deleteSurveyTemplate(id: string): void {
   try {
     ensureInitialized();
-    statements.deleteSurveyTemplate.run(id);
+    statements!.deleteSurveyTemplate.run(id);
   } catch (error) {
     console.error('Error deleting survey template:', error);
     throw error;

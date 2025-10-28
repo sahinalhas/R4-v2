@@ -1,7 +1,16 @@
 import getDatabase from '../../../lib/database.js';
 import type { SurveyQuestion } from '../types/surveys.types.js';
+import type BetterSqlite3 from 'better-sqlite3';
 
-let statements: any = null;
+interface PreparedStatements {
+  getQuestionsByTemplate: BetterSqlite3.Statement;
+  insertSurveyQuestion: BetterSqlite3.Statement;
+  updateSurveyQuestion: BetterSqlite3.Statement;
+  deleteSurveyQuestion: BetterSqlite3.Statement;
+  deleteQuestionsByTemplate: BetterSqlite3.Statement;
+}
+
+let statements: PreparedStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -26,10 +35,15 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
+interface SurveyQuestionRaw extends Omit<SurveyQuestion, 'options' | 'validation'> {
+  options: string | null;
+  validation: string | null;
+}
+
 export function getQuestionsByTemplate(templateId: string): SurveyQuestion[] {
   try {
     ensureInitialized();
-    const questions = statements.getQuestionsByTemplate.all(templateId) as any[];
+    const questions = statements!.getQuestionsByTemplate.all(templateId) as SurveyQuestionRaw[];
     return questions.map(question => ({
       ...question,
       options: question.options ? JSON.parse(question.options) : null,
@@ -41,10 +55,10 @@ export function getQuestionsByTemplate(templateId: string): SurveyQuestion[] {
   }
 }
 
-export function saveSurveyQuestion(question: any): void {
+export function saveSurveyQuestion(question: SurveyQuestion): void {
   try {
     ensureInitialized();
-    statements.insertSurveyQuestion.run(
+    statements!.insertSurveyQuestion.run(
       question.id,
       question.templateId,
       question.questionText,
@@ -60,10 +74,10 @@ export function saveSurveyQuestion(question: any): void {
   }
 }
 
-export function updateSurveyQuestion(id: string, question: any): void {
+export function updateSurveyQuestion(id: string, question: Partial<SurveyQuestion>): void {
   try {
     ensureInitialized();
-    statements.updateSurveyQuestion.run(
+    statements!.updateSurveyQuestion.run(
       question.questionText,
       question.questionType,
       (question.required || false) ? 1 : 0,
@@ -81,7 +95,7 @@ export function updateSurveyQuestion(id: string, question: any): void {
 export function deleteSurveyQuestion(id: string): void {
   try {
     ensureInitialized();
-    statements.deleteSurveyQuestion.run(id);
+    statements!.deleteSurveyQuestion.run(id);
   } catch (error) {
     console.error('Error deleting survey question:', error);
     throw error;
@@ -91,7 +105,7 @@ export function deleteSurveyQuestion(id: string): void {
 export function deleteQuestionsByTemplate(templateId: string): void {
   try {
     ensureInitialized();
-    statements.deleteQuestionsByTemplate.run(templateId);
+    statements!.deleteQuestionsByTemplate.run(templateId);
   } catch (error) {
     console.error('Error deleting questions by template:', error);
     throw error;

@@ -115,7 +115,7 @@ export async function rejectSuggestion(
 export async function modifySuggestion(
   id: string,
   reviewedBy: string,
-  modifiedChanges: any[],
+  modifiedChanges: Record<string, unknown>[],
   reviewNotes?: string,
   feedbackRating?: number,
   feedbackNotes?: string

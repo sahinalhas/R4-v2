@@ -1,7 +1,17 @@
 import getDatabase from '../../../lib/database.js';
 import type { SurveyDistribution } from '../types/surveys.types.js';
+import type BetterSqlite3 from 'better-sqlite3';
 
-let statements: any = null;
+interface PreparedStatements {
+  getSurveyDistributions: BetterSqlite3.Statement;
+  getSurveyDistribution: BetterSqlite3.Statement;
+  getSurveyDistributionByLink: BetterSqlite3.Statement;
+  insertSurveyDistribution: BetterSqlite3.Statement;
+  updateSurveyDistribution: BetterSqlite3.Statement;
+  deleteSurveyDistribution: BetterSqlite3.Statement;
+}
+
+let statements: PreparedStatements | null = null;
 let isInitialized = false;
 
 function ensureInitialized(): void {
@@ -31,10 +41,15 @@ function ensureInitialized(): void {
   isInitialized = true;
 }
 
+interface SurveyDistributionRaw extends Omit<SurveyDistribution, 'targetClasses' | 'targetStudents'> {
+  targetClasses: string | null;
+  targetStudents: string | null;
+}
+
 export function loadSurveyDistributions(): SurveyDistribution[] {
   try {
     ensureInitialized();
-    const distributions = statements.getSurveyDistributions.all() as any[];
+    const distributions = statements!.getSurveyDistributions.all() as SurveyDistributionRaw[];
     return distributions.map(distribution => ({
       ...distribution,
       targetClasses: distribution.targetClasses ? JSON.parse(distribution.targetClasses) : [],
@@ -49,7 +64,7 @@ export function loadSurveyDistributions(): SurveyDistribution[] {
 export function getSurveyDistribution(id: string): SurveyDistribution | null {
   try {
     ensureInitialized();
-    const distribution = statements.getSurveyDistribution.get(id) as any;
+    const distribution = statements!.getSurveyDistribution.get(id) as SurveyDistributionRaw | undefined;
     if (!distribution) return null;
     
     return {
@@ -66,7 +81,7 @@ export function getSurveyDistribution(id: string): SurveyDistribution | null {
 export function getSurveyDistributionByLink(publicLink: string): SurveyDistribution | null {
   try {
     ensureInitialized();
-    const distribution = statements.getSurveyDistributionByLink.get(publicLink) as any;
+    const distribution = statements!.getSurveyDistributionByLink.get(publicLink) as SurveyDistributionRaw | undefined;
     if (!distribution) return null;
     
     return {
@@ -80,10 +95,10 @@ export function getSurveyDistributionByLink(publicLink: string): SurveyDistribut
   }
 }
 
-export function saveSurveyDistribution(distribution: any): void {
+export function saveSurveyDistribution(distribution: Partial<SurveyDistribution>): void {
   try {
     ensureInitialized();
-    statements.insertSurveyDistribution.run(
+    statements!.insertSurveyDistribution.run(
       distribution.id,
       distribution.templateId,
       distribution.title,
@@ -106,10 +121,10 @@ export function saveSurveyDistribution(distribution: any): void {
   }
 }
 
-export function updateSurveyDistribution(id: string, distribution: any): void {
+export function updateSurveyDistribution(id: string, distribution: Partial<SurveyDistribution>): void {
   try {
     ensureInitialized();
-    statements.updateSurveyDistribution.run(
+    statements!.updateSurveyDistribution.run(
       distribution.title,
       distribution.description || null,
       distribution.targetClasses ? JSON.stringify(distribution.targetClasses) : null,
@@ -131,7 +146,7 @@ export function updateSurveyDistribution(id: string, distribution: any): void {
 export function deleteSurveyDistribution(id: string): void {
   try {
     ensureInitialized();
-    statements.deleteSurveyDistribution.run(id);
+    statements!.deleteSurveyDistribution.run(id);
   } catch (error) {
     console.error('Error deleting survey distribution:', error);
     throw error;

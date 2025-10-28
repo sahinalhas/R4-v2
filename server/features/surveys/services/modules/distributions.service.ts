@@ -1,5 +1,6 @@
 import * as repository from '../../repository/index.js';
 import { sanitizeString } from '../../../../middleware/validation.js';
+import type { SurveyDistribution } from '../../types/surveys.types.js';
 
 export function getAllDistributions() {
   return repository.loadSurveyDistributions();
@@ -13,17 +14,17 @@ export function getDistributionByPublicLink(publicLink: string) {
   return repository.getSurveyDistributionByLink(publicLink);
 }
 
-export function createDistribution(distribution: any) {
+export function createDistribution(distribution: Partial<SurveyDistribution>) {
   const sanitizedDistribution = {
     ...distribution,
-    title: sanitizeString(distribution.title),
+    title: distribution.title ? sanitizeString(distribution.title) : undefined,
     description: distribution.description ? sanitizeString(distribution.description) : undefined
   };
   
   repository.saveSurveyDistribution(sanitizedDistribution);
 }
 
-export function updateDistribution(id: string, distribution: any) {
+export function updateDistribution(id: string, distribution: Partial<SurveyDistribution>) {
   const sanitizedDistribution = {
     ...distribution,
     title: distribution.title ? sanitizeString(distribution.title) : undefined,

@@ -1,9 +1,10 @@
 import { sanitizeString } from '../middleware/validation.js';
+import type { SurveyQuestion } from '../features/surveys/types/surveys.types.js';
 
 export interface SurveyQuestionOption {
   text?: string;
   value?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SurveyQuestionData {
@@ -11,51 +12,58 @@ export interface SurveyQuestionData {
   helpText?: string;
   placeholder?: string;
   options?: SurveyQuestionOption[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
-export function sanitizeQuestionData(question: SurveyQuestionData): SurveyQuestionData {
-  const sanitized: SurveyQuestionData = { ...question };
+export function sanitizeQuestionData(question: unknown): SurveyQuestion {
+  const q = question as Record<string, unknown>;
+  const sanitized = { ...q } as SurveyQuestion;
 
-  if (sanitized.questionText) {
+  if (typeof sanitized.questionText === 'string') {
     sanitized.questionText = sanitizeString(sanitized.questionText);
   }
 
-  if (sanitized.helpText) {
-    sanitized.helpText = sanitizeString(sanitized.helpText);
+  if ('helpText' in sanitized && typeof (sanitized as Record<string, unknown>).helpText === 'string') {
+    (sanitized as Record<string, unknown>).helpText = sanitizeString((sanitized as Record<string, unknown>).helpText as string);
   }
 
-  if (sanitized.placeholder) {
-    sanitized.placeholder = sanitizeString(sanitized.placeholder);
+  if ('placeholder' in sanitized && typeof (sanitized as Record<string, unknown>).placeholder === 'string') {
+    (sanitized as Record<string, unknown>).placeholder = sanitizeString((sanitized as Record<string, unknown>).placeholder as string);
   }
 
   if (sanitized.options && Array.isArray(sanitized.options)) {
-    sanitized.options = sanitized.options.map(opt => ({
-      ...opt,
-      text: opt.text ? sanitizeString(opt.text) : opt.text,
-      value: opt.value ? sanitizeString(opt.value) : opt.value
-    }));
+    sanitized.options = (q.options as unknown[]).map((opt: unknown) => {
+      if (typeof opt === 'string') {
+        return sanitizeString(opt);
+      }
+      const option = opt as Record<string, unknown>;
+      return {
+        ...option,
+        text: typeof option.text === 'string' ? sanitizeString(option.text) : option.text,
+        value: typeof option.value === 'string' ? sanitizeString(option.value) : option.value
+      } as string;
+    });
   }
 
   return sanitized;
 }
 
-export function sanitizeTemplateData(template: any): any {
+export function sanitizeTemplateData(template: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...template };
 
-  if (sanitized.title) {
+  if (typeof sanitized.title === 'string') {
     sanitized.title = sanitizeString(sanitized.title);
   }
 
-  if (sanitized.description) {
+  if (typeof sanitized.description === 'string') {
     sanitized.description = sanitizeString(sanitized.description);
   }
 
-  if (sanitized.category) {
+  if (typeof sanitized.category === 'string') {
     sanitized.category = sanitizeString(sanitized.category);
   }
 
-  if (sanitized.targetAudience) {
+  if (typeof sanitized.targetAudience === 'string') {
     sanitized.targetAudience = sanitizeString(sanitized.targetAudience);
   }
 
