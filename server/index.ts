@@ -70,13 +70,17 @@ export function createServer() {
     }
   });
 
-  // CSRF Protection middleware - SADECE /api/* route'lara uygula
+  // Apply rate limiting to all /api routes
+  app.use('/api', generalApiRateLimiter);
+
+  // CSRF Protection middleware - sadece mutation requests için
   const csrfProtectionMiddleware = (req: Request, res: Response, next: NextFunction) => {
     // Public endpoints that don't need CSRF protection
     const publicEndpoints = [
       '/api/users/login',
       '/api/auth/demo-user',
       '/api/csrf-token',
+      '/api/ping',
     ];
     
     const isPublicEndpoint = publicEndpoints.some(path => req.path === path);
@@ -87,13 +91,14 @@ export function createServer() {
       return next();
     }
     
-    // Apply CSRF protection
-    doubleCsrfProtection(req, res, next);
+    // Ensure CSRF session exists before applying protection
+    ensureCsrfSession(req, res, (err) => {
+      if (err) return next(err);
+      doubleCsrfProtection(req, res, next);
+    });
   };
 
-  // Apply CSRF and rate limiting ONLY to /api routes
-  app.use('/api', ensureCsrfSession);
-  app.use('/api', generalApiRateLimiter);
+  // Apply CSRF protection to /api routes (after public endpoints are defined)
   app.use('/api', csrfProtectionMiddleware);
 
   // ========================================================================
