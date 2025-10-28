@@ -45,6 +45,10 @@ function ensureCsrfSession(req: Request, res: Response, next: NextFunction): voi
       path: '/',
       maxAge: 24 * 60 * 60 * 1000,
     });
+    
+    if (isDevelopment) {
+      console.log(`[CSRF] New session created: ${sessionId.substring(0, 8)}...`);
+    }
   }
   
   (req as any).csrfSessionId = sessionId;

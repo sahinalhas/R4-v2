@@ -1,12 +1,12 @@
 import "dotenv/config";
-import express from "express";
+import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import featureRegistry from "./features";
 import { getCorsOptions } from "./middleware/cors-config";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
-import { doubleCsrfProtection, getCsrfToken, ensureCsrfSession } from "./middleware/csrf.middleware";
+import { ensureCsrfSession, doubleCsrfProtection } from "./middleware/csrf.middleware";
 
 /**
  * BACKEND MODULARIZATION - COMPLETE ✅
