@@ -32,9 +32,6 @@ export interface StudentTrajectory {
   interventionPriority: 'ACİL' | 'YÜKSEK' | 'ORTA' | 'DÜŞÜK';
   recommendedActions: string[];
 }
-    recommendedInterventions: string[];
-  };
-}
 
 export interface PersonalizedInterventionPlan {
   studentId: string;

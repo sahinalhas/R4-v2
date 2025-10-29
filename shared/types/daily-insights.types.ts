@@ -56,7 +56,6 @@ export interface StudentDailyStatus {
   
   createdAt: string;
   updatedAt: string;
-}ated_at: string;
 }
 
 export interface ProactiveAlert {

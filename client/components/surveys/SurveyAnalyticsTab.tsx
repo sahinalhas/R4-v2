@@ -10,7 +10,7 @@ import {
   FileText
 } from "lucide-react";
 import { SurveyDistribution } from "@/lib/survey-types";
-import { QuestionAnalyticsCard } from "./analytics";
+import { QuestionAnalyticsCard } from "./analytics/QuestionAnalyticsCard";
 
 interface SurveyAnalyticsTabProps {
   distributions: SurveyDistribution[];

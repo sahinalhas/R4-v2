@@ -13,7 +13,7 @@ import Students from "./pages/Students";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-const StudentProfile = lazy(() => import("./pages/StudentProfile"));
+const StudentProfile = lazy(() => import("./pages/StudentProfile/StudentProfile"));
 const CounselingSessions = lazy(() => import("./pages/CounselingSessions"));
 const Surveys = lazy(() => import("./pages/Surveys"));
 const Reports = lazy(() => import("./pages/Reports"));
