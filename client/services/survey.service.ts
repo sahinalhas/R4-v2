@@ -1,5 +1,5 @@
 import { SurveyTemplate, SurveyDistribution, SurveyQuestion } from "@/lib/survey-types";
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { SURVEY_ENDPOINTS } from '@/lib/constants/api-endpoints';
 
 export const surveyService = {

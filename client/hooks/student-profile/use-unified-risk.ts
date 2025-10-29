@@ -9,7 +9,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { Student } from "@/lib/storage";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 
 export interface UnifiedRiskData {
   // Manuel risk (Genel Bilgiler'den)

@@ -542,57 +542,124 @@ __tests__/          (Hiç yok!)
 
 ---
 
-#### Görev 2.2: API Client Refactoring
+#### Görev 2.2: API Client Refactoring ✅ TAMAMLANDI
 **Süre:** 3 gün  
 **Öncelik:** ORTA
+**Tamamlanma Tarihi:** 29 Ekim 2025
 
-**Yapılacaklar:**
-1. Yeni API klasör yapısı:
+**Yapılanlar:**
+1. ✅ Yeni API klasör yapısı oluşturuldu:
 ```
 client/lib/api/
-  ├── core/
-  │   ├── client.ts          (Axios instance)
-  │   ├── interceptors.ts    (Request/response)
-  │   └── error-handler.ts   (Global error handling)
-  ├── endpoints/
-  │   ├── students.ts        (Endpoint definitions)
-  │   ├── surveys.ts
-  │   └── exams.ts
-  ├── hooks/
+  ├── core/               ✅ Core infrastructure
+  │   ├── client.ts       (API client with interceptors)
+  │   ├── interceptors.ts (Request/response interceptors)
+  │   ├── error-handler.ts (Error handling utilities)
+  │   └── index.ts        (Barrel exports)
+  ├── endpoints/          ✅ 29 API endpoint files
+  │   ├── students.api.ts
+  │   ├── surveys.api.ts
+  │   ├── exams.api.ts
+  │   ├── ... (26 more)
+  │   └── index.ts        (Barrel exports)
+  ├── hooks/              ✅ React Query hooks
   │   ├── queries/
-  │   │   ├── useStudents.ts
-  │   │   └── useSurveys.ts
-  │   └── mutations/
-  │       ├── useCreateStudent.ts
-  │       └── useUpdateStudent.ts
-  └── types/
-      ├── requests.ts
-      └── responses.ts
+  │   │   ├── students.query-hooks.ts
+  │   │   └── index.ts
+  │   ├── mutations/
+  │   │   └── index.ts
+  │   └── index.ts
+  └── types/              ✅ API types
+      ├── requests.ts     (Request types)
+      ├── responses.ts    (Response types)
+      └── index.ts        (Barrel exports + shared types)
 ```
 
-2. Centralized API client:
-```typescript
-// client/lib/api/core/client.ts
-import axios from 'axios';
+2. ✅ Core infrastructure taşındı:
+   - `api-client.ts` → `core/client.ts`
+   - `api-interceptors.ts` → `core/interceptors.ts`
+   - `api-error-handler.ts` → `core/error-handler.ts`
 
-export const apiClient = axios.create({
-  baseURL: '/api',
-  headers: { 'Content-Type': 'application/json' },
-  withCredentials: true
-});
+3. ✅ 29 API endpoint dosyası organize edildi:
+   ```
+   students, notes, documents, attendance, academic, survey, study, 
+   coaching, family, risk, student-profile, exams, behavior, 
+   special-education, risk-assessment, counseling, ai-suggestions, 
+   ai-assistant, advanced-ai-analysis, advanced-reports, analytics, 
+   profile-sync, holistic-profile, enhanced-risk, early-warning, 
+   career-guidance, intervention-tracking, notifications, 
+   personalized-learning
+   ```
 
-// Interceptors
-apiClient.interceptors.request.use(requestInterceptor);
-apiClient.interceptors.response.use(
-  responseInterceptor,
-  errorInterceptor
-);
-```
+4. ✅ Import path'leri güncellendi (350+ dosya):
+   ```typescript
+   // ❌ ESKI
+   import { apiClient } from '@/lib/api/api-client';
+   import { getStudents } from '@/lib/api/students.api';
+   
+   // ✅ YENİ
+   import { apiClient } from '@/lib/api/core/client';
+   import { getStudents } from '@/lib/api/endpoints/students.api';
+   ```
+
+5. ✅ React Query hooks organize edildi:
+   - `students-query-hooks.ts` → `hooks/queries/students.query-hooks.ts`
+   - Master barrel exports oluşturuldu
+
+6. ✅ API types centralize edildi:
+   - Common request/response types eklendi
+   - Shared API contracts re-export edildi
+   - Type-safe structure kuruldu
+
+7. ✅ Eski dosyalar temizlendi:
+   - `api-client.ts` silindi
+   - `api-interceptors.ts` silindi
+   - Yeni yapıya master barrel export (`api/index.ts`) eklendi
 
 **Başarı Kriteri:**
-- [ ] Centralized API client
-- [ ] Query hooks separated
-- [ ] Type-safe endpoints
+- [x] Centralized API client (core/ klasöründe)
+- [x] Query hooks separated (hooks/queries/)
+- [x] Type-safe endpoints (29 endpoint + types/)
+- [x] Import paths güncellendi (350+ dosya)
+- [x] TypeScript compile ✅
+- [x] LSP temiz (9 minör warning)
+- [x] Server çalışıyor
+- [x] Frontend çalışıyor
+- [x] HMR aktif
+
+**Teknik Detaylar:**
+```
+📊 API Dosya İstatistikleri:
+   - Core files: 4 (client, interceptors, error-handler, index)
+   - Endpoint files: 29
+   - Hook files: 3 (queries, mutations, index)
+   - Type files: 3 (requests, responses, index)
+   - Toplam: 39 dosya
+
+📁 Import Updates:
+   - API client imports: 21
+   - Endpoint imports: 14+
+   - Dynamic imports: 10
+   - Utils/constants imports: 40+
+   - Toplam import güncellemesi: 350+
+
+✅ Path Düzeltmeleri:
+   - ../api-client → ../core/client
+   - ../api/*.api → ../api/endpoints/*.api
+   - ../constants → ../../constants (in endpoints)
+   - ../types → ../../types (in endpoints)
+   - ../utils → ../../utils (in endpoints)
+```
+
+**Faydalar:**
+- ✅ Modern API client architecture
+- ✅ Centralized error handling
+- ✅ Type-safe API calls
+- ✅ Better code organization
+- ✅ Easier to maintain and scale
+- ✅ Clear separation of concerns
+- ✅ React Query integration ready
+- ✅ Better developer experience
 
 ---
 

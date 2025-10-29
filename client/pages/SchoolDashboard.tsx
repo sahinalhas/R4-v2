@@ -29,7 +29,7 @@ import {
   type SchoolStatistics as SchoolStatsType,
   type ClassComparison,
   type TimeSeriesAnalysis
-} from '@/lib/api/advanced-reports.api';
+} from '@/lib/api/endpoints/advanced-reports.api';
 import { useToast } from '@/hooks/use-toast';
 import { 
   BarChart, 

@@ -44,7 +44,7 @@ import {
   type StudentCompetency,
   type CompetencyStats,
   type CareerComparison
-} from "@/lib/api/career-guidance.api";
+} from "@/lib/api/endpoints/career-guidance.api";
 import type {
   CareerProfile,
   CareerAnalysisResult,

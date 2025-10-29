@@ -5,7 +5,7 @@ import { Badge } from "@/components/atoms/Badge";
 import { Alert, AlertDescription } from "@/components/atoms/Alert";
 import { FileText, ExternalLink, Info, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { useNavigate } from "react-router-dom";
 
 interface SurveyResponse {

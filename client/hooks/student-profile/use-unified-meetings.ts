@@ -7,7 +7,7 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 
 export interface UnifiedMeeting {
   id: string;

@@ -13,8 +13,8 @@ import AIToolsHub from "./AIToolsHub";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
 import { MessageCircle, Calendar, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getNotesByStudent } from "@/lib/api/notes.api";
-import { getParentMeetingsByStudent, getHomeVisitsByStudent, getFamilyParticipationByStudent } from "@/lib/api/family.api";
+import { getNotesByStudent } from "@/lib/api/endpoints/notes.api";
+import { getParentMeetingsByStudent, getHomeVisitsByStudent, getFamilyParticipationByStudent } from "@/lib/api/endpoints/family.api";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
 

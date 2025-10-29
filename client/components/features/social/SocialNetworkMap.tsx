@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/organisms/Card';
 import { Badge } from '@/components/atoms/Badge';
 import { Users, AlertTriangle, Shield, TrendingUp } from 'lucide-react';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 
 interface SocialNetworkMapProps {
   studentId: string;

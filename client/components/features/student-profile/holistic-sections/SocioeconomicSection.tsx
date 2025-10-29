@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/atoms/Input";
 import { useForm } from "react-hook-form";
 import { DollarSign, Edit, Plus, Lock } from "lucide-react";
-import { holisticProfileApi } from "@/lib/api/holistic-profile.api";
+import { holisticProfileApi } from "@/lib/api/endpoints/holistic-profile.api";
 import type { StudentSocioeconomic } from "@shared/types";
 
 export default function SocioeconomicSection({ studentId, onUpdate }: { studentId: string; onUpdate: () => void }) {

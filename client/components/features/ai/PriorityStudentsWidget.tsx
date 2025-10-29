@@ -10,7 +10,7 @@ import {
   RefreshCw,
   Loader2 
 } from 'lucide-react';
-import { getPriorityStudents } from '@/lib/api/ai-assistant.api';
+import { getPriorityStudents } from '@/lib/api/endpoints/ai-assistant.api';
 import { useNavigate } from 'react-router-dom';
 import { useAIRecommendations } from '@/lib/ai/useAIRecommendations';
 import { getStatusColor, getScoreColor } from '@/lib/ai/ai-utils';

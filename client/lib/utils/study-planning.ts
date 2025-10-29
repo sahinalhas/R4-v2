@@ -4,7 +4,7 @@ import {
   getProgressByStudent, 
   ensureProgressForStudent,
   getWeeklySlotsByStudent 
-} from "../api/study.api";
+} from "../api/endpoints/study.api";
 
 export type { PlannedEntry };
 

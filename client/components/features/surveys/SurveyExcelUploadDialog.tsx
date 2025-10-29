@@ -19,7 +19,7 @@ import {
   Loader2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { SURVEY_ENDPOINTS } from "@/lib/constants/api-endpoints";
 import { SurveyDistribution } from "@/lib/survey-types";
 

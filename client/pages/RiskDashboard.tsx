@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { earlyWarningApi } from '@/lib/api/early-warning.api';
+import { earlyWarningApi } from '@/lib/api/endpoints/early-warning.api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/atoms/Alert';
 import { Badge } from '@/components/atoms/Badge';

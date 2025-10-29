@@ -50,7 +50,7 @@ import {
   getReportsOverview,
   invalidateAnalyticsCache,
   type ReportsOverview,
-} from "@/lib/api/analytics.api";
+} from "@/lib/api/endpoints/analytics.api";
 
 import { 
   BarChart3, 

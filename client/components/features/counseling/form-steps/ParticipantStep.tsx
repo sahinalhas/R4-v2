@@ -12,7 +12,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 
 import type { IndividualSessionFormValues, GroupSessionFormValues, Student, CounselingTopic } from "../types";
 import StudentInsightCard from "../form-widgets/StudentInsightCard";
-import { getStudentSessionHistory } from "@/lib/api/counseling.api";
+import { getStudentSessionHistory } from "@/lib/api/endpoints/counseling.api";
 
 interface ParticipantStepProps {
   form: UseFormReturn<any>;

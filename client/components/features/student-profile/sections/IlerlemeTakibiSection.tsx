@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Achievement } from "@/lib/storage";
-import { addAchievement as addAchievementAPI, getAchievementsByStudent } from "@/lib/api/coaching.api";
+import { addAchievement as addAchievementAPI, getAchievementsByStudent } from "@/lib/api/endpoints/coaching.api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/organisms/Card";
 import { Input } from "@/components/atoms/Input";
 import { EnhancedTextarea as Textarea } from "@/components/molecules/EnhancedTextarea";

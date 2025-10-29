@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { getPendingSuggestions } from '@/lib/api/ai-suggestions.api';
+import { getPendingSuggestions } from '@/lib/api/endpoints/ai-suggestions.api';
 import { useNavigate } from 'react-router-dom';
 
 export function AIPendingSuggestionsWidget() {

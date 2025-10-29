@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Sparkles, Clock, Users, Target, Eye, EyeOff, RefreshCw, Loader2 } from 'lucide-react';
-import { getTodayActionPlan } from '@/lib/api/advanced-ai-analysis.api';
+import { getTodayActionPlan } from '@/lib/api/endpoints/advanced-ai-analysis.api';
 
 interface DailyActionPlanWidgetProps {
   onHide?: () => void;

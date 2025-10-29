@@ -4,7 +4,7 @@ import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { AlertTriangle, CheckCircle, X } from 'lucide-react';
 import { PROFILE_SYNC_ENDPOINTS } from '@/lib/constants/api-endpoints';
-import { apiClient, createApiHandler } from '@/lib/api/api-client';
+import { apiClient, createApiHandler } from '@/lib/api/core/client';
 
 interface ConflictResolution {
   id: string;

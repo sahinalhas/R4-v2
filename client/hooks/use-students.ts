@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import type { Student, BackendStudent } from '@/lib/storage';
 import { backendToFrontend } from '@/lib/storage';
 

@@ -55,7 +55,7 @@ import type {
   OutcomeFormValues,
 } from "@/components/features/counseling/types";
 
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { COUNSELING_ENDPOINTS, STUDENT_ENDPOINTS } from "@/lib/constants/api-endpoints";
 
 export default function CounselingSessions() {

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { enhancedRiskAPI, type EnhancedRiskScore } from '@/lib/api/enhanced-risk.api';
+import { enhancedRiskAPI, type EnhancedRiskScore } from '@/lib/api/endpoints/enhanced-risk.api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/organisms/Card';
 import { Badge } from '@/components/atoms/Badge';
 import { Progress } from '@/components/atoms/Progress';

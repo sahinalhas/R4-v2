@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { personalizedLearningAPI } from '@/lib/api/personalized-learning.api';
+import { personalizedLearningAPI } from '@/lib/api/endpoints/personalized-learning.api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/organisms/Card';
 import { Badge } from '@/components/atoms/Badge';
 import { Progress } from '@/components/atoms/Progress';

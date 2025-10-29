@@ -9,8 +9,8 @@ import { ScrollArea } from "@/components/organisms/ScrollArea";
 import { Separator } from "@/components/atoms/Separator";
 import { Skeleton } from "@/components/atoms/Skeleton";
 
-import { getStudentSessionHistory } from "@/lib/api/counseling.api";
-import { getNotesByStudent } from "@/lib/api/notes.api";
+import { getStudentSessionHistory } from "@/lib/api/endpoints/counseling.api";
+import { getNotesByStudent } from "@/lib/api/endpoints/notes.api";
 import type { MeetingNote } from "@shared/types/meeting-notes.types";
 import { SESSION_MODE_LABELS, type SessionMode } from "@shared/constants/common.constants";
 

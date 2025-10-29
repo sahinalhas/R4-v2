@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/atoms/Alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select';
 import { Loader2, UserPlus, ArrowLeft } from 'lucide-react';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { USER_ENDPOINTS } from '@/lib/constants/api-endpoints';
 import type { ApiResponse } from '@/lib/types/api-types';
 

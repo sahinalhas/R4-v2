@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms
 import { AlertTriangle, TrendingUp, Users, Calendar, Brain, FileText } from 'lucide-react';
 import { MODERN_GRADIENTS } from '@/lib/config/theme.config';
 import BulkAnalysisDashboard from '@/components/features/ai/BulkAnalysisDashboard';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { AI_ENDPOINTS } from '@/lib/constants/api-endpoints';
 import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
 import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';

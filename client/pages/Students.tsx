@@ -40,7 +40,7 @@ import * as XLSX from 'xlsx';
 
 import { Student, upsertStudent } from '@/lib/storage';
 import { frontendToBackend } from '@/lib/types/student.types';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { STUDENT_ENDPOINTS } from '@/lib/constants/api-endpoints';
 import type { ApiResponse } from '@/lib/types/api-types';
 

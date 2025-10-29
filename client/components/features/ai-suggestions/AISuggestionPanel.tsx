@@ -13,7 +13,7 @@ import {
   rejectSuggestion,
   modifySuggestion,
   fetchSuggestionStats
-} from '@/lib/api/ai-suggestions.api';
+} from '@/lib/api/endpoints/ai-suggestions.api';
 import {
   Card,
   CardContent,

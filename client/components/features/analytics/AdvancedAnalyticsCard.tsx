@@ -28,7 +28,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { Button } from '@/components/atoms/Button';
 import { Alert, AlertDescription } from '@/components/atoms/Alert';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 
 interface AdvancedAnalyticsCardProps {
   studentId: string;

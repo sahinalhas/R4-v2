@@ -3,7 +3,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/atoms/Alert';
 import { Badge } from '@/components/atoms/Badge';
 import { Brain, AlertTriangle, CheckCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 
 interface AIStatus {
   isActive: boolean;

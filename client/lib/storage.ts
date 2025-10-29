@@ -8,17 +8,17 @@ export * from "./types/family.types";
 
 export type { SpecialEducation } from "@shared/types";
 
-export * from "./api/students.api";
-export * from "./api/notes.api";
-export * from "./api/documents.api";
-export * from "./api/attendance.api";
-export * from "./api/academic.api";
-export * from "./api/survey.api";
-export * from "./api/study.api";
-export * from "./api/coaching.api";
-export * from "./api/family.api";
-export * from "./api/risk.api";
-export * from "./api/student-profile.api";
+export * from "./api/endpoints/students.api";
+export * from "./api/endpoints/notes.api";
+export * from "./api/endpoints/documents.api";
+export * from "./api/endpoints/attendance.api";
+export * from "./api/endpoints/academic.api";
+export * from "./api/endpoints/survey.api";
+export * from "./api/endpoints/study.api";
+export * from "./api/endpoints/coaching.api";
+export * from "./api/endpoints/family.api";
+export * from "./api/endpoints/risk.api";
+export * from "./api/endpoints/student-profile.api";
 
 export * from "./utils/templates";
 export * from "./utils/study-planning";

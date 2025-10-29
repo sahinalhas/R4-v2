@@ -1,7 +1,7 @@
 
 import { useEffect } from "react";
 import type { Student } from "@/lib/types/student.types";
-import { upsertStudent } from "@/lib/api/students.api";
+import { upsertStudent } from "@/lib/api/endpoints/students.api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/organisms/Card";
 import { Button } from "@/components/atoms/Button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/organisms/Form";

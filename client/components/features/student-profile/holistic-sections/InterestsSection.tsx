@@ -5,7 +5,7 @@ import { EnhancedTextarea } from "@/components/molecules/EnhancedTextarea";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/organisms/Form";
 import { useForm } from "react-hook-form";
 import { Palette, Edit, Plus } from "lucide-react";
-import { holisticProfileApi } from "@/lib/api/holistic-profile.api";
+import { holisticProfileApi } from "@/lib/api/endpoints/holistic-profile.api";
 import type { StudentInterest } from "@shared/types";
 
 export default function InterestsSection({ studentId, onUpdate }: { studentId: string; onUpdate: () => void }) {

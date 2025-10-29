@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { interventionTrackingApi } from "@/lib/api/intervention-tracking.api";
+import { interventionTrackingApi } from "@/lib/api/endpoints/intervention-tracking.api";
 import type { InterventionEffectiveness } from "@/../../shared/types/notification.types";
 import {
   Card,

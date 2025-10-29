@@ -12,7 +12,7 @@ import ParentCommunication from "@/components/features/ai/ParentCommunication";
 import { Button } from "@/components/atoms/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { AI_ENDPOINTS } from "@/lib/constants/api-endpoints";
 import { Loader2 } from "lucide-react";
 

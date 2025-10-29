@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { notificationsApi } from "@/lib/api/notifications.api";
-import { apiClient } from "@/lib/api/api-client";
+import { notificationsApi } from "@/lib/api/endpoints/notifications.api";
+import { apiClient } from "@/lib/api/core/client";
 import {
   Card,
   CardContent,

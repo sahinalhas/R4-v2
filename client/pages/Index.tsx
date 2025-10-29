@@ -48,7 +48,7 @@ import DailyActionPlanWidget from "@/components/features/dashboard/DailyActionPl
 import SchoolWideAIInsights from "@/components/features/dashboard/SchoolWideAIInsights";
 import { DashboardSkeleton } from "@/components/features/dashboard/DashboardSkeleton";
 import AISuggestionPanel from "@/components/features/ai-suggestions/AISuggestionPanel";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { STUDENT_ENDPOINTS, SURVEY_ENDPOINTS, COUNSELING_ENDPOINTS } from "@/lib/constants/api-endpoints";
 import { MODERN_GRADIENTS } from "@/lib/config/theme.config";
 

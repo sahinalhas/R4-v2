@@ -40,7 +40,7 @@ import {
   StudentInfo 
 } from "@/lib/survey-types";
 import { useToast } from "@/hooks/use-toast";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { SURVEY_ENDPOINTS } from "@/lib/constants/api-endpoints";
 
 const surveyResponseSchema = z.object({

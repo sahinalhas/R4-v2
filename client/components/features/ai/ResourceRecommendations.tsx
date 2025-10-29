@@ -13,7 +13,7 @@ import {
   Sparkles,
   Loader2
 } from 'lucide-react';
-import { getResourceRecommendations } from '@/lib/api/ai-assistant.api';
+import { getResourceRecommendations } from '@/lib/api/endpoints/ai-assistant.api';
 
 export default function ResourceRecommendations() {
   const [category, setCategory] = useState<string>('');

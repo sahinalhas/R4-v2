@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { personalizedLearningAPI, type PersonalizedStudyPlan } from '@/lib/api/personalized-learning.api';
+import { personalizedLearningAPI, type PersonalizedStudyPlan } from '@/lib/api/endpoints/personalized-learning.api';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/organisms/Card';
 import { Badge } from '@/components/atoms/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';

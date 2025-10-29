@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Brain, TrendingUp, TrendingDown, AlertTriangle, EyeOff, RefreshCw, Loader2 } from 'lucide-react';
-import { generateClassComparison } from '@/lib/api/advanced-ai-analysis.api';
+import { generateClassComparison } from '@/lib/api/endpoints/advanced-ai-analysis.api';
 
 interface SchoolWideAIInsightsProps {
   onHide?: () => void;
@@ -36,7 +36,7 @@ export default function SchoolWideAIInsights({ onHide, className }: SchoolWideAI
   useEffect(() => {
     const fetchDefaultClass = async () => {
       try {
-        const { apiClient, createApiHandler } = await import('@/lib/api/api-client');
+        const { apiClient, createApiHandler } = await import('@/lib/api/core/client');
         const students = await createApiHandler(
           async () => {
             return await apiClient.get<{ data: Array<{ className?: string }> }>(

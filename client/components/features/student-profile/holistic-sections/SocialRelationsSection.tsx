@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/organisms/Form";
 import { useForm } from "react-hook-form";
 import { Users2, Edit, Plus } from "lucide-react";
-import { holisticProfileApi } from "@/lib/api/holistic-profile.api";
+import { holisticProfileApi } from "@/lib/api/endpoints/holistic-profile.api";
 import type { StudentSocialRelation } from "@shared/types";
 
 export default function SocialRelationsSection({ studentId, onUpdate }: { studentId: string; onUpdate: () => void }) {

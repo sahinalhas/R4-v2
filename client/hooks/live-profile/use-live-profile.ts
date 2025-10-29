@@ -10,7 +10,7 @@ import {
   getStudentSyncLogs,
   getSyncStatistics,
   type UnifiedStudentIdentity 
-} from '@/lib/api/profile-sync.api';
+} from '@/lib/api/endpoints/profile-sync.api';
 
 export function useLiveProfile(studentId: string) {
   const queryClient = useQueryClient();

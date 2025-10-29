@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { BACKUP_ENDPOINTS } from '@/lib/constants/api-endpoints';
 
 interface BackupMetadata {

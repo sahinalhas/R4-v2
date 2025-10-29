@@ -26,7 +26,7 @@ import {
   generateParentMeetingPrep,
   generateInterventionPlan,
   generateTeacherMeetingPrep
-} from '@/lib/api/ai-assistant.api';
+} from '@/lib/api/endpoints/ai-assistant.api';
 
 interface MeetingPrepPanelProps {
   selectedStudent?: string;

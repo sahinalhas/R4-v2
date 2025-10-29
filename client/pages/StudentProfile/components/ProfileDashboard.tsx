@@ -33,7 +33,7 @@ import ProfileChangeTimeline from "@/components/features/profile-sync/ProfileCha
 import ConflictResolutionPanel from "@/components/features/profile-sync/ConflictResolutionPanel";
 import ManualCorrectionPanel from "@/components/features/profile-sync/ManualCorrectionPanel";
 import ConflictResolutionUI from "@/components/features/profile-sync/ConflictResolutionUI";
-import { apiClient } from "@/lib/api/api-client";
+import { apiClient } from "@/lib/api/core/client";
 import { AI_ENDPOINTS } from "@/lib/constants/api-endpoints";
 
 interface UnifiedScores {

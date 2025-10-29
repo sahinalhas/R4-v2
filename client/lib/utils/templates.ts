@@ -6,7 +6,7 @@ import {
   saveSubjects,
   getWeeklySlotsByStudent,
   removeWeeklySlot
-} from "../api/study.api";
+} from "../api/endpoints/study.api";
 
 const SCHEDULE_TEMPLATES: ScheduleTemplate[] = [
   {

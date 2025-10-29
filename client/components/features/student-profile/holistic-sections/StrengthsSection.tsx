@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { Sparkles, Plus, Edit, Trash2 } from "lucide-react";
-import { holisticProfileApi } from "@/lib/api/holistic-profile.api";
+import { holisticProfileApi } from "@/lib/api/endpoints/holistic-profile.api";
 import type { StudentStrength } from "@shared/types";
 
 const strengthSchema = z.object({

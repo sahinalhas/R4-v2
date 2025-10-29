@@ -24,7 +24,7 @@ import rehypeRaw from 'rehype-raw';
 import MeetingPrepPanel from '@/components/features/ai/MeetingPrepPanel';
 import PriorityStudentsWidget from '@/components/features/ai/PriorityStudentsWidget';
 import ResourceRecommendations from '@/components/features/ai/ResourceRecommendations';
-import { apiClient } from '@/lib/api/api-client';
+import { apiClient } from '@/lib/api/core/client';
 import { AI_ENDPOINTS, STUDENT_ENDPOINTS } from '@/lib/constants/api-endpoints';
 
 interface Message {
