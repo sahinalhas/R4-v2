@@ -1,10 +1,10 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Sparkles, Loader2 } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "@/components/atoms/Button/button";
 import { toast } from "sonner";
-import { VoiceInputButton } from "./voice-input-button";
-import { VoiceInputStatus } from "./voice-input-status";
+import { VoiceInputButton } from "@/components/molecules/VoiceInputButton/voice-input-button";
+import { VoiceInputStatus } from "@/components/molecules/VoiceInputStatus/voice-input-status";
 import type { 
   EnhancedTextareaVoiceProps,
   SpeechRecognitionStatus 
@@ -39,7 +39,7 @@ const EnhancedTextarea = React.forwardRef<HTMLTextAreaElement, EnhancedTextareaP
 
     const [voiceStatus, setVoiceStatus] = React.useState<SpeechRecognitionStatus>('idle');
     const [voiceDuration, setVoiceDuration] = React.useState(0);
-    const internalTextareaRef = React.useRef<HTMLTextAreaElement>(null);
+    const internalTextareaRef = React.useRef<HTMLTextAreaElement | null>(null);
 
     React.useImperativeHandle(ref, () => internalTextareaRef.current!);
 
