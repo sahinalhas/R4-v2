@@ -31,7 +31,10 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "quality": "npm run lint && npm run typecheck && npm run format",
-    "ci": "npm run typecheck && npm run test:coverage && npm run lint"
+    "ci": "npm run typecheck && npm run test:coverage && npm run lint",
+    "lighthouse": "lhci autorun",
+    "lighthouse:open": "lhci autorun && open .lighthouseci/",
+    "analyze:bundle": "vite build --mode analyze"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

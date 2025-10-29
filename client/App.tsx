@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./lib/auth-context";
 import ErrorBoundary from "./components/features/common/ErrorBoundary";
 import { setupGlobalErrorHandlers } from "./lib/error-handler";
+import { initWebVitals } from "./lib/web-vitals";
 import { Loader2 } from "lucide-react";
 import Layout from "./layout/Rehber360Layout";
 import Index from "./pages/Index";
@@ -45,6 +46,7 @@ const queryClient = new QueryClient({
 const App = () => {
   useEffect(() => {
     const cleanup = setupGlobalErrorHandlers();
+    initWebVitals();
     return cleanup;
   }, []);
 
