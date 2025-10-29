@@ -36,6 +36,8 @@ Understand the system architecture and design decisions.
 
 Complete API documentation for all endpoints.
 
+### Core Features
+
 | Document | Description |
 |----------|-------------|
 | [API Overview](./api/README.md) | Authentication, error handling, pagination, conventions |
@@ -43,11 +45,32 @@ Complete API documentation for all endpoints.
 | [Surveys API](./api/surveys.md) | Survey templates, distribution, responses, AI analysis |
 | [Exams API](./api/exams.md) | Exam results, analytics, goal tracking, bulk import |
 | [Counseling API](./api/counseling.md) | Counseling sessions, AI summary, voice transcription |
+
+### AI Features
+
+| Document | Description |
+|----------|-------------|
 | [AI Assistant API](./api/ai-assistant.md) | Chat interface, context-aware responses, provider switching |
 | [AI Suggestions API](./api/ai-suggestions.md) | AI-generated profile updates, approval queue, bulk operations |
+| [Advanced AI Analysis API](./api/advanced-ai-analysis.md) | Deep psychological analysis, risk predictions, behavioral patterns |
+| [Profile Sync API](./api/profile-sync.md) | Living student profile updates, automated sync from data sources |
+
+### Administrative
+
+| Document | Description |
+|----------|-------------|
 | [Authentication API](./api/authentication.md) | Login, registration, session management, RBAC |
 | [Analytics API](./api/analytics.md) | Dashboard stats, class analytics, trends |
 | [Career Guidance API](./api/career-guidance.md) | Career profiles, student-career matching |
+
+### Support Features
+
+| Document | Description |
+|----------|-------------|
+| [Risk Assessment API](./api/risk-assessment.md) | Risk evaluation, tracking, distribution analytics |
+| [Intervention Tracking API](./api/intervention-tracking.md) | Intervention plans, progress monitoring, effectiveness tracking |
+| [Documents API](./api/documents.md) | File uploads, document management, bulk operations |
+| [Notifications API](./api/notifications.md) | Notification rules, automated alerts, delivery management |
 
 **Start here if you're:**
 - Integrating with the API
