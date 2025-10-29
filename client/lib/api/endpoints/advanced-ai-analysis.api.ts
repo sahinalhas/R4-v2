@@ -9,7 +9,7 @@ import type {
   CounselorDailyPlan,
   StudentTimeline,
   ComparativeAnalysisReport
-} from '../../../shared/types/advanced-ai-analysis.types.js';
+} from '@shared/types/advanced-ai-analysis.types';
 import { apiClient } from '../core/client';
 import { ADVANCED_AI_ENDPOINTS } from '../../constants/api-endpoints';
 
