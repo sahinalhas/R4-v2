@@ -34,6 +34,10 @@ import { handleMulterError } from "./middleware/file-validation.middleware";
 export function createServer() {
   const app = express();
 
+  // Trust proxy for Replit environment (fixes rate limiting)
+  app.set('trust proxy', true);
+
+  // Middleware'ler
   app.use(securityHeaders);
   app.use(cors(corsConfig));
 
@@ -81,10 +85,10 @@ export function createServer() {
   // Catch-all error handler for unhandled errors
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error('Unhandled error:', err);
-    
+
     // Don't expose internal error details in production
     const isDevelopment = env.NODE_ENV === 'development';
-    
+
     res.status(err.statusCode || 500).json({
       success: false,
       error: isDevelopment ? err.message : 'Internal server error',
