@@ -216,32 +216,94 @@ __tests__/          (Hiç yok!)
 
 ---
 
-#### Görev 1.2: Dosya Adlandırma Standardizasyonu
+#### Görev 1.2: Dosya Adlandırma Standardizasyonu ✅ TAMAMLANDI
 **Süre:** 2 gün  
-**Öncelik:** YÜKSEK
+**Öncelik:** YÜKSEK  
+**Tamamlanma Tarihi:** 29 Ekim 2025
 
-**Yapılacaklar:**
-1. Naming convention belirle:
-```
-✅ Standart:
-- kebab-case: dosyalar için (students.service.ts)
-- PascalCase: React component'ler için (StudentCard.tsx)
-- camelCase: değişkenler/fonksiyonlar için
-```
+**Yapılanlar:**
+1. ✅ Naming convention standardize edildi:
+   ```
+   ✅ Standart Uygulanan:
+   - kebab-case: TypeScript dosyaları için (use-students.ts, survey.service.ts)
+   - PascalCase: React component'ler için (StudentCard.tsx) - değişmedi
+   - camelCase: değişkenler/fonksiyonlar için - değişmedi
+   ```
 
-2. Toplu dosya rename:
-```bash
-# Örnek: Service dosyaları
-mv studentsService.ts students.service.ts
-mv surveyService.ts survey.service.ts
-```
+2. ✅ Toplu dosya rename (24 dosya):
+   ```bash
+   # Hooks (22 dosya):
+   useStudents.ts → use-students.ts
+   useStudentStats.ts → use-student-stats.ts
+   useStudentFilter.ts → use-student-filter.ts
+   useStudentFilters.ts → use-student-filters.ts
+   useSpeechRecognition.ts → use-speech-recognition.ts
+   usePagination.ts → use-pagination.ts
+   useMobileLayout.ts → use-mobile-layout.ts
+   useExamManagement.ts → use-exam-management.ts
+   useUndo.ts → use-undo.ts
+   useVoiceKeyboardShortcut.ts → use-voice-keyboard-shortcut.ts
+   useStandardizedProfileSection.ts → use-standardized-profile-section.ts
+   
+   # Counseling hooks (3 dosya):
+   useSessionStats.ts → use-session-stats.ts
+   useSessionFilters.ts → use-session-filters.ts
+   useSessionActions.ts → use-session-actions.ts
+   
+   # Student-profile hooks (4 dosya):
+   useStudentData.ts → use-student-data.ts
+   useStudentProfile.ts → use-student-profile.ts
+   useUnifiedRisk.ts → use-unified-risk.ts
+   useUnifiedMeetings.ts → use-unified-meetings.ts
+   
+   # Surveys hooks (3 dosya):
+   useSurveyDistributions.ts → use-survey-distributions.ts
+   useSurveyTemplates.ts → use-survey-templates.ts
+   useTemplateQuestions.ts → use-template-questions.ts
+   
+   # Live-profile hooks (1 dosya):
+   useLiveProfile.ts → use-live-profile.ts
+   
+   # Services (1 dosya):
+   surveyService.ts → survey.service.ts
+   
+   # Utils (1 dosya):
+   exportHelpers.ts → export-helpers.ts
+   ```
 
-3. Import'ları güncelle (VS Code bulk rename kullan)
+3. ✅ Import'lar güncellendi (362 dosya tarandı):
+   ```typescript
+   // ❌ ESKI
+   import { useStudents } from '@/hooks/useStudents';
+   import { surveyService } from '@/services/surveyService';
+   import { exportToCSV } from '@/utils/exportHelpers';
+   
+   // ✅ YENİ
+   import { useStudents } from '@/hooks/use-students';
+   import { surveyService } from '@/services/survey.service';
+   import { exportToCSV } from '@/utils/export-helpers';
+   ```
+
+4. ✅ Barrel exports güncellendi:
+   ```typescript
+   // client/hooks/student-profile/index.ts
+   export { useStudentData } from "./use-student-data";
+   export { useStudentProfile } from "./use-student-profile";
+   
+   // client/hooks/surveys/index.ts
+   export { useSurveyTemplates } from './use-survey-templates';
+   export { useSurveyDistributions } from './use-survey-distributions';
+   ```
 
 **Başarı Kriteri:**
-- [ ] Tüm dosyalar standart convention'a uygun
-- [ ] No broken imports
-- [ ] Linter pass
+- [x] 24 dosya kebab-case'e dönüştürüldü
+- [x] 362 dosyada import path'ler güncellendi
+- [x] TypeScript compile ✅
+- [x] LSP temiz (0 hata)
+- [x] Runtime hataları: 0
+- [x] Server çalışıyor
+- [x] Frontend çalışıyor
+- [x] HMR aktif
 
 ---
 

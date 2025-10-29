@@ -35,7 +35,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2, Edit2, GripVertical } from "lucide-react";
 import { SurveyTemplate, SurveyQuestion, SurveyQuestionType } from "@/lib/survey-types";
-import { surveyService } from "@/services/surveyService";
+import { surveyService } from "@/services/survey.service";
 import { useToast } from "@/hooks/use-toast";
 
 const editSchema = z.object({

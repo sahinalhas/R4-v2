@@ -19,8 +19,8 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, Save, ArrowRight, Copy, Info, AlertCircle } from 'lucide-react';
-import { useExamSubjects, useExamResultsBySessionAndStudent } from '@/hooks/useExamManagement';
-import { useStudentFilter } from '@/hooks/useStudentFilter';
+import { useExamSubjects, useExamResultsBySessionAndStudent } from '@/hooks/use-exam-management';
+import { useStudentFilter } from '@/hooks/use-student-filter';
 import { calculateNetScore } from '@/lib/utils/exam-utils';
 import type {
   ExamSession,

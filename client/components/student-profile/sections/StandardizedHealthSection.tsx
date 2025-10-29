@@ -15,7 +15,7 @@ import {
   ALLERGIES,
   MEDICATION_TYPES
 } from "@shared/constants/student-profile-taxonomy";
-import { useStandardizedProfileSection } from "@/hooks/useStandardizedProfileSection";
+import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
 
 const healthProfileSchema = z.object({
   bloodType: z.string().optional(),

@@ -11,7 +11,7 @@ import { EnhancedTextarea as Textarea } from "@/components/ui/enhanced-textarea"
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Heart } from "lucide-react";
 import { SOCIAL_SKILLS } from "@shared/constants/student-profile-taxonomy";
-import { useStandardizedProfileSection } from "@/hooks/useStandardizedProfileSection";
+import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
 
 const socialEmotionalSchema = z.object({
   assessmentDate: z.string(),

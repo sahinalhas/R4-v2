@@ -21,7 +21,7 @@ import {
   Target,
   Clock
 } from "lucide-react";
-import { useLiveProfile } from "@/hooks/live-profile/useLiveProfile";
+import { useLiveProfile } from "@/hooks/live-profile/use-live-profile";
 import { cn } from "@/lib/utils";
 
 interface LiveProfileCardProps {

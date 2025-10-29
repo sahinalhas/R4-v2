@@ -20,7 +20,7 @@ import {
   useSchoolExamsByStudent,
   useCreateSchoolExam,
   useDeleteSchoolExam,
-} from '@/hooks/useExamManagement';
+} from '@/hooks/use-exam-management';
 import { ExamSessionDialog } from '@/components/exam-management/ExamSessionDialog';
 import { PracticeExamsTab } from '@/components/exam-management/PracticeExamsTab';
 import { SchoolExamsTab } from '@/components/exam-management/SchoolExamsTab';

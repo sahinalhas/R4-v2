@@ -28,7 +28,7 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { useTrendAnalysis } from '@/hooks/useExamManagement';
+import { useTrendAnalysis } from '@/hooks/use-exam-management';
 import type { ExamType } from '../../../shared/types/exam-management.types';
 
 interface TrendAnalysisTabProps {

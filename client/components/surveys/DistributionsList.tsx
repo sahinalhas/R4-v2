@@ -21,7 +21,7 @@ import {
 import { SurveyDistribution, DistributionStatus } from "@/lib/survey-types";
 import SurveyExcelUploadDialog from "./SurveyExcelUploadDialog";
 import { useToast } from "@/hooks/use-toast";
-import { surveyService } from "@/services/surveyService";
+import { surveyService } from "@/services/survey.service";
 import { useNavigate } from "react-router-dom";
 
 interface DistributionsListProps {

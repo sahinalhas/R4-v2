@@ -36,7 +36,7 @@ import {
   PolarRadiusAxis,
   Radar,
 } from 'recharts';
-import { useSessionComparison } from '@/hooks/useExamManagement';
+import { useSessionComparison } from '@/hooks/use-exam-management';
 import type { ExamSession, ExamType, SessionComparison } from '../../../shared/types/exam-management.types';
 import { toast } from 'sonner';
 

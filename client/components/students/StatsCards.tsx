@@ -2,7 +2,7 @@ import { Users, UserCheck, UserX, AlertTriangle } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
 import { StatsGrid, SkeletonCard } from '@/components/ui/stats-grid';
 import { MODERN_GRADIENTS } from '@/lib/config/theme.config';
-import type { StudentStats } from '@/hooks/useStudentStats';
+import type { StudentStats } from '@/hooks/use-student-stats';
 
 interface StatsCardsProps {
   stats: StudentStats;

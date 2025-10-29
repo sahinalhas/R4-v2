@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "@/components/ui/button";
 import { EnhancedTextarea } from "@/components/ui/enhanced-textarea";
 import { Target, Users } from "lucide-react";
-import { useStandardizedProfileSection } from "@/hooks/useStandardizedProfileSection";
+import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
 
 const hedeflerPlanlamaSchema = z.object({
   assessmentDate: z.string(),

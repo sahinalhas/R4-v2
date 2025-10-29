@@ -31,9 +31,9 @@ import RemindersTab from "@/components/counseling/RemindersTab";
 import OutcomesTab from "@/components/counseling/OutcomesTab";
 import ReportGenerationDialog, { type ReportOptions } from "@/components/counseling/ReportGenerationDialog";
 
-import { useSessionStats } from "@/hooks/counseling/useSessionStats";
-import { useSessionFilters } from "@/hooks/counseling/useSessionFilters";
-import { useSessionActions } from "@/hooks/counseling/useSessionActions";
+import { useSessionStats } from "@/hooks/counseling/use-session-stats";
+import { useSessionFilters } from "@/hooks/counseling/use-session-filters";
+import { useSessionActions } from "@/hooks/counseling/use-session-actions";
 
 import { getElapsedTime, getSessionName } from "@/components/counseling/utils/sessionHelpers";
 import { exportSessionsToExcel } from "@/components/counseling/utils/sessionExport";

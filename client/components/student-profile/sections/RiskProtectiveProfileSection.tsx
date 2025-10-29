@@ -9,7 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { EnhancedTextarea as Textarea } from "@/components/ui/enhanced-textarea";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Shield, AlertTriangle } from "lucide-react";
-import { useStandardizedProfileSection } from "@/hooks/useStandardizedProfileSection";
+import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
 
 const riskProtectiveProfileSchema = z.object({
   assessmentDate: z.string(),

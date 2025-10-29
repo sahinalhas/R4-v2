@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SurveyDistribution } from "@/lib/survey-types";
-import { surveyService } from "@/services/surveyService";
+import { surveyService } from "@/services/survey.service";
 import { useToast } from "@/hooks/use-toast";
 
 const editSchema = z.object({

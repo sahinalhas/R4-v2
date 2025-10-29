@@ -44,11 +44,11 @@ import { apiClient } from '@/lib/api/api-client';
 import { STUDENT_ENDPOINTS } from '@/lib/constants/api-endpoints';
 import type { ApiResponse } from '@/lib/types/api-types';
 
-import { useStudents } from '@/hooks/useStudents';
-import { useStudentStats } from '@/hooks/useStudentStats';
-import { useStudentFilters } from '@/hooks/useStudentFilters';
-import { usePagination } from '@/hooks/usePagination';
-import { exportToCSV, exportToPDF, exportToExcel } from '@/utils/exportHelpers';
+import { useStudents } from '@/hooks/use-students';
+import { useStudentStats } from '@/hooks/use-student-stats';
+import { useStudentFilters } from '@/hooks/use-student-filters';
+import { usePagination } from '@/hooks/use-pagination';
+import { exportToCSV, exportToPDF, exportToExcel } from '@/utils/export-helpers';
 
 import { StatsCards } from '@/components/students/StatsCards';
 import { AdvancedFilters } from '@/components/students/AdvancedFilters';

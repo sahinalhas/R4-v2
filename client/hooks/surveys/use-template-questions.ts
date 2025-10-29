@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SurveyQuestion } from "@/lib/survey-types";
-import { surveyService } from "@/services/surveyService";
+import { surveyService } from "@/services/survey.service";
 import { useToast } from "@/hooks/use-toast";
 
 export function useTemplateQuestions() {

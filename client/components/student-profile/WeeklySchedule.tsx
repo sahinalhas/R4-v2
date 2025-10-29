@@ -29,7 +29,7 @@ import {
   saveWeeklySlots,
 } from "@/lib/storage";
 import { toast } from "sonner";
-import { useUndo, formatActionName, formatTime } from "@/hooks/useUndo";
+import { useUndo, formatActionName, formatTime } from "@/hooks/use-undo";
 import ScheduleTemplateDialog from "./ScheduleTemplateDialog";
 
 const DAYS: { value: 1 | 2 | 3 | 4 | 5 | 6 | 7; label: string }[] = [

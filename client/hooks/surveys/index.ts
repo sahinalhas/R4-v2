@@ -1,3 +1,3 @@
-export { useSurveyTemplates } from './useSurveyTemplates';
-export { useSurveyDistributions } from './useSurveyDistributions';
-export { useTemplateQuestions } from './useTemplateQuestions';
+export { useSurveyTemplates } from './use-survey-templates';
+export { useSurveyDistributions } from './use-survey-distributions';
+export { useTemplateQuestions } from './use-template-questions';

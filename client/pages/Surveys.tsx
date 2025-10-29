@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, ClipboardList } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { useSurveyTemplates, useSurveyDistributions, useTemplateQuestions } from "@/hooks/surveys";
-import { surveyService } from "@/services/surveyService";
+import { surveyService } from "@/services/survey.service";
 import { useToast } from "@/hooks/use-toast";
 import { SurveyTemplate } from "@/lib/survey-types";
 import SurveyCreationDialog from "@/components/surveys/SurveyCreationDialog";

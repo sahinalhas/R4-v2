@@ -9,7 +9,7 @@ import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
+import { useSpeechRecognition } from '@/hooks/use-speech-recognition';
 import type { VoiceInputButtonProps } from '@shared/types/speech.types';
 
 export function VoiceInputButton({

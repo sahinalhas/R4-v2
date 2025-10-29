@@ -10,7 +10,7 @@ import {
   useExamResultsByStudent,
   useSchoolExamsByStudent,
   useStudentStatistics,
-} from '@/hooks/useExamManagement';
+} from '@/hooks/use-exam-management';
 import {
   BarChart,
   Bar,
