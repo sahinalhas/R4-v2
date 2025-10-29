@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Badge } from '../ui/badge';
-import { Skeleton } from '../ui/skeleton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select/select';
+import { Badge } from '@/components/atoms/Badge/badge';
+import { Skeleton } from '@/components/atoms/Skeleton/skeleton';
 import { BarChart3, Target, TrendingUp, Award, Calendar, FileText } from 'lucide-react';
 import { GoalTrackingWidget } from './GoalTrackingWidget';
 import { SubjectHeatmapWidget } from './SubjectHeatmapWidget';
