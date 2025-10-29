@@ -54,6 +54,7 @@ import { useAuth } from "@/lib/auth-context";
 import AIStatusIndicator from "@/components/features/common/AIStatusIndicator";
 import { useIsMobile } from "@/hooks/utils/mobile.utils";
 import { cn } from "@/lib/utils";
+import { prefetchRoute } from "@/hooks/usePrefetchRoutes";
 
 // Modern minimalist logo
 function AppLogo({ collapsed }: { collapsed?: boolean }) {
@@ -233,6 +234,7 @@ export default function Rehber360Layout() {
                   key={item.to}
                   to={item.to}
                   end={item.end}
+                  onMouseEnter={() => prefetchRoute(item.to)}
                   className={({ isActive }) => cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -271,6 +273,7 @@ export default function Rehber360Layout() {
                     to={item.to}
                     end={item.end}
                     onClick={() => setMobileMenuOpen(false)}
+                    onMouseEnter={() => prefetchRoute(item.to)}
                     className={({ isActive }) => cn(
                       "flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors",
                       "hover:bg-accent hover:text-accent-foreground",

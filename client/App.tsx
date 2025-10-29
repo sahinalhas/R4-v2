@@ -34,11 +34,11 @@ const ExamManagementPage = lazy(() => import("./pages/ExamManagementPage"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 30 * 1000,
-      gcTime: 5 * 60 * 1000,
-      refetchOnWindowFocus: true,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
+      staleTime: 1 * 60 * 1000, // 1 minute - data is fresh for quick page transitions
+      gcTime: 5 * 60 * 1000, // 5 minutes - keep in cache for fast back/forward navigation
+      refetchOnWindowFocus: false, // Don't refetch when switching tabs (reduces unnecessary requests)
+      refetchOnReconnect: true, // Refetch when connection is restored
+      refetchOnMount: 'always', // Always check for fresh data, but use cache while fetching
       retry: 1,
     },
   },
