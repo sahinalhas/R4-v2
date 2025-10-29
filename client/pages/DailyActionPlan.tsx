@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, Clock, AlertTriangle, CheckCircle2, Users, FileText, Phone, Activity } from 'lucide-react';
-import { getTodayActionPlan, generateDailyActionPlan } from '../lib/api/advanced-ai-analysis.api';
+import { getTodayActionPlan, generateDailyActionPlan } from '@/lib/api/endpoints/advanced-ai-analysis.api';
 import type { CounselorDailyPlan, HourlyAction } from '../../shared/types/advanced-ai-analysis.types';
 import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
 import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';

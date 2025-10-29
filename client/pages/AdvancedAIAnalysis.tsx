@@ -5,20 +5,20 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select';
+import { Button } from '@/components/atoms/Button';
+import { Badge } from '@/components/atoms/Badge';
 import { Brain, TrendingUp, Clock, Users, AlertTriangle, BookOpen, Target, Sparkles } from 'lucide-react';
 import { 
   generateClassComparison, 
   generateMultiStudentComparison 
-} from '../lib/api/advanced-ai-analysis.api';
-import { Checkbox } from '../components/ui/checkbox';
-import { ScrollArea } from '../components/ui/scroll-area';
-import { apiClient } from '../lib/api/api-client';
-import { STUDENT_ENDPOINTS } from '../lib/constants/api-endpoints';
+} from '@/lib/api/endpoints/advanced-ai-analysis.api';
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { ScrollArea } from '@/components/organisms/ScrollArea';
+import { apiClient } from '@/lib/api';
+import { STUDENT_ENDPOINTS } from '@/lib/constants/api-endpoints';
 import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
 import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
 

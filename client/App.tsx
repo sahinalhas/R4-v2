@@ -7,6 +7,7 @@ import { AuthProvider } from "./lib/auth-context";
 import ErrorBoundary from "./components/features/common/ErrorBoundary";
 import { setupGlobalErrorHandlers } from "./lib/error-handler";
 import { initWebVitals } from "./lib/web-vitals";
+import { usePrefetchRoutes } from "./hooks/usePrefetchRoutes";
 import { Loader2 } from "lucide-react";
 import Layout from "./layout/Rehber360Layout";
 import Index from "./pages/Index";
@@ -43,6 +44,11 @@ const queryClient = new QueryClient({
   },
 });
 
+function PrefetchWrapper() {
+  usePrefetchRoutes();
+  return null;
+}
+
 const App = () => {
   useEffect(() => {
     const cleanup = setupGlobalErrorHandlers();
@@ -63,6 +69,7 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <PrefetchWrapper />
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

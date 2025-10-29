@@ -6,9 +6,9 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { AlertTriangle } from 'lucide-react';
-import { generateComprehensiveAnalysis } from '../lib/api/advanced-ai-analysis.api';
+import { generateComprehensiveAnalysis } from '@/lib/api/endpoints/advanced-ai-analysis.api';
 
 export default function AdvancedStudentAnalysis() {
   const { studentId } = useParams<{ studentId: string }>();

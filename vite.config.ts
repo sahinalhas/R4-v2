@@ -32,35 +32,59 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'vendor-react';
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react-core';
             }
-            if (id.includes('@tanstack/react-query') || id.includes('@tanstack/react-virtual')) {
+            if (id.includes('react-router')) {
+              return 'vendor-react-router';
+            }
+            if (id.includes('@tanstack/react-query')) {
               return 'vendor-query';
             }
+            if (id.includes('@tanstack/react-virtual')) {
+              return 'vendor-virtual';
+            }
             if (id.includes('@radix-ui')) {
-              return 'vendor-ui';
+              const component = id.match(/@radix-ui\/react-([^/]+)/)?.[1];
+              if (component) {
+                const commonComponents = ['slot', 'primitive', 'use-callback-ref', 'use-controllable-state', 'use-layout-effect', 'use-escape-keydown', 'use-rect'];
+                if (commonComponents.includes(component)) {
+                  return 'vendor-radix-core';
+                }
+                const frequentComponents = ['dialog', 'dropdown-menu', 'select', 'toast', 'tabs'];
+                if (frequentComponents.includes(component)) {
+                  return 'vendor-radix-frequent';
+                }
+                return `vendor-radix-${component}`;
+              }
+              return 'vendor-radix-core';
             }
             if (id.includes('recharts')) {
-              return 'vendor-charts';
+              return 'charts';
             }
             if (id.includes('lucide-react')) {
               return 'vendor-icons';
             }
             if (id.includes('react-markdown') || id.includes('remark') || id.includes('rehype') || id.includes('react-syntax-highlighter')) {
-              return 'vendor-markdown';
+              return 'markdown';
             }
             if (id.includes('date-fns')) {
               return 'vendor-date';
             }
             if (id.includes('framer-motion')) {
-              return 'vendor-animation';
+              return 'animation';
             }
             if (id.includes('react-hook-form') || id.includes('@hookform')) {
               return 'vendor-forms';
             }
             if (id.includes('xlsx') || id.includes('jspdf')) {
-              return 'vendor-export';
+              return 'export';
+            }
+            if (id.includes('zod')) {
+              return 'vendor-validation';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor-common';
             }
           }
         },

@@ -21,7 +21,7 @@ export type {
   PaginatedResponse,
   PaginatedData,
   PaginationParams,
-} from '../../../shared/types/api-contracts.js';
+} from '@shared/types/api-contracts';
 
 export {
   ApiErrorCode,
@@ -30,7 +30,7 @@ export {
   createSuccessResponse,
   createErrorResponse,
   createPaginatedResponse,
-} from '../../../shared/types/api-contracts.js';
+} from '@shared/types/api-contracts';
 
 /**
  * User API Types
