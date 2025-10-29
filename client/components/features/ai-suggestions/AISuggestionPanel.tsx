@@ -7,12 +7,12 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/lib/auth-context';
 import { 
-  getPendingSuggestions, 
+  fetchPendingSuggestions, 
   getStudentSuggestions,
   approveSuggestion, 
   rejectSuggestion,
   modifySuggestion,
-  getSuggestionStats
+  fetchSuggestionStats
 } from '@/lib/api/ai-suggestions.api';
 import {
   Card,
@@ -48,7 +48,7 @@ import {
   Star
 } from 'lucide-react';
 import { toast } from 'sonner';
-import type { AISuggestion } from '../../../shared/types/ai-suggestion.types';
+import type { AISuggestion } from '@shared/types/ai-suggestion.types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { getPriorityColor, getPriorityLabel } from '@/lib/ai/ai-utils';
 
@@ -69,14 +69,14 @@ export default function AISuggestionPanel({ studentId, className }: AISuggestion
   // Önerileri getir
   const { data: suggestions, isLoading } = useQuery({
     queryKey: studentId ? ['suggestions', 'student', studentId] : ['suggestions', 'pending'],
-    queryFn: () => studentId ? getStudentSuggestions(studentId) : getPendingSuggestions(100),
+    queryFn: () => studentId ? getStudentSuggestions(studentId) : fetchPendingSuggestions(),
     refetchInterval: 30000 // 30 saniyede bir yenile
   });
 
   // İstatistikleri getir
   const { data: stats } = useQuery({
     queryKey: ['suggestions', 'stats'],
-    queryFn: getSuggestionStats,
+    queryFn: fetchSuggestionStats,
     enabled: !studentId // Sadece genel görünümde göster
   });
 
@@ -198,7 +198,7 @@ export default function AISuggestionPanel({ studentId, className }: AISuggestion
 
               <TabsContent value="pending" className="space-y-4">
                 <ScrollArea className="h-[500px] pr-4">
-                  {suggestions.map((suggestion) => (
+                  {suggestions.map((suggestion: AISuggestion) => (
                     <Card key={suggestion.id} className="mb-3">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
@@ -245,7 +245,7 @@ export default function AISuggestionPanel({ studentId, className }: AISuggestion
                         {suggestion.proposedChanges && suggestion.proposedChanges.length > 0 && (
                           <div className="text-xs bg-blue-50 dark:bg-blue-950/20 p-3 rounded-md mb-3">
                             <p className="font-medium mb-2">Önerilen Değişiklikler:</p>
-                            {suggestion.proposedChanges.map((change, idx) => (
+                            {suggestion.proposedChanges.map((change: any, idx: number) => (
                               <div key={idx} className="mb-2 last:mb-0">
                                 <p className="font-medium text-blue-700 dark:text-blue-300">
                                   {change.field}:
