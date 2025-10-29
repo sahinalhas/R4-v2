@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useStudentProfile, useStudentData } from "@/hooks/student-profile";
-import { StudentHeader } from "./components";
+import { StudentHeader } from "./components/StudentHeader";
 import { StudentProfileTabs } from "./StudentProfileTabs";
 
 export default function StudentProfile() {
