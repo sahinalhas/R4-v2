@@ -36,7 +36,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-import { useDashboardOverview } from '@/hooks/use-exam-management';
+import { useDashboardOverview } from '@/hooks/queries/exams.query-hooks';
 import { QuickActionsPanel } from './QuickActionsPanel';
 import type { DashboardOverview } from '../../../shared/types/exam-management.types';
 

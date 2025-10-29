@@ -4,9 +4,9 @@ import { Button } from "@/components/atoms/Button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Plus, ClipboardList } from "lucide-react";
 import { PageHeader } from "@/components/molecules/PageHeader";
-import { useSurveyTemplates, useSurveyDistributions, useTemplateQuestions } from "@/hooks/surveys";
+import { useSurveyTemplates, useSurveyDistributions, useTemplateQuestions } from "@/hooks/features/surveys";
 import { surveyService } from "@/services/survey.service";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import { SurveyTemplate } from "@/lib/survey-types";
 import SurveyCreationDialog from "@/components/features/surveys/SurveyCreationDialog";
 import SurveyDistributionDialog from "@/components/features/surveys/SurveyDistributionDialog";
@@ -264,7 +264,7 @@ export default function Surveys() {
                         <div className="text-left">
                           <div className="font-medium">{dist.title}</div>
                           <div className="text-sm text-muted-foreground">
-                            {dist.targetClasses?.join(', ') || 'Tüm Sınıflar'} • {new Date(dist.startDate).toLocaleDateString('tr-TR')}
+                            {dist.targetClasses?.join(', ') || 'Tüm Sınıflar'} • {dist.startDate ? new Date(dist.startDate).toLocaleDateString('tr-TR') : 'Tarih belirtilmedi'}
                           </div>
                         </div>
                       </Button>

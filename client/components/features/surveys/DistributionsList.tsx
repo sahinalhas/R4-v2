@@ -20,7 +20,7 @@ import {
 } from "@/components/organisms/DropdownMenu";
 import { SurveyDistribution, DistributionStatus } from "@/lib/survey-types";
 import SurveyExcelUploadDialog from "./SurveyExcelUploadDialog";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import { surveyService } from "@/services/survey.service";
 import { useNavigate } from "react-router-dom";
 

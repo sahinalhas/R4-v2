@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
-import { SurveyTemplate } from "@/lib/survey-types";
+import { SurveyDistribution } from "@/lib/survey-types";
 import { surveyService } from "@/services/survey.service";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 
-export function useSurveyTemplates() {
+export function useSurveyDistributions() {
   const { toast } = useToast();
-  const [templates, setTemplates] = useState<SurveyTemplate[]>([]);
+  const [distributions, setDistributions] = useState<SurveyDistribution[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const loadTemplates = async (signal?: AbortSignal) => {
+  const loadDistributions = async (signal?: AbortSignal) => {
     try {
       setLoading(true);
-      const data = await surveyService.getTemplates(signal);
-      setTemplates(data);
+      const data = await surveyService.getDistributions(signal);
+      setDistributions(data);
     } catch (error: unknown) {
       if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
-      console.error("Error loading survey templates:", error);
+      console.error("Error loading survey distributions:", error);
       toast({ 
         title: "Hata", 
-        description: "Anket şablonları yüklenemedi", 
+        description: "Anket dağıtımları yüklenemedi", 
         variant: "destructive" 
       });
     } finally {
@@ -30,13 +30,13 @@ export function useSurveyTemplates() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    loadTemplates(abortController.signal);
+    loadDistributions(abortController.signal);
     return () => abortController.abort();
   }, []);
 
   return {
-    templates,
+    distributions,
     loading,
-    refresh: loadTemplates
+    refresh: loadDistributions
   };
 }

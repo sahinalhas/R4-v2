@@ -12,7 +12,7 @@ import {
   BarChart3,
   TrendingUp // Import TrendingUp icon
 } from 'lucide-react';
-import type { SessionStats } from '@/hooks/counseling/use-session-stats';
+import type { SessionStats } from '@/hooks/features/counseling/session-stats.hooks';
 
 interface SessionStatsCardsProps {
   stats: SessionStats;

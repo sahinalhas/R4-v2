@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/organisms/Card";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/utils/mobile.utils";
 import { ReactNode } from "react";
 
 interface MobileOptimizedCardProps {

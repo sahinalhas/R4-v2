@@ -1,5 +1,5 @@
 
-import { useIsMobile } from "./use-mobile";
+import { useIsMobile } from "./mobile.utils";
 
 export function useMobileLayout() {
   const isMobile = useIsMobile();

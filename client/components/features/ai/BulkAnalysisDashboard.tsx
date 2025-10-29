@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { School, TrendingUp, AlertTriangle, Loader2, RefreshCw } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/utils/toast.utils';
 
 export default function BulkAnalysisDashboard() {
   const [loading, setLoading] = useState(false);

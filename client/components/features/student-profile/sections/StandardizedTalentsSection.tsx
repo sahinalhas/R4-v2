@@ -14,7 +14,7 @@ import {
   PHYSICAL_TALENTS,
   INTEREST_AREAS
 } from "@shared/constants/student-profile-taxonomy";
-import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
+import { useStandardizedProfileSection } from "@/hooks/state/standardized-profile-section.state";
 import { Textarea } from "@/components/atoms/Textarea";
 
 

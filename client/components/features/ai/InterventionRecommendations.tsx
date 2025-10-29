@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { Target, Clock, Users, CheckCircle2, Loader2 } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/utils/toast.utils';
 import { getPriorityColor, getUrgencyLabel, getPriorityLabel } from '@/lib/ai/ai-utils';
 
 interface InterventionRecommendationsProps {

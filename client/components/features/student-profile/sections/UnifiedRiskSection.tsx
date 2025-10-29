@@ -9,7 +9,7 @@ import { Alert, AlertDescription } from "@/components/atoms/Alert";
 import { Progress } from "@/components/atoms/Progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Shield, AlertTriangle, TrendingUp, TrendingDown, Minus, Info } from "lucide-react";
-import { useUnifiedRisk } from "@/hooks/student-profile";
+import { useUnifiedRisk } from "@/hooks/features/student-profile";
 import { Student } from "@/lib/storage";
 import RiskDegerlendirmeSection from "./RiskDegerlendirmeSection";
 import DavranisTakibiSection from "./DavranisTakibiSection";

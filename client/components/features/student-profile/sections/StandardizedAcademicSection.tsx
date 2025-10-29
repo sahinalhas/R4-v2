@@ -15,7 +15,7 @@ import {
   ACADEMIC_SKILLS,
   LEARNING_STYLES 
 } from "@shared/constants/student-profile-taxonomy";
-import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
+import { useStandardizedProfileSection } from "@/hooks/state/standardized-profile-section.state";
 import { Textarea } from "@/components/atoms/Textarea";
 
 const academicProfileSchema = z.object({

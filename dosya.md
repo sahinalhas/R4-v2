@@ -663,48 +663,200 @@ client/lib/api/
 
 ---
 
-#### Görev 2.3: Hooks Reorganization
+#### Görev 2.3: Hooks Reorganization ✅ TAMAMLANDI
 **Süre:** 2 gün  
 **Öncelik:** ORTA
+**Tamamlanma Tarihi:** 29 Ekim 2025
 
-**Yapılacaklar:**
-1. Hooks klasör yapısı:
+**Yapılanlar:**
+1. ✅ Hooks klasör yapısı oluşturuldu:
 ```
 client/hooks/
-  ├── queries/
-  │   ├── useStudentsQuery.ts
-  │   └── useSurveysQuery.ts
-  ├── mutations/
-  │   ├── useCreateStudent.ts
-  │   └── useUpdateStudent.ts
-  ├── state/
-  │   ├── useAppState.ts
-  │   └── useFilterState.ts
-  ├── utils/
-  │   ├── useDebounce.ts
-  │   ├── usePagination.ts
-  │   └── useLocalStorage.ts
-  └── features/
-      ├── students/
-      └── counseling/
+  ├── queries/              ✅ Query hooks (React Query)
+  │   ├── students.query-hooks.ts
+  │   ├── exams.query-hooks.ts
+  │   └── index.ts
+  ├── mutations/            ✅ Mutation hooks (placeholder)
+  │   └── index.ts
+  ├── state/                ✅ State management & filters
+  │   ├── student-filters.state.ts
+  │   ├── student-filter.state.ts
+  │   ├── standardized-profile-section.state.ts
+  │   └── index.ts
+  ├── utils/                ✅ Utility hooks
+  │   ├── toast.utils.ts
+  │   ├── undo.utils.ts
+  │   ├── pagination.utils.ts
+  │   ├── mobile-layout.utils.ts
+  │   ├── mobile.utils.tsx
+  │   ├── speech-recognition.utils.ts
+  │   ├── voice-keyboard-shortcut.utils.ts
+  │   ├── student-stats.utils.ts
+  │   └── index.ts
+  ├── features/             ✅ Feature-specific hooks
+  │   ├── counseling/
+  │   │   ├── session-actions.hooks.ts
+  │   │   ├── session-filters.hooks.ts
+  │   │   ├── session-stats.hooks.ts
+  │   │   └── index.ts
+  │   ├── student-profile/
+  │   │   ├── student-data.hooks.ts
+  │   │   ├── student-profile.hooks.ts
+  │   │   ├── unified-meetings.hooks.ts
+  │   │   ├── unified-risk.hooks.ts
+  │   │   └── index.ts
+  │   ├── surveys/
+  │   │   ├── survey-distributions.hooks.ts
+  │   │   ├── survey-templates.hooks.ts
+  │   │   ├── template-questions.hooks.ts
+  │   │   └── index.ts
+  │   ├── live-profile/
+  │   │   ├── live-profile.hooks.ts
+  │   │   └── index.ts
+  │   └── index.ts
+  └── index.ts              ✅ Master barrel export
 ```
 
-2. Hook naming convention:
+2. ✅ Hook naming convention standardize edildi:
 ```typescript
-// ✅ Query hooks
-useStudentsQuery()      // GET request
-useStudentQuery(id)     // GET by ID
+// ✅ Dosya isimleri kebab-case + suffix
+queries/students.query-hooks.ts          // Query hooks
+mutations/[future].mutations.ts          // Mutation hooks
+state/student-filters.state.ts           // State hooks
+utils/pagination.utils.ts                // Utility hooks
+features/counseling/session-actions.hooks.ts  // Feature hooks
 
-// ✅ Mutation hooks
-useCreateStudent()      // POST
-useUpdateStudent()      // PUT/PATCH
-useDeleteStudent()      // DELETE
+// ✅ Export isimleri camelCase (değişmedi)
+export function useStudents() { }        // Query hook
+export function useStudentFilters() { }  // State hook
+export function usePagination() { }      // Utility hook
+```
+
+3. ✅ Tüm hook'lar organize edildi (26 dosya):
+```
+Queries (2):
+  - students.query-hooks.ts (useStudents)
+  - exams.query-hooks.ts (tüm exam management hooks)
+
+State (3):
+  - student-filters.state.ts (useStudentFilters)
+  - student-filter.state.ts (useStudentFilter)
+  - standardized-profile-section.state.ts (useStandardizedProfileSection)
+
+Utils (8):
+  - toast.utils.ts (useToast)
+  - undo.utils.ts (useUndo)
+  - pagination.utils.ts (usePagination)
+  - mobile-layout.utils.ts (useMobileLayout)
+  - mobile.utils.tsx (useIsMobile)
+  - speech-recognition.utils.ts (useSpeechRecognition)
+  - voice-keyboard-shortcut.utils.ts (useVoiceKeyboardShortcut)
+  - student-stats.utils.ts (useStudentStats)
+
+Features (13):
+  counseling/: session-actions, session-filters, session-stats
+  student-profile/: student-data, student-profile, unified-meetings, unified-risk
+  surveys/: survey-distributions, survey-templates, template-questions
+  live-profile/: live-profile
+```
+
+4. ✅ Master barrel exports oluşturuldu (9 index.ts):
+```typescript
+// client/hooks/index.ts
+export * from './queries';
+export * from './mutations';
+export * from './state';
+export * from './utils';
+export * from './features';
+
+// Her klasör için index.ts:
+- queries/index.ts
+- mutations/index.ts
+- state/index.ts
+- utils/index.ts
+- features/index.ts
+- features/counseling/index.ts
+- features/student-profile/index.ts
+- features/surveys/index.ts
+- features/live-profile/index.ts
+```
+
+5. ✅ Import path'leri güncellendi (otomatik script ile):
+```typescript
+// ❌ ESKI
+import { useExamManagement } from '@/hooks/use-exam-management';
+import { useStudents } from '@/hooks/use-students';
+import { useToast } from '@/hooks/use-toast';
+import { useStudentFilters } from '@/hooks/use-student-filters';
+import { useSessionActions } from '@/hooks/counseling/use-session-actions';
+import { useStudentProfile } from '@/hooks/student-profile';
+
+// ✅ YENİ
+import { useExamTypes, useExamSessions } from '@/hooks/queries/exams.query-hooks';
+import { useStudents } from '@/hooks/queries/students.query-hooks';
+import { useToast } from '@/hooks/utils/toast.utils';
+import { useStudentFilters } from '@/hooks/state/student-filters.state';
+import { useSessionActions } from '@/hooks/features/counseling/session-actions.hooks';
+import { useStudentProfile } from '@/hooks/features/student-profile/student-profile.hooks';
+```
+
+6. ✅ LSP hataları düzeltildi:
+```
+İlk LSP hataları (3):
+  - live-profile/index.ts: LiveProfileData export eksikti → Kaldırıldı
+  - utils/index.ts: useMobile → useIsMobile olmalıydı → Düzeltildi
+  - hooks/index.ts: mutations/index.ts yoktu → Oluşturuldu
+
+Son durum: 0 LSP hatası ✅
 ```
 
 **Başarı Kriteri:**
-- [ ] Hooks categorized
-- [ ] Naming standardized
-- [ ] Feature hooks separated
+- [x] Hooks categorized (queries, mutations, state, utils, features)
+- [x] Naming standardized (kebab-case + suffix)
+- [x] Feature hooks separated (counseling, student-profile, surveys, live-profile)
+- [x] Barrel exports oluşturuldu (9 index.ts)
+- [x] Import paths güncellendi (otomatik script)
+- [x] TypeScript compile ✅
+- [x] LSP temiz (0 hata)
+- [x] Server çalışıyor
+- [x] HMR aktif
+
+**Teknik Detaylar:**
+```
+📊 Hook Dosya İstatistikleri:
+   - Queries: 2 files (students, exams)
+   - Mutations: 0 files (placeholder ready)
+   - State: 3 files (filters, form)
+   - Utils: 8 files (toast, pagination, mobile, voice, etc.)
+   - Features: 13 files (counseling, student-profile, surveys, live-profile)
+   - Toplam: 26 hook dosyası
+
+📁 Klasör Yapısı:
+   - queries/ (2 dosya + 1 index)
+   - mutations/ (0 dosya + 1 index)
+   - state/ (3 dosya + 1 index)
+   - utils/ (8 dosya + 1 index)
+   - features/ (4 klasör + 1 index)
+     - counseling/ (3 dosya + 1 index)
+     - student-profile/ (4 dosya + 1 index)
+     - surveys/ (3 dosya + 1 index)
+     - live-profile/ (1 dosya + 1 index)
+
+✅ Import Güncellemeleri:
+   - Otomatik script ile toplu güncelleme
+   - 0 eski import path kaldı
+   - Tüm import'lar yeni yapıya uygun
+```
+
+**Faydalar:**
+- ✅ Modern hooks organization (React Query best practices)
+- ✅ Clear separation of concerns (queries, state, utils, features)
+- ✅ Better code discoverability
+- ✅ Easier to maintain and scale
+- ✅ Consistent naming convention
+- ✅ Feature-based organization
+- ✅ Type-safe barrel exports
+- ✅ Better developer experience
 
 ---
 

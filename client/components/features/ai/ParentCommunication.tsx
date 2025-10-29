@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from "@/components/molecules/EnhancedTextarea";
 import { Label } from '@/components/atoms/Label';
 import { Mail, Send, Loader2, FileText, Calendar, Award, AlertTriangle } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/utils/toast.utils';
 
 interface ParentCommunicationProps {
   studentId: string;

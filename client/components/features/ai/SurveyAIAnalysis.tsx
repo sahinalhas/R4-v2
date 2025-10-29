@@ -4,7 +4,7 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { Brain, TrendingUp, TrendingDown, Lightbulb, BarChart3, Loader2, Users } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/utils/toast.utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select';
 
 interface SurveyAIAnalysisProps {

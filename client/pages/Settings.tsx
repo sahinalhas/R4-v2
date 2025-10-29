@@ -6,7 +6,7 @@ import { Button } from "@/components/atoms/Button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Settings as SettingsIcon } from "lucide-react";
 import { PageHeader } from "@/components/molecules/PageHeader";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import {
   loadSettings,
   saveSettings,

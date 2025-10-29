@@ -30,7 +30,7 @@ import {
   type ClassComparison,
   type TimeSeriesAnalysis
 } from '@/lib/api/endpoints/advanced-reports.api';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/utils/toast.utils';
 import { 
   BarChart, 
   Bar, 

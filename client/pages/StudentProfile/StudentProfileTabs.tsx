@@ -5,7 +5,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { MAIN_TABS } from "./constants";
-import { StudentData } from "@/hooks/student-profile";
+import { StudentData } from "@/hooks/features/student-profile";
 import { Student } from "@/lib/storage";
 
 // Yeni Modern Component'ler

@@ -24,8 +24,8 @@ import {
   AlertCircle,
   Clock,
 } from 'lucide-react';
-import { useExamSubjects, useExamResultsBySession } from '@/hooks/use-exam-management';
-import { useStudentFilter } from '@/hooks/use-student-filter';
+import { useExamSubjects, useExamResultsBySession } from '@/hooks/queries/exams.query-hooks';
+import { useStudentFilter } from '@/hooks/state/student-filter.state';
 import { calculateNetScore } from '@/lib/utils/exam-utils';
 import type {
   ExamSession,

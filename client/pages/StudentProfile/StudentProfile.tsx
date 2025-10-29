@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/organisms/Card";
 import { Button } from "@/components/atoms/Button";
 import { AlertCircle, Loader2 } from "lucide-react";
-import { useStudentProfile, useStudentData } from "@/hooks/student-profile";
+import { useStudentProfile, useStudentData } from "@/hooks/features/student-profile";
 import { StudentHeader } from "./components/StudentHeader";
 import { StudentProfileTabs } from "./StudentProfileTabs";
 

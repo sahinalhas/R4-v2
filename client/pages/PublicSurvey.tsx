@@ -39,7 +39,7 @@ import {
   SurveyQuestionType,
   StudentInfo 
 } from "@/lib/survey-types";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import { apiClient } from "@/lib/api/core/client";
 import { SURVEY_ENDPOINTS } from "@/lib/constants/api-endpoints";
 

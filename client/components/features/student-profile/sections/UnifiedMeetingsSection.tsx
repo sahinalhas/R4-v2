@@ -12,7 +12,7 @@ import { Button } from "@/components/atoms/Button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Alert, AlertDescription } from "@/components/atoms/Alert";
 import { MessageCircle, Users, Calendar, Info, Plus, Filter } from "lucide-react";
-import { useUnifiedMeetings, useMeetingStats } from "@/hooks/student-profile";
+import { useUnifiedMeetings, useMeetingStats } from "@/hooks/features/student-profile";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 

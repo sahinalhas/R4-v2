@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SurveyQuestion } from "@/lib/survey-types";
 import { surveyService } from "@/services/survey.service";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 
 export function useTemplateQuestions() {
   const { toast } = useToast();

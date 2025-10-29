@@ -53,7 +53,7 @@ import {
 } from "@/lib/survey-types";
 import { Student } from "@/lib/storage";
 import { generateExcelTemplate } from "@/lib/excel-template-generator";
-import { useStudents } from "@/hooks/use-students";
+import { useStudents } from "@/hooks/queries/students.query-hooks";
 
 const distributionSchema = z.object({
   title: z.string().min(1, "Başlık gereklidir"),

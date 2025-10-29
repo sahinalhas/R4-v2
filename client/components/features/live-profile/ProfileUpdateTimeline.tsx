@@ -17,7 +17,7 @@ import {
   GraduationCap,
   Users
 } from "lucide-react";
-import { useLiveProfile } from "@/hooks/live-profile/use-live-profile";
+import { useLiveProfile } from "@/hooks/features/live-profile/live-profile.hooks";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
 

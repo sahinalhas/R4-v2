@@ -9,7 +9,7 @@ import { Slider } from "@/components/atoms/Slider";
 import { EnhancedTextarea as Textarea } from "@/components/molecules/EnhancedTextarea";
 import { MultiSelect } from "@/components/molecules/MultiSelect";
 import { Shield, AlertTriangle } from "lucide-react";
-import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
+import { useStandardizedProfileSection } from "@/hooks/state/standardized-profile-section.state";
 
 const riskProtectiveProfileSchema = z.object({
   assessmentDate: z.string(),

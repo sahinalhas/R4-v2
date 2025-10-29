@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/auth-context';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
 import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/utils/toast.utils';
 import {
   Table,
   TableBody,

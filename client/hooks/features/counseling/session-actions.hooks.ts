@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/utils/toast.utils';
 import { format } from 'date-fns';
 import type {
   IndividualSessionFormValues,

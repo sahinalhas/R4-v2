@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/atoms/Label';
 import { Textarea } from "@/components/molecules/EnhancedTextarea";
 import { FileText, Download, Loader2, Calendar, ClipboardCheck } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/utils/toast.utils';
 
 interface AutoReportGeneratorProps {
   studentId: string;

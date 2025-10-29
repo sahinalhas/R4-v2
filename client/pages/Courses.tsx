@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/organisms/DropdownMenu";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import {
   StudySubject,
   StudyTopic,

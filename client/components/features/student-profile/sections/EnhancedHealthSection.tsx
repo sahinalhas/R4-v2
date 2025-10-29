@@ -5,7 +5,7 @@
  * Acil iletişim bilgileri BasicInfo'dan buraya taşındı
  */
 
-import { useStandardizedProfileSection } from "@/hooks/use-standardized-profile-section";
+import { useStandardizedProfileSection } from "@/hooks/state/standardized-profile-section.state";
 import { Ruler, Weight } from "lucide-react";
 
 import StandardizedHealthSection from "./StandardizedHealthSection";

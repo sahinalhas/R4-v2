@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 import { Plus, Download, Search as SearchIcon } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Badge } from "@/components/atoms/Badge";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/utils/mobile.utils";
 
 import {
   SessionCalendar,
@@ -31,9 +31,9 @@ import RemindersTab from "@/components/features/counseling/RemindersTab";
 import OutcomesTab from "@/components/features/counseling/OutcomesTab";
 import ReportGenerationDialog, { type ReportOptions } from "@/components/features/counseling/ReportGenerationDialog";
 
-import { useSessionStats } from "@/hooks/counseling/use-session-stats";
-import { useSessionFilters } from "@/hooks/counseling/use-session-filters";
-import { useSessionActions } from "@/hooks/counseling/use-session-actions";
+import { useSessionStats } from "@/hooks/features/counseling/session-stats.hooks";
+import { useSessionFilters } from "@/hooks/features/counseling/session-filters.hooks";
+import { useSessionActions } from "@/hooks/features/counseling/session-actions.hooks";
 
 import { getElapsedTime, getSessionName } from "@/components/features/counseling/utils/sessionHelpers";
 import { exportSessionsToExcel } from "@/components/features/counseling/utils/sessionExport";

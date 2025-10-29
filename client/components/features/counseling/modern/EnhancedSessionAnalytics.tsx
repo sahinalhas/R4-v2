@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/organisms/Card';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import type { SessionStats } from '@/hooks/counseling/use-session-stats';
+import type { SessionStats } from '@/hooks/features/counseling/session-stats.hooks';
 import { TrendingUp, BarChart3, PieChart as PieChartIcon, Clock } from 'lucide-react';
 
 interface EnhancedSessionAnalyticsProps {

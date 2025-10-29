@@ -52,7 +52,7 @@ import { Card } from "@/components/organisms/Card";
 import { ScrollArea } from "@/components/organisms/ScrollArea";
 import { useAuth } from "@/lib/auth-context";
 import AIStatusIndicator from "@/components/features/common/AIStatusIndicator";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/utils/mobile.utils";
 import { cn } from "@/lib/utils";
 
 // Modern minimalist logo

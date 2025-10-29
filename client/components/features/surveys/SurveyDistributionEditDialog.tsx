@@ -31,7 +31,7 @@ import {
 } from "@/components/atoms/Select";
 import { SurveyDistribution } from "@/lib/survey-types";
 import { surveyService } from "@/services/survey.service";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/utils/toast.utils";
 
 const editSchema = z.object({
   title: z.string().min(1, "Başlık gereklidir"),
