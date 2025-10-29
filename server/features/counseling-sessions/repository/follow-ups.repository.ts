@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { CounselingFollowUp } from '../types/index.js';
+import type { CounselingFollowUp } from '../types/counseling-sessions.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: Record<string, Statement> | null = null;

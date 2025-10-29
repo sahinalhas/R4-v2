@@ -1,5 +1,5 @@
 import * as repository from '../repository/attendance.repository.js';
-import type { AttendanceRecord } from '../types/index.js';
+import type { AttendanceRecord } from '../types/attendance.types.js';
 
 export function validateAttendance(attendance: any): { valid: boolean; error?: string } {
   if (!attendance || typeof attendance !== 'object') {

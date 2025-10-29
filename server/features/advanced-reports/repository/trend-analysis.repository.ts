@@ -4,7 +4,7 @@
  */
 
 import { getDatabase } from '../../../lib/database/connection.js';
-import type { TrendData, TimeSeriesAnalysis } from '../types/index.js';
+import type { TrendData, TimeSeriesAnalysis } from '../types/advanced-reports.types.js';
 
 export function getTrendData(
   period: 'daily' | 'weekly' | 'monthly',

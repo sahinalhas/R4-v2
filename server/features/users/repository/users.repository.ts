@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { User } from '../types/index.js';
+import type { User } from '../types/users.types.js';
 
 let statements: any = null;
 let isInitialized = false;

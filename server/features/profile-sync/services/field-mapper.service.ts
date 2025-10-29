@@ -3,7 +3,7 @@
  * AI'nın çıkardığı insights'ı gerçek database alanlarına map eder
  */
 
-import type { ProfileDomain } from '../types/index.js';
+import type { ProfileDomain } from '../types/profile-sync.types.js';
 
 interface FieldMapping {
   aiKey: string;

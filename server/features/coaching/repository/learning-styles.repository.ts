@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { LearningStyle } from '../types/index.js';
+import type { LearningStyle } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getLearningStylesByStudent: Statement; insertLearningStyle: Statement } | null = null;

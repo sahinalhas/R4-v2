@@ -1,6 +1,6 @@
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
-import type { ParentMeeting } from '../types/index.js';
+import type { ParentMeeting } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getParentMeetingsByStudent: Statement; insertParentMeeting: Statement } | null = null;

@@ -4,7 +4,7 @@
  */
 
 import * as XLSX from 'xlsx';
-import type { ComprehensiveReport, ExportOptions } from '../types/index.js';
+import type { ComprehensiveReport, ExportOptions } from '../types/advanced-reports.types.js';
 
 export class ExportService {
   async exportToPDF(report: ComprehensiveReport, options: ExportOptions): Promise<Buffer> {

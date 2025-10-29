@@ -13,7 +13,7 @@ import type {
   TimeSeriesAnalysis, 
   ComprehensiveReport,
   ExportOptions
-} from '../types/index.js';
+} from '../types/advanced-reports.types.js';
 
 export class AdvancedReportsService {
   private aiProvider: AIProviderService;

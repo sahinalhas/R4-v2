@@ -1,5 +1,5 @@
 import * as repository from '../repository/counseling-sessions.repository.js';
-import type { CounselingSession } from '../types/index.js';
+import type { CounselingSession } from '../types/counseling-sessions.types.js';
 
 export interface AIReadySessionData {
   session: {

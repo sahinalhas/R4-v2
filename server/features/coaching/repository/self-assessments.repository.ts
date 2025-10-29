@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { SelfAssessment } from '../types/index.js';
+import type { SelfAssessment } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getSelfAssessmentsByStudent: Statement; insertSelfAssessment: Statement } | null = null;

@@ -1,7 +1,7 @@
 import type Database from 'better-sqlite3';
 import getDatabase from '../../../lib/database.js';
 import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
-import type { AcademicGoal } from '../types/index.js';
+import type { AcademicGoal } from '../types/coaching.types.js';
 
 interface AcademicGoalStatements {
   getAllAcademicGoals: Database.Statement;

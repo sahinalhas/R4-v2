@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { ExamResult, ExamProgressData } from '../types/index.js';
+import type { ExamResult, ExamProgressData } from '../types/exams.types.js';
 
 let statements: any = null;
 let isInitialized = false;

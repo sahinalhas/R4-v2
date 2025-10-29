@@ -4,7 +4,7 @@
  */
 
 import { getDatabase } from '../../../lib/database/connection.js';
-import type { SchoolStatistics, ClassDistribution } from '../types/index.js';
+import type { SchoolStatistics, ClassDistribution } from '../types/advanced-reports.types.js';
 
 export function getSchoolStatistics(): SchoolStatistics {
   const db = getDatabase();

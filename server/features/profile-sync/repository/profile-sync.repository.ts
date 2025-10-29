@@ -8,7 +8,7 @@ import type {
   UnifiedStudentIdentity, 
   ProfileSyncLog, 
   ConflictResolution 
-} from '../types/index.js';
+} from '../types/profile-sync.types.js';
 
 const db = getDatabase();
 

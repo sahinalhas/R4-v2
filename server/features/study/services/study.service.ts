@@ -1,5 +1,5 @@
 import * as repository from '../repository/study.repository.js';
-import type { StudyAssignment, WeeklySlot, WeeklySlotResponse } from '../types/index.js';
+import type { StudyAssignment, WeeklySlot, WeeklySlotResponse } from '../types/study.types.js';
 import { randomUUID } from 'crypto';
 
 export function validateStudyAssignment(assignment: any): { valid: boolean; error?: string } {

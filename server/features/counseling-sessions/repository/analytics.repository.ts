@@ -8,7 +8,7 @@ import type {
   SessionModeAnalysis,
   StudentSessionStats,
   SessionHistory
-} from '../types/index.js';
+} from '../types/counseling-sessions.types.js';
 
 interface AnalyticsStatements {
   getOverallStats: any;

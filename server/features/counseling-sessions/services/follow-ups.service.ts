@@ -1,6 +1,6 @@
 import * as repository from '../repository/follow-ups.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { CounselingFollowUp } from '../types/index.js';
+import type { CounselingFollowUp } from '../types/counseling-sessions.types.js';
 
 export function getAllFollowUps(): CounselingFollowUp[] {
   return repository.getAllFollowUps();

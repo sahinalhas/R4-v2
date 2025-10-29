@@ -1,6 +1,6 @@
 import * as repository from '../repository/outcomes.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { CounselingOutcome } from '../types/index.js';
+import type { CounselingOutcome } from '../types/counseling-sessions.types.js';
 
 export function getAllOutcomes(): CounselingOutcome[] {
   return repository.getAllOutcomes();

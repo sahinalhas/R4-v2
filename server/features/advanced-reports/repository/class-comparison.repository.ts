@@ -4,7 +4,7 @@
  */
 
 import { getDatabase } from '../../../lib/database/connection.js';
-import type { ClassComparison, StudentBrief } from '../types/index.js';
+import type { ClassComparison, StudentBrief } from '../types/advanced-reports.types.js';
 
 export function getClassComparisons(classNames?: string[]): ClassComparison[] {
   const db = getDatabase();

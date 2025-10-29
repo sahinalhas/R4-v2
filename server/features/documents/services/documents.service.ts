@@ -1,5 +1,5 @@
 import * as repository from '../repository/documents.repository.js';
-import type { Document } from '../types/index.js';
+import type { Document } from '../types/documents.types.js';
 
 export function validateDocument(document: any): { valid: boolean; error?: string } {
   if (!document || typeof document !== 'object') {

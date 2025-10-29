@@ -8,7 +8,7 @@ import type {
   ClassAnalysis,
   SessionModeAnalysis,
   StudentSessionStats
-} from '../types/index.js';
+} from '../types/counseling-sessions.types.js';
 
 export function getOverallStats(): OverallStats {
   return repository.getOverallStats();

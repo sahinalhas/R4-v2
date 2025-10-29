@@ -12,7 +12,7 @@ import type {
   ParentMeeting,
   HomeVisit,
   FamilyParticipation
-} from '../types/index.js';
+} from '../types/coaching.types.js';
 
 export function getAllAcademicGoals(): AcademicGoal[] {
   return repository.getAllAcademicGoals();

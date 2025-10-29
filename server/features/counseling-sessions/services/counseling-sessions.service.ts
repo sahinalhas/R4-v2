@@ -1,6 +1,6 @@
 import * as repository from '../repository/counseling-sessions.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { CounselingSession, CounselingSessionWithStudents, ClassHour, CounselingTopic, SessionFilters } from '../types/index.js';
+import type { CounselingSession, CounselingSessionWithStudents, ClassHour, CounselingTopic, SessionFilters } from '../types/counseling-sessions.types.js';
 
 function safeParseJSON<T = unknown>(jsonString: string | null | undefined, fallback: T): T {
   if (!jsonString) return fallback;

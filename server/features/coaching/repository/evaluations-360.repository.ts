@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { Evaluation360 } from '../types/index.js';
+import type { Evaluation360 } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getEvaluations360ByStudent: Statement; insertEvaluation360: Statement } | null = null;

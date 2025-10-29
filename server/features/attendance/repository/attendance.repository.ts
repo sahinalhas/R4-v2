@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3';
 import getDatabase from '../../../lib/database.js';
-import type { AttendanceRecord } from '../types/index.js';
+import type { AttendanceRecord } from '../types/attendance.types.js';
 
 interface AttendanceStatements {
   getAttendanceByStudent: Database.Statement;

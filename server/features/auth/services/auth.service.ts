@@ -1,6 +1,6 @@
 import * as repository from '../repository/auth.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { UserSessionResponse, SaveSessionRequest } from '../types/index.js';
+import type { UserSessionResponse, SaveSessionRequest } from '../types/auth.types.js';
 
 export function getSession(userId: string): UserSessionResponse | null {
   const sanitizedUserId = sanitizeString(userId);

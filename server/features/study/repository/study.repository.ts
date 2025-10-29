@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { StudyAssignment, WeeklySlot } from '../types/index.js';
+import type { StudyAssignment, WeeklySlot } from '../types/study.types.js';
 
 let statements: any = null;
 let isInitialized = false;

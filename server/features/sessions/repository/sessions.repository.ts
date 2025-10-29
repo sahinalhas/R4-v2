@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { StudySession } from '../types/index.js';
+import type { StudySession } from '../types/sessions.types.js';
 
 let statements: any = null;
 let isInitialized = false;

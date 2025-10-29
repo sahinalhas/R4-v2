@@ -9,7 +9,7 @@ import type {
   DataSource, 
   ProfileDomain,
   DataConflict 
-} from '../types/index.js';
+} from '../types/profile-sync.types.js';
 
 export class DataValidationService {
   private aiProvider: AIProviderService;

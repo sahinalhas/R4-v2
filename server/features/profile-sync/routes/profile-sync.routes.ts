@@ -6,7 +6,7 @@
 import { Request, Response } from 'express';
 import * as repository from '../repository/profile-sync.repository.js';
 import { ProfileAggregationService } from '../services/profile-aggregation.service.js';
-import type { ProfileUpdateRequest } from '../types/index.js';
+import type { ProfileUpdateRequest } from '../types/profile-sync.types.js';
 
 const aggregationService = new ProfileAggregationService();
 

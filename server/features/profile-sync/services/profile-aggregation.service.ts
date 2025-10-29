@@ -17,7 +17,7 @@ import type {
   DataConflict,
   ProfileDomain,
   ProfileSyncLog
-} from '../types/index.js';
+} from '../types/profile-sync.types.js';
 import type {
   StandardizedHealthProfile,
   AcademicProfile,

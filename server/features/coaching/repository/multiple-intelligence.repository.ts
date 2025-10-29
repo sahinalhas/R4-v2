@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { MultipleIntelligence } from '../types/index.js';
+import type { MultipleIntelligence } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getMultipleIntelligenceByStudent: Statement; insertMultipleIntelligence: Statement } | null = null;

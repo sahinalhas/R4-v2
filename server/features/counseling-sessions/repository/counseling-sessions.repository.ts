@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { CounselingSession, CounselingSessionWithStudents, SessionFilters } from '../types/index.js';
+import type { CounselingSession, CounselingSessionWithStudents, SessionFilters } from '../types/counseling-sessions.types.js';
 
 interface DBStatements {
   getAllSessions: any;

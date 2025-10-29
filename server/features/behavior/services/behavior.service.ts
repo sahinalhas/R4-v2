@@ -1,5 +1,5 @@
 import * as repository from '../repository/behavior.repository.js';
-import type { BehaviorIncident, BehaviorStats } from '../types/index.js';
+import type { BehaviorIncident, BehaviorStats } from '../types/behavior.types.js';
 
 export function getBehaviorIncidentsByStudent(studentId: string): BehaviorIncident[] {
   return repository.getBehaviorIncidentsByStudent(studentId);

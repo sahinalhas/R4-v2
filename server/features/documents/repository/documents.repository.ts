@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { Document } from '../types/index.js';
+import type { Document } from '../types/documents.types.js';
 
 let statements: any = null;
 let isInitialized = false;

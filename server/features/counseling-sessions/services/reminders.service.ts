@@ -1,6 +1,6 @@
 import * as repository from '../repository/reminders.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { CounselingReminder } from '../types/index.js';
+import type { CounselingReminder } from '../types/counseling-sessions.types.js';
 
 export function getAllReminders(): CounselingReminder[] {
   return repository.getAllReminders();

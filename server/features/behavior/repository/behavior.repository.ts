@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database/index.js';
-import type { BehaviorIncident, BehaviorStats } from '../types/index.js';
+import type { BehaviorIncident, BehaviorStats } from '../types/behavior.types.js';
 
 export function getBehaviorIncidentsByStudent(studentId: string): BehaviorIncident[] {
   const db = getDatabase();

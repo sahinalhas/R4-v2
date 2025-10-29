@@ -1,6 +1,6 @@
 import * as repository from '../repository/sessions.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { StudySession } from '../types/index.js';
+import type { StudySession } from '../types/sessions.types.js';
 
 export function validateStudySession(session: any): { valid: boolean; error?: string } {
   if (!session || typeof session !== 'object') {

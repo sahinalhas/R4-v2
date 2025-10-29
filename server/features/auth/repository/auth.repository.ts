@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3';
 import getDatabase from '../../../lib/database.js';
-import type { UserSession } from '../types/index.js';
+import type { UserSession } from '../types/auth.types.js';
 
 interface AuthStatements {
   getUserSession: Database.Statement;

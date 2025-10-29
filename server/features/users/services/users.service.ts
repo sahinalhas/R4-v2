@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 import * as repository from '../repository/users.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { LoginRequest, LoginResponse, UserPublic, CreateUserRequest } from '../types/index.js';
+import type { LoginRequest, LoginResponse, UserPublic, CreateUserRequest } from '../types/users.types.js';
 
 const ROLE_PERMISSIONS: Record<string, string[]> = {
   admin: [

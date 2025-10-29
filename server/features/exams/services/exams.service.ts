@@ -1,6 +1,6 @@
 import * as repository from '../repository/exams.repository.js';
 import { sanitizeString } from '../../../middleware/validation.js';
-import type { ExamResult, ExamProgressData } from '../types/index.js';
+import type { ExamResult, ExamProgressData } from '../types/exams.types.js';
 
 export function getStudentExamResults(studentId: string): unknown[] {
   const sanitizedId = sanitizeString(studentId);

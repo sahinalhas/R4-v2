@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import type { Achievement } from '../types/index.js';
+import type { Achievement } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 
 let statements: { getAchievementsByStudent: Statement; insertAchievement: Statement } | null = null;
