@@ -1,13 +1,12 @@
 import Database from 'better-sqlite3';
-import path from 'path';
-import { mkdirSync, existsSync } from 'fs';
+import { databaseConfig } from '../../config/index.js';
 
 let db: Database.Database | null = null;
 
 export function getDatabase(): Database.Database {
   if (!db) {
     try {
-      const dbPath = path.join(process.cwd(), 'database.db');
+      const dbPath = databaseConfig.path;
       db = new Database(dbPath);
       
       try {
@@ -20,9 +19,9 @@ export function getDatabase(): Database.Database {
       }
       
       try {
-        db.pragma('journal_mode = WAL');
-        db.pragma('foreign_keys = ON');
-        db.pragma('encoding = "UTF-8"');
+        db.pragma(`journal_mode = ${databaseConfig.pragmas.journalMode}`);
+        db.pragma(`foreign_keys = ${databaseConfig.pragmas.foreignKeys ? 'ON' : 'OFF'}`);
+        db.pragma(`encoding = "${databaseConfig.pragmas.encoding}"`);
       } catch (pragmaError) {
         console.error('Failed to set database pragmas:', pragmaError);
         db.close();

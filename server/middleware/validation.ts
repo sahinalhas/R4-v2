@@ -6,6 +6,7 @@ import {
   sanitizeAIPrompt as sanitizeAIPromptUtil,
   sanitizeAIObject as sanitizeAIObjectUtil,
 } from '../utils/sanitization.js';
+import { env } from '../config/index.js';
 
 // Re-export sanitization utilities for backward compatibility
 export const sanitizeString = sanitizeStringUtil;
@@ -40,7 +41,7 @@ export function validateRequestBody(schema: z.ZodSchema<any>) {
         return res.status(400).json({
           success: false,
           error: 'Invalid request data',
-          details: process.env.NODE_ENV === 'development' ? result.error.issues : undefined
+          details: env.NODE_ENV === 'development' ? result.error.issues : undefined
         });
       }
       

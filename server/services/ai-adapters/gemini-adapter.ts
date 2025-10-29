@@ -1,6 +1,7 @@
 import { BaseAIAdapter } from './base-adapter.js';
 import type { ChatCompletionRequest } from '../ai-provider.service.js';
 import { GoogleGenAI } from '@google/genai';
+import { aiConfig } from '../../config/index.js';
 
 // Blueprint reference: blueprint:javascript_gemini
 // Using Gemini AI for chat completions with streaming support
@@ -10,7 +11,7 @@ export class GeminiAdapter extends BaseAIAdapter {
 
   constructor(model: string, temperature: number = 0) {
     super(model, temperature);
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = aiConfig.gemini.apiKey;
     if (!apiKey || apiKey.trim().length === 0) {
       console.warn('⚠️ Gemini API key not configured - AI features will be limited');
       throw new Error('Gemini API key not configured');
@@ -19,7 +20,7 @@ export class GeminiAdapter extends BaseAIAdapter {
   }
 
   async isAvailable(): Promise<boolean> {
-    return !!(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 0);
+    return aiConfig.gemini.enabled;
   }
 
   async listModels(): Promise<string[]> {

@@ -1,12 +1,13 @@
 import { BaseAIAdapter } from './base-adapter.js';
 import type { ChatCompletionRequest } from '../ai-provider.service.js';
+import { aiConfig } from '../../config/index.js';
 
 export class OpenAIAdapter extends BaseAIAdapter {
   private apiKey: string;
 
   constructor(model: string, temperature: number = 0) {
     super(model, temperature);
-    const key = process.env.OPENAI_API_KEY;
+    const key = aiConfig.openai.apiKey;
     if (!key) {
       throw new Error('OpenAI API key not configured');
     }
@@ -14,7 +15,7 @@ export class OpenAIAdapter extends BaseAIAdapter {
   }
 
   async isAvailable(): Promise<boolean> {
-    return !!this.apiKey;
+    return aiConfig.openai.enabled;
   }
 
   async listModels(): Promise<string[]> {

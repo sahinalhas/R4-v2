@@ -4,6 +4,7 @@
  */
 
 import crypto from 'crypto';
+import { env } from '../../../config/index.js';
 
 export interface EncryptionConfig {
   algorithm: string;
@@ -25,7 +26,7 @@ export class EncryptionService {
   private config: EncryptionConfig;
   private masterKey: Buffer;
   
-  constructor(masterPassword: string = process.env.ENCRYPTION_KEY || 'default-key-change-in-production') {
+  constructor(masterPassword: string = env.ENCRYPTION_KEY) {
     this.config = DEFAULT_CONFIG;
     this.masterKey = this.deriveMasterKey(masterPassword);
   }

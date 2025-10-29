@@ -3,7 +3,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import featureRegistry from "./features";
-import { getCorsOptions } from "./middleware/cors-config";
+import { env, corsConfig } from "./config/index.js";
 import { securityHeaders } from "./middleware/security-headers";
 import { sanitizeAllInputs } from "./middleware/validation";
 import { ensureCsrfSession } from "./middleware/csrf.middleware";
@@ -35,7 +35,7 @@ export function createServer() {
   const app = express();
 
   app.use(securityHeaders);
-  app.use(cors(getCorsOptions()));
+  app.use(cors(corsConfig));
 
   // Request size limits
   app.use(express.json({ 
@@ -62,8 +62,7 @@ export function createServer() {
 
   // Example API routes
   app.get("/api/ping", (_req, res) => {
-    const ping = process.env.PING_MESSAGE ?? "ping";
-    res.json({ message: ping });
+    res.json({ message: env.PING_MESSAGE });
   });
 
   // ========================================================================
@@ -84,7 +83,7 @@ export function createServer() {
     console.error('Unhandled error:', err);
     
     // Don't expose internal error details in production
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isDevelopment = env.NODE_ENV === 'development';
     
     res.status(err.statusCode || 500).json({
       success: false,
