@@ -18,6 +18,7 @@ import { createEarlyWarningTables } from './early-warning.schema';
 import { createStudyPlanTables } from './study-plan.schema';
 import { createDailyInsightsTables } from './daily-insights.schema';
 import { createExamManagementTables, seedExamData, createAdvancedExamTables } from './exam-management.schema';
+import { createWebVitalsTable } from './web-vitals.schema';
 
 export function initializeDatabaseSchema(db: Database.Database): void {
   createUsersTable(db);
@@ -43,4 +44,5 @@ export function initializeDatabaseSchema(db: Database.Database): void {
   createExamManagementTables(db);
   seedExamData(db);
   createAdvancedExamTables(db);
+  createWebVitalsTable(db);
 }
