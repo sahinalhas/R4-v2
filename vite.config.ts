@@ -2,6 +2,7 @@ import "dotenv/config";
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { visualizer } from "rollup-plugin-visualizer";
 import { createServer } from "./server";
 
 // https://vitejs.dev/config/
@@ -81,7 +82,16 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === 'development',
     reportCompressedSize: mode === 'production',
   },
-  plugins: [react(), expressPlugin()],
+  plugins: [
+    react(),
+    expressPlugin(),
+    visualizer({
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+      filename: 'bundle-analysis.html',
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),
