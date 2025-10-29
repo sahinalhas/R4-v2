@@ -29,18 +29,15 @@ function sendToAnalytics(metric: Metric): void {
     navigationType: metric.navigationType,
   };
 
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon('/api/analytics/web-vitals', JSON.stringify(body));
-  } else {
-    fetch('/api/analytics/web-vitals', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      keepalive: true,
-    }).catch((error) => {
-      console.error('[Web Vitals] Failed to send metric:', error);
-    });
-  }
+  fetch('/api/analytics/web-vitals', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    keepalive: true,
+    credentials: 'include',
+  }).catch((error) => {
+    console.error('[Web Vitals] Failed to send metric:', error);
+  });
 }
 
 export function initWebVitals(): void {
