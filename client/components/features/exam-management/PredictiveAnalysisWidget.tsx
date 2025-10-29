@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
-import { Alert, AlertDescription } from '../ui/alert';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Badge } from '@/components/atoms/Badge/badge';
+import { Progress } from '@/components/atoms/Progress/progress';
+import { Alert, AlertDescription } from '@/components/atoms/Alert/alert';
 import { Brain, TrendingUp, AlertTriangle, Target, CheckCircle2, Clock } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/atoms/Skeleton/skeleton';
 
 async function fetchPrediction(studentId: string, examTypeId: string) {
   const response = await fetch(`/api/exam-management/predictions/${studentId}/${examTypeId}`);

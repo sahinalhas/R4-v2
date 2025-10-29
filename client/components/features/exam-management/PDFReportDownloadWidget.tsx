@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Label } from '../ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Button } from '@/components/atoms/Button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select/select';
+import { Label } from '@/components/atoms/Label/label';
 import { FileDown, Download, Loader2, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 

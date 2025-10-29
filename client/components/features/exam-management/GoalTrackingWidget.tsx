@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Progress } from '../ui/progress';
-import { Badge } from '../ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Button } from '@/components/atoms/Button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/organisms/Dialog/dialog';
+import { Input } from '@/components/atoms/Input/input';
+import { Label } from '@/components/atoms/Label/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select/select';
+import { Progress } from '@/components/atoms/Progress/progress';
+import { Badge } from '@/components/atoms/Badge/badge';
 import { Target, Plus, TrendingUp, Calendar, X } from 'lucide-react';
 import { toast } from 'sonner';
 

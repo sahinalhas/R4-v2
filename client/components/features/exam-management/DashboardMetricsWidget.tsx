@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Badge } from '@/components/atoms/Badge/badge';
 import { Calendar, TrendingUp, Users, AlertCircle, Target, Award, Clock } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '@/components/atoms/Skeleton/skeleton';
 
 async function fetchDashboardMetrics() {
   const response = await fetch('/api/exam-management/dashboard/metrics');

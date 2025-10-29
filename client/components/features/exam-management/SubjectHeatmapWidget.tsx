@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Skeleton } from '../ui/skeleton';
-import { Badge } from '../ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Skeleton } from '@/components/atoms/Skeleton/skeleton';
+import { Badge } from '@/components/atoms/Badge/badge';
 import { TrendingUp, TrendingDown, Minus, Flame } from 'lucide-react';
 
 async function fetchHeatmap(studentId: string, examTypeId: string) {

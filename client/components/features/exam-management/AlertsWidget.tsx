@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Badge } from '@/components/atoms/Badge/badge';
+import { Button } from '@/components/atoms/Button';
 import { AlertCircle, CheckCircle, TrendingDown, Target, Award, Bell } from 'lucide-react';
 import { toast } from 'sonner';
 
