@@ -4,6 +4,14 @@
 Rehber360 is a comprehensive Turkish-language student guidance and management system for educational institutions. It offers tools for student tracking, counseling, risk assessment, behavioral monitoring, and academic performance analysis. A core feature is its AI-powered profile analysis, which generates standardized student profiles from diverse data. The system includes an AI Assistant for local, AI-powered student counseling, supporting OpenAI and Ollama (Llama 3.1) models. Built as a full-stack TypeScript application with React, Express.js, and SQLite, Rehber360 aims to drive data standardization and evidence-based interventions for student success.
 
 ## Recent Changes
+**Date: October 29, 2025**
+- **Page Navigation Performance Optimizations:**
+  - Implemented smart route prefetching that automatically loads likely next pages based on current location
+  - Added hover prefetching to navigation menu for instant page transitions
+  - Optimized React Query cache settings (1 min staleTime, 5 min gcTime) for balanced freshness and performance
+  - Page transitions now feel instant due to prefetched code and cached data
+  - Note: High-volatility views (notifications, AI status) may need per-query cache overrides in the future
+
 **Date: October 28, 2025**
 - Imported GitHub repository into Replit environment
 - Configured development workflow with Vite dev server on port 5000
@@ -29,6 +37,11 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 - **Technology Stack:** React 18, TypeScript, Vite, Radix UI, Tailwind CSS, TanStack React Query, React Hook Form + Zod, React Router DOM, Framer Motion, Recharts.
 - **Key Decisions:** Feature-based organization with lazy loading, global error boundaries, mobile-first and accessible design (WCAG AAA), React Query for server state, Context API for authentication, and performance optimizations.
+- **Performance Optimizations:**
+  - Smart route prefetching: Automatically prefetches likely next pages based on user's current location
+  - Hover prefetching: Prefetches routes when user hovers over navigation links
+  - Optimized React Query cache: 1-minute staleTime with 5-minute garbage collection for fast page transitions while maintaining data freshness
+  - Lazy-loaded route components for optimal bundle splitting
 - **UI/UX Decisions:** Modern SIS (Student Information System) standards, enhanced visual hierarchy with text-3xl headers, gradient backgrounds, modernized badges, hover effects, and animations. Responsive design with breakpoint-optimized font sizes and flexible layouts. Semantic color system for navigation.
 - **Technical Implementations:** Component architecture follows modern best practices with separation of concerns. Proper props flow (studentId, studentName, onUpdate) across components. Grid systems configured for responsive layouts. Loading states and error handling implemented.
 
