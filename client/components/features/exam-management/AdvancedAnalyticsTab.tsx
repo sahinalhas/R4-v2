@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Label } from '../ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select/select';
+import { Label } from '@/components/atoms/Label/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/organisms/Accordion/accordion';
 import { Brain, Flame, Award, Clock, FileQuestion, TrendingUp, Target, BarChart2 } from 'lucide-react';
-import { Alert, AlertDescription } from '../ui/alert';
+import { Alert, AlertDescription } from '@/components/atoms/Alert/alert';
 import { DashboardMetricsWidget } from './DashboardMetricsWidget';
 import { GoalTrackingWidget } from './GoalTrackingWidget';
 import { SubjectHeatmapWidget } from './SubjectHeatmapWidget';
