@@ -1,5 +1,5 @@
-import { sanitizeString } from '../middleware/validation.js';
-import type { SurveyQuestion } from '../features/surveys/types/surveys.types.js';
+import { sanitizeString } from '../../middleware/validation.js';
+import type { SurveyQuestion } from '../../features/surveys/types/surveys.types.js';
 
 export interface SurveyQuestionOption {
   text?: string;

@@ -1,4 +1,4 @@
-import { sanitizeString } from '../middleware/validation.js';
+import { sanitizeString } from '../../middleware/validation.js';
 
 export type FieldType = 'string' | 'number' | 'boolean' | 'date' | 'any';
 

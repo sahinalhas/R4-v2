@@ -3,7 +3,7 @@ import * as distributionsRepo from '../../repository/distributions.repository.js
 import * as questionsRepo from '../../repository/questions.repository.js';
 import * as responsesRepo from '../../repository/responses.repository.js';
 import { SurveyResponse, SurveyQuestion } from '../../types/surveys.types.js';
-import { sanitizeExcelData } from '../../../../utils/sanitization.js';
+import { sanitizeExcelData } from '../../../../utils/validators/sanitization.js';
 
 export interface ExcelImportResult {
   success: boolean;

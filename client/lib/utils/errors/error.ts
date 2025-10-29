@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { API_ERROR_MESSAGES } from "../constants/messages.constants";
+import { API_ERROR_MESSAGES } from "../../constants/messages.constants";
 
 /**
  * Error Handling Utility

@@ -5,7 +5,7 @@ import {
   sanitizeObject as sanitizeObjectUtil,
   sanitizeAIPrompt as sanitizeAIPromptUtil,
   sanitizeAIObject as sanitizeAIObjectUtil,
-} from '../utils/sanitization.js';
+} from '../utils/validators/sanitization.js';
 import { env } from '../config/index.js';
 
 // Re-export sanitization utilities for backward compatibility

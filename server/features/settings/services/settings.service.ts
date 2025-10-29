@@ -1,5 +1,5 @@
 import type { AppSettings } from '../../../../shared/types.js';
-import { mergeWithDefaults } from '../../../../shared/settings-utils.js';
+import { mergeWithDefaults } from '../../../../shared/utils/settings/index.js';
 import * as settingsRepository from '../repository/settings.repository.js';
 
 export function getSettings(): AppSettings {

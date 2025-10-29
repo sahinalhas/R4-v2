@@ -1,5 +1,5 @@
 import * as repository from '../../repository/index.js';
-import { sanitizeQuestionData } from '../../../../utils/survey-sanitization.js';
+import { sanitizeQuestionData } from '../../../../utils/validators/survey-sanitization.js';
 import type { SurveyQuestion } from '../../types/surveys.types.js';
 
 export function getTemplateQuestions(templateId: string) {

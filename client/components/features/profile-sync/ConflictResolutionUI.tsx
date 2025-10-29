@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/atoms/RadioGroup';
 import { Label } from '@/components/atoms/Label';
 import { Textarea } from '@/components/atoms/Textarea';
 import { AlertTriangle, CheckCircle2, ArrowRight } from 'lucide-react';
-import { handleApiError, showSuccessToast } from '@/lib/utils/error-utils';
+import { handleApiError, showSuccessToast } from '@/lib/utils/errors/error';
 import { API_ERROR_MESSAGES } from '@/lib/constants/messages.constants';
 import { toast } from 'sonner';
 

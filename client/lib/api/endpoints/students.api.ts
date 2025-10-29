@@ -2,7 +2,7 @@ import type { Student, BackendStudent } from "../../types/student.types";
 import { backendToFrontend, frontendToBackend } from "../../types/student.types";
 import { apiClient } from '../core/client';
 import { API_ERROR_MESSAGES } from "../../constants/messages.constants";
-import { handleApiError } from "../../utils/error-utils";
+import { handleApiError } from "../../utils/errors/error";
 
 let studentsCache: Student[] | null = null;
 

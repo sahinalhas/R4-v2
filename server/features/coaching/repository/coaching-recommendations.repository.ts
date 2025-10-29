@@ -1,5 +1,5 @@
 import getDatabase from '../../../lib/database.js';
-import { buildDynamicUpdate } from '../../../lib/database/repository-helpers.js';
+import { buildDynamicUpdate } from '../../../utils/helpers/repository.js';
 import type { CoachingRecommendation } from '../types/coaching.types.js';
 import type { Statement } from 'better-sqlite3';
 

@@ -4,8 +4,8 @@
  */
 
 import { toast } from 'sonner';
-import { ApiError, ApiErrorCode, ApiErrorResponse, isApiErrorResponse } from '../types/api-types';
-import { API_ERROR_MESSAGES } from '../constants/messages.constants';
+import { ApiError, ApiErrorCode, ApiErrorResponse, isApiErrorResponse, ValidationError } from '../../types/api-types';
+import { API_ERROR_MESSAGES } from '../../constants/messages.constants';
 
 /**
  * Create a typed API error
@@ -14,7 +14,7 @@ export function createApiError(
   message: string,
   code: ApiErrorCode = ApiErrorCode.INTERNAL_ERROR,
   statusCode?: number,
-  details?: Record<string, string>
+  details?: Record<string, string> | ValidationError[]
 ): ApiError {
   const error = new Error(message) as ApiError;
   error.code = code;

@@ -5,7 +5,7 @@
 
 import { Request, Response, NextFunction } from 'express';
 import { getUserSession, deleteUserSession } from '../features/auth/repository/auth.repository.js';
-import { safeJsonParseObject } from '../utils/json-helpers.js';
+import { safeJsonParseObject } from '../utils/parsers/json.js';
 
 export interface AuthenticatedRequest extends Request {
   user?: {

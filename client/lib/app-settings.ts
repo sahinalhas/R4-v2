@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 import type { AppSettings, PresentationItem, PresentationCategory, PresentationTab } from "@shared/types";
-import { getDefaultSettings, mergeWithDefaults, parseDocumentToPresentationSystem, getDefaultPresentationSystem } from "@shared/settings-utils";
+import { getDefaultSettings, mergeWithDefaults, parseDocumentToPresentationSystem, getDefaultPresentationSystem } from "@shared/utils/settings";
 
 const SETTINGS_KEY = "rehber360:settings";
 

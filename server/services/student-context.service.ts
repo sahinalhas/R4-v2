@@ -13,7 +13,7 @@ import { getLatestSocioeconomicByStudent } from '../features/holistic-profile/re
 import { getLatestInterestByStudent } from '../features/holistic-profile/repository/interests.repository.js';
 import { getLatestFutureVisionByStudent } from '../features/holistic-profile/repository/future-vision.repository.js';
 import { getLatestStrengthByStudent } from '../features/holistic-profile/repository/strengths.repository.js';
-import { safeJsonParseArray } from '../utils/json-helpers.js';
+import { safeJsonParseArray } from '../utils/parsers/json.js';
 
 export interface StudentContext {
   // Temel Bilgiler

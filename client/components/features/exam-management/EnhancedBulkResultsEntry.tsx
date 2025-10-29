@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { useExamSubjects, useExamResultsBySession } from '@/hooks/queries/exams.query-hooks';
 import { useStudentFilter } from '@/hooks/state/student-filter.state';
-import { calculateNetScore } from '@/lib/utils/exam-utils';
+import { calculateNetScore } from '@/lib/utils/helpers/exam';
 import type {
   ExamSession,
   ExamSubject,

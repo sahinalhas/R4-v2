@@ -17,7 +17,7 @@ import {
   mapErrorCode,
   formatTranscript,
   SPEECH_CONFIG 
-} from '@/lib/utils/speech-utils';
+} from '@/lib/utils/formatters/speech';
 
 interface UseSpeechRecognitionOptions {
   language?: SpeechRecognitionLanguage;

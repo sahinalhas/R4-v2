@@ -1,12 +1,11 @@
-import type { StudyTopic, TopicProgress, WeeklySlot, PlannedEntry } from "../types/study.types";
+import type { StudyTopic, TopicProgress, WeeklySlot, PlannedEntry } from "../../types/study.types";
 import { 
   loadTopics, 
   getProgressByStudent, 
   ensureProgressForStudent,
   getWeeklySlotsByStudent 
-} from "../api/endpoints/study.api";
+} from "../../api/endpoints/study.api";
 
-export type { PlannedEntry };
 
 function minutesBetween(start: string, end: string) {
   const [sh, sm] = start.split(":").map(Number);

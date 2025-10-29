@@ -1,12 +1,12 @@
 import { toast } from "sonner";
-import type { ScheduleTemplate, WeeklySlot, StudySubject } from "../types/study.types";
+import type { ScheduleTemplate, WeeklySlot, StudySubject } from "../../types/study.types";
 import { 
   loadSubjects, 
   loadSubjectsAsync, 
   saveSubjects,
   getWeeklySlotsByStudent,
   removeWeeklySlot
-} from "../api/endpoints/study.api";
+} from "../../api/endpoints/study.api";
 
 const SCHEDULE_TEMPLATES: ScheduleTemplate[] = [
   {

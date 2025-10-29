@@ -20,8 +20,8 @@ export * from "./api/endpoints/family.api";
 export * from "./api/endpoints/risk.api";
 export * from "./api/endpoints/student-profile.api";
 
-export * from "./utils/templates";
-export * from "./utils/study-planning";
+export * from "./utils/formatters/templates";
+export * from "./utils/helpers/study-planning";
 
 export function defaultSeed() {
   return [

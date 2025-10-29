@@ -6,7 +6,7 @@ import { Label } from '@/components/atoms/Label';
 import { Textarea } from '@/components/atoms/Textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select';
 import { Edit3, Save, X } from 'lucide-react';
-import { handleApiError, showSuccessToast } from '@/lib/utils/error-utils';
+import { handleApiError, showSuccessToast } from '@/lib/utils/errors/error';
 import { API_ERROR_MESSAGES } from '@/lib/constants/messages.constants';
 import { toast } from 'sonner';
 

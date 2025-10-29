@@ -48,7 +48,7 @@ import { useStudents } from '@/hooks/queries/students.query-hooks';
 import { useStudentStats } from '@/hooks/utils/student-stats.utils';
 import { useStudentFilters } from '@/hooks/state/student-filters.state';
 import { usePagination } from '@/hooks/utils/pagination.utils';
-import { exportToCSV, exportToPDF, exportToExcel } from '@/utils/export-helpers';
+import { exportToCSV, exportToPDF, exportToExcel } from '@/lib/utils/exporters/student-export';
 
 import { StatsCards } from '@/components/features/students/StatsCards';
 import { AdvancedFilters } from '@/components/features/students/AdvancedFilters';
