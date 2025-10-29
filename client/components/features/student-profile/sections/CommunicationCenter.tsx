@@ -2,6 +2,9 @@
  * Communication Center
  * Tüm görüşme ve iletişim kayıtlarını tek merkezde toplar
  * NOT: GorusmelerSection, VeliGorusmeleriSection ve diğer iletişim component'lerini birleştirir
+ * 
+ * ÖNEMLİ: Dashboard'daki ProfileUpdateTimeline buraya taşındı
+ * Her bilgi tek bir yerde - Dashboard'da sadece özet bilgi
  */
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
@@ -10,6 +13,7 @@ import UnifiedMeetingsSection from "./UnifiedMeetingsSection";
 import EvZiyaretleriSection from "./EvZiyaretleriSection";
 import AileKatilimiSection from "./AileKatilimiSection";
 import AIToolsHub from "./AIToolsHub";
+import ProfileUpdateTimeline from "@/components/features/live-profile/ProfileUpdateTimeline";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
 import { MessageCircle, Calendar, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -173,19 +177,13 @@ export default function CommunicationCenter({
         </TabsContent>
 
         <TabsContent value="gecmis" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>İletişim Geçmişi</CardTitle>
-              <CardDescription>
-                Tüm görüşme, ziyaret ve etkinlik kayıtları kronolojik sırada
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                İletişim geçmişi görünümü geliştirilme aşamasında...
-              </div>
-            </CardContent>
-          </Card>
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-semibold">Profil Güncelleme Geçmişi</h3>
+              <span className="text-sm text-muted-foreground">Tüm değişiklikler ve aktiviteler</span>
+            </div>
+            <ProfileUpdateTimeline studentId={studentId} />
+          </div>
         </TabsContent>
 
         <TabsContent value="ai-araclari" className="space-y-4">

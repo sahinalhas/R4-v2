@@ -27,55 +27,56 @@ import {
  * Bilgi tekrarı yok, her veri sadece bir yerde
  */
 
-// 8 ANA SEKME - Basitleştirilmiş ve Organize
+// 8 ANA SEKME - Modern, Sezgisel ve Kullanıcı Dostu
+// Her bilgi tek bir yerde - detaylar ilgili sekmelerde
 export const MAIN_TABS = [
   {
     value: "dashboard",
     label: "📊 Özet",
     icon: LayoutDashboard,
-    description: "AI-destekli özet, risk durumu ve hızlı aksiyonlar"
+    description: "Genel durum özeti - KPI'lar, hızlı aksiyonlar ve önemli bilgiler"
   },
   {
     value: "kimlik",
-    label: "👤 Kimlik & İletişim",
+    label: "👤 Kimlik",
     icon: User,
-    description: "Temel bilgiler, veli iletişim, adres bilgileri"
+    description: "Kimlik bilgileri, veli iletişim, adres ve profil bütünlüğü"
   },
   {
     value: "saglik",
-    label: "🏥 Sağlık & Güvenlik",
+    label: "🏥 Sağlık",
     icon: Activity,
-    description: "Sağlık profili, acil durumlar, tıbbi öykü"
+    description: "Sağlık bilgileri, özel eğitim, acil durumlar ve tıbbi geçmiş"
   },
   {
     value: "akademik",
     label: "🎓 Akademik",
     icon: GraduationCap,
-    description: "Performans, sınavlar, çalışma programı, ilerleme"
+    description: "Başarı, sınavlar, öğrenme stratejileri ve ilerleme"
   },
   {
     value: "gelisim",
-    label: "💡 Gelişim & Kişilik",
+    label: "💡 Gelişim",
     icon: Brain,
-    description: "Sosyal-duygusal, çoklu zeka, yetenekler, motivasyon"
+    description: "Kişilik, sosyal-duygusal, yetenekler ve motivasyon profili"
   },
   {
     value: "risk",
-    label: "⚠️ Risk & Müdahale",
+    label: "⚠️ Risk",
     icon: ShieldAlert,
-    description: "Risk analizi, davranış takibi, müdahale planları"
+    description: "Risk analizi, davranış takibi ve müdahale planları"
   },
   {
     value: "kariyer",
-    label: "💼 Kariyer & Gelecek",
+    label: "💼 Kariyer",
     icon: Briefcase,
-    description: "Kariyer analizi, yol haritası, hedefler"
+    description: "Kariyer rehberliği, meslek seçimi ve gelecek planları"
   },
   {
     value: "iletisim",
-    label: "💬 İletişim & Raporlar",
+    label: "💬 İletişim",
     icon: MessageCircle,
-    description: "Görüşmeler, ev ziyaretleri, iletişim geçmişi, AI araçları"
+    description: "Görüşmeler, ev ziyaretleri, aktivite geçmişi ve AI araçları"
   },
 ] as const;
 

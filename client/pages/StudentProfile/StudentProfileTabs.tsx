@@ -16,7 +16,8 @@ import DevelopmentProfileSection from "@/components/features/student-profile/sec
 import EnhancedRiskDashboard from "@/components/features/student-profile/sections/EnhancedRiskDashboard";
 import CareerFutureSection from "@/components/features/student-profile/sections/CareerFutureSection";
 import CommunicationCenter from "@/components/features/student-profile/sections/CommunicationCenter";
-import AdditionalInfoSection from "@/components/features/student-profile/sections/AdditionalInfoSection"; // Import AdditionalInfoSection
+import AdditionalInfoSection from "@/components/features/student-profile/sections/AdditionalInfoSection";
+import { ProfileCompletenessIndicator } from "@/components/features/student-profile/ProfileCompletenessIndicator";
 
 // Dashboard
 import { ModernDashboard } from "./components/ModernDashboard";
@@ -69,6 +70,19 @@ export function StudentProfileTabs({
 
       {/* 2. KİMLİK & İLETİŞİM */}
       <TabsContent value="kimlik" className="space-y-4">
+        {/* Profil Tamlığı Göstergesi - Dashboard'daki detaylı versiyonu buraya taşındı */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold">Profil Bütünlüğü Analizi</h3>
+            <span className="text-sm text-muted-foreground">Eksik alanlar ve veri kalitesi</span>
+          </div>
+          <ProfileCompletenessIndicator
+            overall={scoresData?.completeness?.overall ?? 0}
+            sections={scoresData?.completeness?.sections || {}}
+            eksikAlanlar={scoresData?.completeness?.eksikAlanlar || []}
+          />
+        </div>
+
         <UnifiedIdentitySection
           student={student}
           onUpdate={onUpdate}
@@ -124,7 +138,6 @@ export function StudentProfileTabs({
         <CareerFutureSection
           studentId={studentId}
           studentName={studentName}
-          academicGoals={data.academicGoals}
           onUpdate={onUpdate}
         />
       </TabsContent>
