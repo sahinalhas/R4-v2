@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
+import { Progress } from "@/components/atoms/Progress";
+import { Badge } from "@/components/atoms/Badge";
+import { Alert, AlertDescription } from "@/components/atoms/Alert";
+import { Button } from "@/components/atoms/Button";
 import { 
   TrendingUp, 
   Brain, 
@@ -28,11 +28,11 @@ import {
   ResponsiveContainer,
   Tooltip
 } from 'recharts';
-import UnifiedProfileCard from "@/components/profile-sync/UnifiedProfileCard";
-import ProfileChangeTimeline from "@/components/profile-sync/ProfileChangeTimeline";
-import ConflictResolutionPanel from "@/components/profile-sync/ConflictResolutionPanel";
-import ManualCorrectionPanel from "@/components/profile-sync/ManualCorrectionPanel";
-import ConflictResolutionUI from "@/components/profile-sync/ConflictResolutionUI";
+import UnifiedProfileCard from "@/components/features/profile-sync/UnifiedProfileCard";
+import ProfileChangeTimeline from "@/components/features/profile-sync/ProfileChangeTimeline";
+import ConflictResolutionPanel from "@/components/features/profile-sync/ConflictResolutionPanel";
+import ManualCorrectionPanel from "@/components/features/profile-sync/ManualCorrectionPanel";
+import ConflictResolutionUI from "@/components/features/profile-sync/ConflictResolutionUI";
 import { apiClient } from "@/lib/api/api-client";
 import { AI_ENDPOINTS } from "@/lib/constants/api-endpoints";
 

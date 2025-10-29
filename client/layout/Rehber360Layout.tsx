@@ -6,9 +6,9 @@ import {
   useNavigate,
   Navigate,
 } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/atoms/Button";
+import { Separator } from "@/components/atoms/Separator";
+import { Avatar, AvatarFallback } from "@/components/atoms/Avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/organisms/DropdownMenu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,7 +24,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/components/molecules/Breadcrumb";
 import {
   Sun,
   Moon,
@@ -47,11 +47,11 @@ import {
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { loadSettings, updateSettings, SETTINGS_KEY, AppSettings } from "@/lib/app-settings";
 import { useQuery } from "@tanstack/react-query";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/atoms/Input";
+import { Card } from "@/components/organisms/Card";
+import { ScrollArea } from "@/components/organisms/ScrollArea";
 import { useAuth } from "@/lib/auth-context";
-import AIStatusIndicator from "@/components/AIStatusIndicator";
+import AIStatusIndicator from "@/components/features/common/AIStatusIndicator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 

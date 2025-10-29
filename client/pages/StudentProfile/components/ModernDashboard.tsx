@@ -10,10 +10,10 @@
  * - Data visualization with progress indicators
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
+import { Button } from "@/components/atoms/Button";
+import { Badge } from "@/components/atoms/Badge";
+import { Progress } from "@/components/atoms/Progress";
 import { 
   Bot, 
   FileText, 
@@ -38,11 +38,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Student } from "@/lib/storage";
 
-import LiveProfileCard from "@/components/live-profile/LiveProfileCard";
-import { EnhancedRiskCard } from "@/components/analytics/EnhancedRiskCard";
-import { PersonalizedLearningCard } from "@/components/learning/PersonalizedLearningCard";
-import ProfileUpdateTimeline from "@/components/live-profile/ProfileUpdateTimeline";
-import { ProfileCompletenessIndicator } from "@/components/student-profile/ProfileCompletenessIndicator";
+import LiveProfileCard from "@/components/features/live-profile/LiveProfileCard";
+import { EnhancedRiskCard } from "@/components/features/analytics/EnhancedRiskCard";
+import { PersonalizedLearningCard } from "@/components/features/learning/PersonalizedLearningCard";
+import ProfileUpdateTimeline from "@/components/features/live-profile/ProfileUpdateTimeline";
+import { ProfileCompletenessIndicator } from "@/components/features/student-profile/ProfileCompletenessIndicator";
 
 interface ModernDashboardProps {
   student: Student;

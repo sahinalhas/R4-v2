@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/organisms/Card";
 import { Student, AttendanceRecord, SurveyResult, Intervention } from "@/lib/storage";
 import { RiskPill } from "./RiskPill";
 

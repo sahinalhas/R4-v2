@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
+import { Button } from '@/components/atoms/Button';
+import { Input } from '@/components/atoms/Input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/atoms/Select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
+import { ScrollArea } from '@/components/organisms/ScrollArea';
+import { Badge } from '@/components/atoms/Badge';
+import { Separator } from '@/components/atoms/Separator';
 import { 
   Loader2, Send, Bot, User, Settings, Sparkles, Copy, Check, 
   RefreshCw, Edit2, Trash2, Pin, PinOff, Download, Search, 
@@ -21,9 +21,9 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import MeetingPrepPanel from '@/components/ai/MeetingPrepPanel';
-import PriorityStudentsWidget from '@/components/ai/PriorityStudentsWidget';
-import ResourceRecommendations from '@/components/ai/ResourceRecommendations';
+import MeetingPrepPanel from '@/components/features/ai/MeetingPrepPanel';
+import PriorityStudentsWidget from '@/components/features/ai/PriorityStudentsWidget';
+import ResourceRecommendations from '@/components/features/ai/ResourceRecommendations';
 import { apiClient } from '@/lib/api/api-client';
 import { AI_ENDPOINTS, STUDENT_ENDPOINTS } from '@/lib/constants/api-endpoints';
 

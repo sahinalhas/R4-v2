@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import type { CounselingSession } from '@/components/counseling/types';
-import { calculateSessionDuration } from '@/components/counseling/utils/sessionHelpers';
+import type { CounselingSession } from '@/components/features/counseling/types';
+import { calculateSessionDuration } from '@/components/features/counseling/utils/sessionHelpers';
 
 export interface SessionStats {
   total: number;

@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/lib/auth-context';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { StatCard } from '@/components/ui/stat-card';
-import { StatsGrid } from '@/components/ui/stats-grid';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { PageHeader } from '@/components/ui/page-header';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
+import { StatCard } from '@/components/molecules/StatCard';
+import { StatsGrid } from '@/components/molecules/StatsGrid';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
+import { Button } from '@/components/atoms/Button';
+import { Badge } from '@/components/atoms/Badge';
+import { PageHeader } from '@/components/molecules/PageHeader';
 import { MODERN_GRADIENTS } from '@/lib/config/theme.config';
 import { 
   Users, 

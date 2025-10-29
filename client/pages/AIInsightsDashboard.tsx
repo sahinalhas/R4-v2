@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { StatCard } from '@/components/ui/stat-card';
-import { StatsGrid } from '@/components/ui/stats-grid';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
+import { StatCard } from '@/components/molecules/StatCard';
+import { StatsGrid } from '@/components/molecules/StatsGrid';
+import { Button } from '@/components/atoms/Button';
+import { Badge } from '@/components/atoms/Badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { AlertTriangle, TrendingUp, Users, Calendar, Brain, FileText } from 'lucide-react';
 import { MODERN_GRADIENTS } from '@/lib/config/theme.config';
-import BulkAnalysisDashboard from '@/components/ai/BulkAnalysisDashboard';
+import BulkAnalysisDashboard from '@/components/features/ai/BulkAnalysisDashboard';
 import { apiClient } from '@/lib/api/api-client';
 import { AI_ENDPOINTS } from '@/lib/constants/api-endpoints';
-import { AIToolsLayout } from '@/components/ai-tools/AIToolsLayout';
-import { AIToolsLoadingState } from '@/components/ai-tools/AIToolsLoadingState';
+import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
+import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
 
 interface DailyInsightsSummary {
   date: string;

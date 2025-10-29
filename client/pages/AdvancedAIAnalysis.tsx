@@ -19,8 +19,8 @@ import { Checkbox } from '../components/ui/checkbox';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { apiClient } from '../lib/api/api-client';
 import { STUDENT_ENDPOINTS } from '../lib/constants/api-endpoints';
-import { AIToolsLayout } from '@/components/ai-tools/AIToolsLayout';
-import { AIToolsLoadingState } from '@/components/ai-tools/AIToolsLoadingState';
+import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
+import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
 
 export default function AdvancedAIAnalysis() {
   const [analysisMode, setAnalysisMode] = useState<'class' | 'multi-student'>('class');

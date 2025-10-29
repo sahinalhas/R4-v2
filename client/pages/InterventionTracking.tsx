@@ -8,16 +8,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+} from "@/components/organisms/Card";
+import { Badge } from "@/components/atoms/Badge";
+import { Progress } from "@/components/atoms/Progress";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/atoms/Select";
 import {
   TrendingUp,
   TrendingDown,

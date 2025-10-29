@@ -7,10 +7,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from "@/components/organisms/Card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
+import { Badge } from "@/components/atoms/Badge";
+import { Button } from "@/components/atoms/Button";
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/organisms/Table";
 import {
   Bell,
   Mail,

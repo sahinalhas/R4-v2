@@ -1,10 +1,10 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { ShieldAlert, Bot, Brain, Sparkles, CalendarDays } from 'lucide-react';
-import { AIToolsLoadingState } from '@/components/ai-tools/AIToolsLoadingState';
-import { PageHeader } from '@/components/ui/page-header';
+import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
+import { PageHeader } from '@/components/molecules/PageHeader';
 
 const RiskDashboard = lazy(() => import('./RiskDashboard'));
 const AIAssistant = lazy(() => import('./AIAssistant'));

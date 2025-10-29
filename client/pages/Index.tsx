@@ -5,18 +5,18 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { StatCard } from "@/components/ui/stat-card";
-import { StatsGrid } from "@/components/ui/stats-grid";
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/ui/page-header";
+} from "@/components/organisms/Card";
+import { StatCard } from "@/components/molecules/StatCard";
+import { StatsGrid } from "@/components/molecules/StatsGrid";
+import { Button } from "@/components/atoms/Button";
+import { PageHeader } from "@/components/molecules/PageHeader";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/components/organisms/Chart";
 import { Area, AreaChart, CartesianGrid, XAxis, Bar, BarChart, YAxis, PieChart, Pie, Cell, ResponsiveContainer, Line, LineChart } from "recharts";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/atoms/Badge";
 import { motion } from "framer-motion";
 import {
   Bell,
@@ -43,11 +43,11 @@ import { type EarlyWarning } from "@/lib/analytics";
 import { optimizedGenerateEarlyWarnings } from "@/lib/analytics-cache";
 import type { Student, Intervention } from "@/lib/storage";
 import { useNavigate } from "react-router-dom";
-import RiskSummaryWidget from "@/components/RiskSummaryWidget";
-import DailyActionPlanWidget from "@/components/dashboard/DailyActionPlanWidget";
-import SchoolWideAIInsights from "@/components/dashboard/SchoolWideAIInsights";
-import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
-import AISuggestionPanel from "@/components/ai-suggestions/AISuggestionPanel";
+import RiskSummaryWidget from "@/components/features/common/RiskSummaryWidget";
+import DailyActionPlanWidget from "@/components/features/dashboard/DailyActionPlanWidget";
+import SchoolWideAIInsights from "@/components/features/dashboard/SchoolWideAIInsights";
+import { DashboardSkeleton } from "@/components/features/dashboard/DashboardSkeleton";
+import AISuggestionPanel from "@/components/features/ai-suggestions/AISuggestionPanel";
 import { apiClient } from "@/lib/api/api-client";
 import { STUDENT_ENDPOINTS, SURVEY_ENDPOINTS, COUNSELING_ENDPOINTS } from "@/lib/constants/api-endpoints";
 import { MODERN_GRADIENTS } from "@/lib/config/theme.config";

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Download, Search as SearchIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/atoms/Button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
+import { Badge } from "@/components/atoms/Badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 import {
@@ -19,25 +19,25 @@ import {
   CalendarSkeleton,
   TableSkeleton,
   SessionGridSkeleton,
-} from "@/components/counseling/modern";
+} from "@/components/features/counseling/modern";
 
-import ActiveSessionsGrid from "@/components/counseling/ActiveSessionsGrid";
-import NewSessionDialog from "@/components/counseling/NewSessionDialog";
-import EnhancedCompleteSessionDialog from "@/components/counseling/enhanced/EnhancedCompleteSessionDialog";
-import ReminderDialog from "@/components/counseling/ReminderDialog";
-import FollowUpDialog from "@/components/counseling/FollowUpDialog";
-import SessionOutcomeDialog from "@/components/counseling/SessionOutcomeDialog";
-import RemindersTab from "@/components/counseling/RemindersTab";
-import OutcomesTab from "@/components/counseling/OutcomesTab";
-import ReportGenerationDialog, { type ReportOptions } from "@/components/counseling/ReportGenerationDialog";
+import ActiveSessionsGrid from "@/components/features/counseling/ActiveSessionsGrid";
+import NewSessionDialog from "@/components/features/counseling/NewSessionDialog";
+import EnhancedCompleteSessionDialog from "@/components/features/counseling/enhanced/EnhancedCompleteSessionDialog";
+import ReminderDialog from "@/components/features/counseling/ReminderDialog";
+import FollowUpDialog from "@/components/features/counseling/FollowUpDialog";
+import SessionOutcomeDialog from "@/components/features/counseling/SessionOutcomeDialog";
+import RemindersTab from "@/components/features/counseling/RemindersTab";
+import OutcomesTab from "@/components/features/counseling/OutcomesTab";
+import ReportGenerationDialog, { type ReportOptions } from "@/components/features/counseling/ReportGenerationDialog";
 
 import { useSessionStats } from "@/hooks/counseling/use-session-stats";
 import { useSessionFilters } from "@/hooks/counseling/use-session-filters";
 import { useSessionActions } from "@/hooks/counseling/use-session-actions";
 
-import { getElapsedTime, getSessionName } from "@/components/counseling/utils/sessionHelpers";
-import { exportSessionsToExcel } from "@/components/counseling/utils/sessionExport";
-import { generateSessionsPDF, generateOutcomesPDF, generateComprehensiveReport } from "@/components/counseling/utils/sessionReports";
+import { getElapsedTime, getSessionName } from "@/components/features/counseling/utils/sessionHelpers";
+import { exportSessionsToExcel } from "@/components/features/counseling/utils/sessionExport";
+import { generateSessionsPDF, generateOutcomesPDF, generateComprehensiveReport } from "@/components/features/counseling/utils/sessionReports";
 
 import type {
   CounselingSession,
@@ -53,7 +53,7 @@ import type {
   ReminderFormValues,
   FollowUpFormValues,
   OutcomeFormValues,
-} from "@/components/counseling/types";
+} from "@/components/features/counseling/types";
 
 import { apiClient } from "@/lib/api/api-client";
 import { COUNSELING_ENDPOINTS, STUDENT_ENDPOINTS } from "@/lib/constants/api-endpoints";

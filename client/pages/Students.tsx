@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { PageHeader } from '@/components/ui/page-header';
+import { Button } from '@/components/atoms/Button';
+import { Input } from '@/components/atoms/Input';
+import { PageHeader } from '@/components/molecules/PageHeader';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/components/atoms/Select';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/organisms/Dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +24,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/organisms/DropdownMenu';
 import {
   Pagination,
   PaginationContent,
@@ -32,7 +32,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from '@/components/organisms/Pagination';
 import { Upload, Download, UserPlus, FileSpreadsheet, FileText, Users } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -50,15 +50,15 @@ import { useStudentFilters } from '@/hooks/use-student-filters';
 import { usePagination } from '@/hooks/use-pagination';
 import { exportToCSV, exportToPDF, exportToExcel } from '@/utils/export-helpers';
 
-import { StatsCards } from '@/components/students/StatsCards';
-import { AdvancedFilters } from '@/components/students/AdvancedFilters';
-import { BulkActions } from '@/components/students/BulkActions';
-import { EnhancedStudentTable, type SortColumn, type SortDirection } from '@/components/students/EnhancedStudentTable';
-import { TableControls, type ColumnVisibility } from '@/components/students/TableControls';
-import { StudentDrawer } from '@/components/students/StudentDrawer';
-import { StudentCard } from '@/components/students/StudentCard';
-import { EmptyState } from '@/components/students/EmptyState';
-import { TableSkeleton } from '@/components/students/TableSkeleton';
+import { StatsCards } from '@/components/features/students/StatsCards';
+import { AdvancedFilters } from '@/components/features/students/AdvancedFilters';
+import { BulkActions } from '@/components/features/students/BulkActions';
+import { EnhancedStudentTable, type SortColumn, type SortDirection } from '@/components/features/students/EnhancedStudentTable';
+import { TableControls, type ColumnVisibility } from '@/components/features/students/TableControls';
+import { StudentDrawer } from '@/components/features/students/StudentDrawer';
+import { StudentCard } from '@/components/features/students/StudentCard';
+import { EmptyState } from '@/components/features/students/EmptyState';
+import { TableSkeleton } from '@/components/features/students/TableSkeleton';
 
 export default function Students() {
   const { students, isLoading, invalidate } = useStudents();

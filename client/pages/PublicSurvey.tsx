@@ -3,16 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Input } from "@/components/ui/input";
-import { EnhancedTextarea as Textarea } from "@/components/ui/enhanced-textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
+import { Button } from "@/components/atoms/Button";
+import { Badge } from "@/components/atoms/Badge";
+import { Progress } from "@/components/atoms/Progress";
+import { Input } from "@/components/atoms/Input";
+import { EnhancedTextarea as Textarea } from "@/components/molecules/EnhancedTextarea";
+import { RadioGroup, RadioGroupItem } from "@/components/atoms/RadioGroup";
+import { Checkbox } from "@/components/atoms/Checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/atoms/Select";
+import { Label } from "@/components/atoms/Label";
 import {
   Form,
   FormControl,
@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/organisms/Form";
 import { 
   FileText, 
   Clock, 

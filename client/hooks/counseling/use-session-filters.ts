@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { CounselingSession } from '@/components/counseling/types';
+import type { CounselingSession } from '@/components/features/counseling/types';
 
 export interface SessionFilterState {
   searchQuery: string;

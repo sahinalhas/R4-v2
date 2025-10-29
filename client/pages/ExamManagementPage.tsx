@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { ClipboardList, User } from 'lucide-react';
-import { PageHeader } from '@/components/ui/page-header';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader } from '@/components/molecules/PageHeader';
+import { Alert, AlertDescription } from '@/components/atoms/Alert';
+import { Skeleton } from '@/components/atoms/Skeleton';
 import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -21,13 +21,13 @@ import {
   useCreateSchoolExam,
   useDeleteSchoolExam,
 } from '@/hooks/use-exam-management';
-import { ExamSessionDialog } from '@/components/exam-management/ExamSessionDialog';
-import { PracticeExamsTab } from '@/components/exam-management/PracticeExamsTab';
-import { SchoolExamsTab } from '@/components/exam-management/SchoolExamsTab';
-import { DashboardOverviewTab } from '@/components/exam-management/DashboardOverviewTab';
-import { UnifiedAnalysisTab } from '@/components/exam-management/UnifiedAnalysisTab';
-import { AdvancedAnalyticsTab } from '@/components/exam-management/AdvancedAnalyticsTab';
-import { StudentSelfServiceDashboard } from '@/components/exam-management/StudentSelfServiceDashboard';
+import { ExamSessionDialog } from '@/components/features/exam-management/ExamSessionDialog';
+import { PracticeExamsTab } from '@/components/features/exam-management/PracticeExamsTab';
+import { SchoolExamsTab } from '@/components/features/exam-management/SchoolExamsTab';
+import { DashboardOverviewTab } from '@/components/features/exam-management/DashboardOverviewTab';
+import { UnifiedAnalysisTab } from '@/components/features/exam-management/UnifiedAnalysisTab';
+import { AdvancedAnalyticsTab } from '@/components/features/exam-management/AdvancedAnalyticsTab';
+import { StudentSelfServiceDashboard } from '@/components/features/exam-management/StudentSelfServiceDashboard';
 import type {
   ExamSession,
   SubjectResults,

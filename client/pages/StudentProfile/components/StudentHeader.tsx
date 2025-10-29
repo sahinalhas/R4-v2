@@ -1,7 +1,7 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardHeader, CardContent } from "@/components/organisms/Card";
+import { Button } from "@/components/atoms/Button";
+import { Badge } from "@/components/atoms/Badge";
+import { Avatar, AvatarFallback } from "@/components/atoms/Avatar";
 import { User, GraduationCap, ShieldAlert, Sparkles, Calendar, Mail, Phone, MapPin, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Student } from "@/lib/storage";

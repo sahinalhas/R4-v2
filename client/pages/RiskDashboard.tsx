@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { earlyWarningApi } from '@/lib/api/early-warning.api';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/organisms/Card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/atoms/Alert';
+import { Badge } from '@/components/atoms/Badge';
+import { Button } from '@/components/atoms/Button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/organisms/Tabs';
 import { AlertTriangle, TrendingUp, Users, FileText, ChevronRight, ShieldAlert } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { EarlyWarningAlert } from '@shared/types';
-import { AIToolsLayout } from '@/components/ai-tools/AIToolsLayout';
-import { AIToolsLoadingState } from '@/components/ai-tools/AIToolsLoadingState';
+import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
+import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
 
 export default function RiskDashboard() {
   const [summary, setSummary] = useState<any>(null);

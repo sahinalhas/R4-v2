@@ -3,26 +3,26 @@
  * 9 Ana Sekme Yapısı - Bilgi Tekrarı YOK
  */
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { MAIN_TABS } from "./constants";
 import { StudentData } from "@/hooks/student-profile";
 import { Student } from "@/lib/storage";
 
 // Yeni Modern Component'ler
-import UnifiedIdentitySection from "@/components/student-profile/sections/UnifiedIdentitySection";
-import EnhancedHealthSection from "@/components/student-profile/sections/EnhancedHealthSection";
-import SmartAcademicDashboard from "@/components/student-profile/sections/SmartAcademicDashboard";
-import DevelopmentProfileSection from "@/components/student-profile/sections/DevelopmentProfileSection";
-import EnhancedRiskDashboard from "@/components/student-profile/sections/EnhancedRiskDashboard";
-import CareerFutureSection from "@/components/student-profile/sections/CareerFutureSection";
-import CommunicationCenter from "@/components/student-profile/sections/CommunicationCenter";
-import AdditionalInfoSection from "@/components/student-profile/sections/AdditionalInfoSection"; // Import AdditionalInfoSection
+import UnifiedIdentitySection from "@/components/features/student-profile/sections/UnifiedIdentitySection";
+import EnhancedHealthSection from "@/components/features/student-profile/sections/EnhancedHealthSection";
+import SmartAcademicDashboard from "@/components/features/student-profile/sections/SmartAcademicDashboard";
+import DevelopmentProfileSection from "@/components/features/student-profile/sections/DevelopmentProfileSection";
+import EnhancedRiskDashboard from "@/components/features/student-profile/sections/EnhancedRiskDashboard";
+import CareerFutureSection from "@/components/features/student-profile/sections/CareerFutureSection";
+import CommunicationCenter from "@/components/features/student-profile/sections/CommunicationCenter";
+import AdditionalInfoSection from "@/components/features/student-profile/sections/AdditionalInfoSection"; // Import AdditionalInfoSection
 
 // Dashboard
 import { ModernDashboard } from "./components/ModernDashboard";
 
 // Eski component'ler (geçici - sonra kaldırılacak)
-import OzelEgitimSection from "@/components/student-profile/sections/OzelEgitimSection";
+import OzelEgitimSection from "@/components/features/student-profile/sections/OzelEgitimSection";
 
 interface StudentProfileTabsProps {
   student: Student;

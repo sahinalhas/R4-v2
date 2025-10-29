@@ -8,9 +8,9 @@ import type {
   ReminderFormValues,
   FollowUpFormValues,
   OutcomeFormValues,
-} from '@/components/counseling/types';
-import { getCurrentClassHour } from '@/components/counseling/utils/sessionHelpers';
-import type { ClassHour } from '@/components/counseling/types';
+} from '@/components/features/counseling/types';
+import { getCurrentClassHour } from '@/components/features/counseling/utils/sessionHelpers';
+import type { ClassHour } from '@/components/features/counseling/types';
 
 export function useSessionActions(classHours: ClassHour[]) {
   const { toast } = useToast();

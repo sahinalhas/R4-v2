@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { EnhancedTextarea as Textarea } from "@/components/ui/enhanced-textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/organisms/Card";
+import { Button } from "@/components/atoms/Button";
+import { Input } from "@/components/atoms/Input";
+import { EnhancedTextarea as Textarea } from "@/components/molecules/EnhancedTextarea";
 import {
   Table,
   TableBody,
@@ -10,21 +10,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from "@/components/organisms/Table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/atoms/Select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/organisms/DropdownMenu";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {

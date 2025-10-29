@@ -3,34 +3,34 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useAuth, PermissionGuard, getExportPermissions } from "@/lib/auth-context";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PageHeader } from "@/components/ui/page-header";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/organisms/Card";
+import { Badge } from "@/components/atoms/Badge";
+import { Button } from "@/components/atoms/Button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
+import { PageHeader } from "@/components/molecules/PageHeader";
 import { 
   Select, 
   SelectContent, 
   SelectItem, 
   SelectTrigger, 
   SelectValue 
-} from "@/components/ui/select";
+} from "@/components/atoms/Select";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/components/organisms/Dialog";
 
 // Analytics Components
-import PredictiveAnalysis from "@/components/analytics/PredictiveAnalysis";
-import ComparativeReports from "@/components/analytics/ComparativeReports";
-import ProgressCharts from "@/components/analytics/ProgressCharts";
-import EarlyWarningSystem from "@/components/analytics/EarlyWarningSystem";
+import PredictiveAnalysis from "@/components/features/analytics/PredictiveAnalysis";
+import ComparativeReports from "@/components/features/analytics/ComparativeReports";
+import ProgressCharts from "@/components/features/analytics/ProgressCharts";
+import EarlyWarningSystem from "@/components/features/analytics/EarlyWarningSystem";
 
 // AI Components
-import BulkAnalysisDashboard from "@/components/ai/BulkAnalysisDashboard";
+import BulkAnalysisDashboard from "@/components/features/ai/BulkAnalysisDashboard";
 
 // Chart Components
 import {
@@ -39,7 +39,7 @@ import {
   PerformanceTrendChart,
   ClassComparisonChart,
   EarlyWarningIndicator,
-} from "@/components/charts/AnalyticsCharts";
+} from "@/components/features/charts/AnalyticsCharts";
 
 // Analytics Functions
 import { 

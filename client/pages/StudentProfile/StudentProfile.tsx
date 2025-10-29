@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/organisms/Card";
+import { Button } from "@/components/atoms/Button";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useStudentProfile, useStudentData } from "@/hooks/student-profile";
 import { StudentHeader } from "./components/StudentHeader";

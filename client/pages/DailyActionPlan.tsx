@@ -8,10 +8,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Calendar, Clock, AlertTriangle, CheckCircle2, Users, FileText, Phone, Activity } from 'lucide-react';
 import { getTodayActionPlan, generateDailyActionPlan } from '../lib/api/advanced-ai-analysis.api';
 import type { CounselorDailyPlan, HourlyAction } from '../../shared/types/advanced-ai-analysis.types';
-import { AIToolsLayout } from '@/components/ai-tools/AIToolsLayout';
-import { AIToolsLoadingState } from '@/components/ai-tools/AIToolsLoadingState';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AIToolsLayout } from '@/components/features/ai-tools/AIToolsLayout';
+import { AIToolsLoadingState } from '@/components/features/ai-tools/AIToolsLoadingState';
+import { Button } from '@/components/atoms/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/organisms/Card';
 
 export default function DailyActionPlan() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);

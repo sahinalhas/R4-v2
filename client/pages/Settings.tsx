@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/atoms/Button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
 import { Settings as SettingsIcon } from "lucide-react";
-import { PageHeader } from "@/components/ui/page-header";
+import { PageHeader } from "@/components/molecules/PageHeader";
 import { useToast } from "@/hooks/use-toast";
 import {
   loadSettings,
@@ -14,16 +14,16 @@ import {
   defaultSettings,
 } from "@/lib/app-settings";
 import { useSearchParams, useLocation } from "react-router-dom";
-import GeneralSettingsTab from "@/components/settings/GeneralSettingsTab";
-import NotificationsSettingsTab from "@/components/settings/NotificationsSettingsTab";
-import DataSettingsTab from "@/components/settings/DataSettingsTab";
-import IntegrationsSettingsTab from "@/components/settings/IntegrationsSettingsTab";
-import AISettingsTab from "@/components/settings/AISettingsTab";
-import CoursesSettingsTab from "@/components/settings/CoursesSettingsTab";
-import PresentationSettingsTab from "@/components/settings/PresentationSettingsTab";
-import ClassHoursSettingsTab from "@/components/settings/ClassHoursSettingsTab";
-import SecuritySettingsTab from "@/components/settings/SecuritySettingsTab";
-import TransferSettingsTab from "@/components/settings/TransferSettingsTab";
+import GeneralSettingsTab from "@/components/features/settings/GeneralSettingsTab";
+import NotificationsSettingsTab from "@/components/features/settings/NotificationsSettingsTab";
+import DataSettingsTab from "@/components/features/settings/DataSettingsTab";
+import IntegrationsSettingsTab from "@/components/features/settings/IntegrationsSettingsTab";
+import AISettingsTab from "@/components/features/settings/AISettingsTab";
+import CoursesSettingsTab from "@/components/features/settings/CoursesSettingsTab";
+import PresentationSettingsTab from "@/components/features/settings/PresentationSettingsTab";
+import ClassHoursSettingsTab from "@/components/features/settings/ClassHoursSettingsTab";
+import SecuritySettingsTab from "@/components/features/settings/SecuritySettingsTab";
+import TransferSettingsTab from "@/components/features/settings/TransferSettingsTab";
 
 const schema = z.object({
   theme: z.enum(["light", "dark"]),
