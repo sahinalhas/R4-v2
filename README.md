@@ -281,18 +281,57 @@ npm run migrate
 
 ## 📚 Dokümantasyon
 
-- **API Dokümantasyonu**: `server/features/` klasöründe her feature için README
-- **Bileşen Dokümantasyonu**: `client/components/` içinde JSDoc yorumları
-- **Constants README**: `shared/constants/README.md`
-- **Type Definitions**: TypeScript type dosyaları
+Kapsamlı dokümantasyon için **[docs/](./docs/README.md)** dizinine bakın.
+
+### 🏗️ Architecture Documentation
+- **[Architecture Overview](./docs/architecture/overview.md)** - System architecture and design principles
+- **[Backend Architecture](./docs/architecture/backend.md)** - Feature-based modular architecture
+- **[Frontend Architecture](./docs/architecture/frontend.md)** - React + TypeScript + Atomic Design
+- **[Database Architecture](./docs/architecture/database.md)** - SQLite schema and optimizations
+
+### 🔌 API Reference
+- **[API Overview](./docs/api/README.md)** - Authentication, pagination, error handling
+- **[Students API](./docs/api/students.md)** - Student CRUD operations
+- **[Surveys API](./docs/api/surveys.md)** - Survey management and AI analysis
+- **[Exams API](./docs/api/exams.md)** - Exam results and analytics
+- **[Counseling API](./docs/api/counseling.md)** - Counseling sessions
+- **[AI Assistant API](./docs/api/ai-assistant.md)** - AI chat interface
+- **[Plus 5 more API endpoints...](./docs/api/)**
+
+### 📖 Guides
+- **[Setup Guide](./docs/guides/setup.md)** - Installation and configuration
+- **[Development Guide](./docs/guides/development.md)** - Development workflow and best practices
+- **[Deployment Guide](./docs/guides/deployment.md)** - Replit, VPS, and Docker deployment
+- **[Testing Guide](./docs/guides/testing.md)** - Unit, integration, and component testing
+- **[Contributing Guide](./docs/guides/contributing.md)** - How to contribute
+
+### 📝 Architectural Decision Records (ADR)
+- **[ADR-001](./docs/ADR/001-feature-based-architecture.md)** - Feature-based backend architecture
+- **[ADR-002](./docs/ADR/002-sqlite-database-choice.md)** - SQLite as primary database
+- **[ADR-003](./docs/ADR/003-session-based-authentication.md)** - Session-based auth over JWT
+- **[ADR-004](./docs/ADR/004-react-query-state-management.md)** - React Query for state management
+- **[ADR-005](./docs/ADR/005-atomic-design-pattern.md)** - Atomic design pattern for components
+
+### 📁 In-Code Documentation
+- **Feature READMEs**: `server/features/` - Each feature module has its own README
+- **Component Docs**: `client/components/` - JSDoc comments for components
+- **Type Definitions**: `shared/types/` - TypeScript interfaces and types
 
 ## 🤝 Katkıda Bulunma
 
+Katkıda bulunmak isterseniz lütfen **[Contributing Guide](./docs/guides/contributing.md)** belgesine bakın.
+
+**Kısa özet:**
 1. Fork yapın
 2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
 3. Commit yapın (`git commit -m 'feat: Add amazing feature'`)
 4. Push yapın (`git push origin feature/amazing-feature`)
 5. Pull Request açın
+
+**Kod kalite kontrolleri:**
+```bash
+npm run quality  # TypeScript, ESLint, Prettier, Tests
+```
 
 ## 📝 Lisans
 
