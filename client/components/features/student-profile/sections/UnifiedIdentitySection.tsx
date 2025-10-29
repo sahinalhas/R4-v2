@@ -40,8 +40,6 @@ import {
   Users,
   Calendar,
   Hash,
-  UserCheck,
-  Tag,
   Home,
   Map,
   Briefcase,
@@ -71,8 +69,6 @@ const unifiedIdentitySchema = z.object({
   ikinciVeliTelefon: z.string().optional(),
   ikinciVeliYakinlik: z.string().optional(),
   kardesSayisi: z.number().optional(),
-  rehberOgretmen: z.string().optional(),
-  etiketler: z.string().optional(),
   anneMeslek: z.string().optional(),
   babaMeslek: z.string().optional(),
 });
@@ -110,8 +106,6 @@ export default function UnifiedIdentitySection({ student, onUpdate }: UnifiedIde
       ikinciVeliTelefon: (student as any).ikinciVeliTelefon || "",
       ikinciVeliYakinlik: (student as any).ikinciVeliYakinlik || "",
       kardesSayisi: (student as any).kardesSayisi,
-      rehberOgretmen: student.rehberOgretmen || "",
-      etiketler: (student.etiketler || []).join(", "),
       anneMeslek: (student as any).anneMeslegi || "",
       babaMeslek: (student as any).babaMeslegi || "",
     },
@@ -141,8 +135,6 @@ export default function UnifiedIdentitySection({ student, onUpdate }: UnifiedIde
       ikinciVeliTelefon: (student as any).ikinciVeliTelefon || "",
       ikinciVeliYakinlik: (student as any).ikinciVeliYakinlik || "",
       kardesSayisi: (student as any).kardesSayisi,
-      rehberOgretmen: student.rehberOgretmen || "",
-      etiketler: (student.etiketler || []).join(", "),
       anneMeslek: (student as any).anneMeslegi || "",
       babaMeslek: (student as any).babaMeslegi || "",
     });
@@ -153,9 +145,6 @@ export default function UnifiedIdentitySection({ student, onUpdate }: UnifiedIde
       const updatedStudent: Student = {
         ...student,
         ...data,
-        etiketler: data.etiketler
-          ? data.etiketler.split(",").map((s) => s.trim()).filter(Boolean)
-          : [],
         kardesSayisi: typeof data.kardesSayisi === "number" ? data.kardesSayisi : undefined,
       };
 
@@ -332,117 +321,111 @@ export default function UnifiedIdentitySection({ student, onUpdate }: UnifiedIde
           </CardContent>
         </Card>
 
-        {/* İletişim Bilgileri */}
+        {/* İletişim & Adres Bilgileri */}
         <Card>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Phone className="h-5 w-5 text-primary" />
-              İletişim Bilgileri
+              İletişim & Adres
             </CardTitle>
             <CardDescription>
-              Öğrenciye ulaşmak için gerekli bilgiler
+              Öğrenci iletişim bilgileri ve ev adresi
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="telefon"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-1.5">
-                      <Phone className="h-3.5 w-3.5" />
-                      Telefon
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} type="tel" className="h-10" placeholder="+90 5XX XXX XX XX" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <CardContent className="space-y-6">
+            {/* İletişim */}
+            <div>
+              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">İletişim Bilgileri</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="telefon"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Phone className="h-3.5 w-3.5" />
+                        Telefon
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} type="tel" className="h-10" placeholder="+90 5XX XXX XX XX" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="eposta"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Mail className="h-3.5 w-3.5" />
+                        E-posta
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} type="email" className="h-10" placeholder="ornek@email.com" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Adres */}
+            <div className="border-t pt-4">
+              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Adres Bilgileri</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="il"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5" />
+                        İl
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} className="h-10" placeholder="Örn: İstanbul" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="ilce"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Home className="h-3.5 w-3.5" />
+                        İlçe
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} className="h-10" placeholder="Örn: Kadıköy" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <FormField
                 control={form.control}
-                name="eposta"
+                name="adres"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-1.5">
-                      <Mail className="h-3.5 w-3.5" />
-                      E-posta
-                    </FormLabel>
+                  <FormItem className="mt-4">
+                    <FormLabel>Açık Adres</FormLabel>
                     <FormControl>
-                      <Input {...field} type="email" className="h-10" placeholder="ornek@email.com" />
+                      <Input {...field} className="h-10" placeholder="Mahalle, sokak, bina no, daire..." />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Adres Bilgileri */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <MapPin className="h-5 w-5 text-primary" />
-              Adres Bilgileri
-            </CardTitle>
-            <CardDescription>
-              Ev adresi ve konum bilgileri
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="il"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-1.5">
-                      <MapPin className="h-3.5 w-3.5" />
-                      İl
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} className="h-10" placeholder="Örn: İstanbul" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="ilce"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-1.5">
-                      <Home className="h-3.5 w-3.5" />
-                      İlçe
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} className="h-10" placeholder="Örn: Kadıköy" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="adres"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Açık Adres</FormLabel>
-                  <FormControl>
-                    <Input {...field} className="h-10" placeholder="Mahalle, sokak, bina no, daire..." />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </CardContent>
         </Card>
 
@@ -626,81 +609,66 @@ export default function UnifiedIdentitySection({ student, onUpdate }: UnifiedIde
 
             <div className="border-t pt-4">
               <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Aile Yapısı</h3>
-              <FormField
-                control={form.control}
-                name="kardesSayisi"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-1.5">
-                      <Users className="h-3.5 w-3.5" />
-                      Kardeş Sayısı
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
-                        className="h-10 w-32"
-                        placeholder="0"
-                        min="0"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="anneMeslek"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Briefcase className="h-3.5 w-3.5" />
+                        Anne Mesleği
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} className="h-10" placeholder="Anne mesleği" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="babaMeslek"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Briefcase className="h-3.5 w-3.5" />
+                        Baba Mesleği
+                      </FormLabel>
+                      <FormControl>
+                        <Input {...field} className="h-10" placeholder="Baba mesleği" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="kardesSayisi"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center gap-1.5">
+                        <Users className="h-3.5 w-3.5" />
+                        Kardeş Sayısı
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
+                          className="h-10"
+                          placeholder="0"
+                          min="0"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Sistem Bilgileri */}
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <UserCheck className="h-5 w-5 text-primary" />
-              Sistem Bilgileri
-            </CardTitle>
-            <CardDescription>
-              Rehberlik ve etiketleme bilgileri
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <FormField
-              control={form.control}
-              name="rehberOgretmen"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex items-center gap-1.5">
-                    <UserCheck className="h-3.5 w-3.5" />
-                    Rehber Öğretmen
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} className="h-10" placeholder="Sorumlu rehber öğretmen" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="etiketler"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex items-center gap-1.5">
-                    <Tag className="h-3.5 w-3.5" />
-                    Etiketler
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} className="h-10" placeholder="Virgülle ayırarak etiket ekleyin (örn: takdir, lider, spor)" />
-                  </FormControl>
-                  <FormDescription>
-                    Virgülle ayırarak birden fazla etiket ekleyebilirsiniz
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </CardContent>
         </Card>
 

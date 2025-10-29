@@ -1,21 +1,17 @@
 /**
- * Profile Completeness Indicator
- * Profil Tamlık Göstergesi
+ * Profile Completeness Indicator - Modern & Compact Edition
+ * Profil Tamlık Göstergesi - Modern ve Kompakt Tasarım
  * 
- * Her bölümün doluluk yüzdesini ve eksik alanları gösterir
+ * Özellikler:
+ * - Grid layout ile kompakt görünüm
+ * - Sadece kritik bilgiler gösterilir
+ * - Modern badge ve progress tasarımı
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/organisms/Card";
 import { Progress } from "@/components/atoms/Progress";
 import { Badge } from "@/components/atoms/Badge";
-import { AlertCircle, CheckCircle2, Info } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/atoms/Alert";
-
-interface ProfileSection {
-  name: string;
-  score: number;
-  missingFields?: string[];
-}
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 interface ProfileCompletenessProps {
   overall: number;
@@ -39,123 +35,117 @@ export function ProfileCompletenessIndicator({ overall, sections, eksikAlanlar }
   const getScoreColor = (score: number) => {
     if (score >= 90) return "text-green-600";
     if (score >= 70) return "text-blue-600";
-    if (score >= 50) return "text-yellow-600";
+    if (score >= 50) return "text-amber-600";
     return "text-red-600";
-  };
-
-  const getScoreStatus = (score: number) => {
-    if (score >= 90) return "Mükemmel";
-    if (score >= 70) return "İyi";
-    if (score >= 50) return "Orta";
-    return "Eksik";
   };
 
   const getProgressColor = (score: number) => {
     if (score >= 90) return "bg-green-500";
     if (score >= 70) return "bg-blue-500";
-    if (score >= 50) return "bg-yellow-500";
+    if (score >= 50) return "bg-amber-500";
     return "bg-red-500";
   };
 
-  const profileSections: ProfileSection[] = [
-    { name: "Temel Bilgiler", score: sections.temelBilgiler },
-    { name: "İletişim Bilgileri", score: sections.iletisimBilgileri },
-    { name: "Veli Bilgileri", score: sections.veliBilgileri },
-    { name: "Akademik Profil", score: sections.akademikProfil },
-    { name: "Sosyal-Duygusal Profil", score: sections.sosyalDuygusalProfil },
-    { name: "Yetenek ve İlgi Profili", score: sections.yetenekIlgiProfil },
-    { name: "Sağlık Profili", score: sections.saglikProfil },
-    { name: "Davranışsal Profil", score: sections.davranisalProfil },
+  const getBadgeVariant = (score: number): "default" | "secondary" | "destructive" => {
+    if (score >= 90) return "default";
+    if (score >= 70) return "secondary";
+    return "destructive";
+  };
+
+  const profileSections = [
+    { name: "Temel", score: sections.temelBilgiler, icon: "📋" },
+    { name: "İletişim", score: sections.iletisimBilgileri, icon: "📞" },
+    { name: "Veli", score: sections.veliBilgileri, icon: "👨‍👩‍👧" },
+    { name: "Akademik", score: sections.akademikProfil, icon: "🎓" },
+    { name: "Sosyal", score: sections.sosyalDuygusalProfil, icon: "💡" },
+    { name: "Yetenek", score: sections.yetenekIlgiProfil, icon: "⭐" },
+    { name: "Sağlık", score: sections.saglikProfil, icon: "🏥" },
+    { name: "Davranış", score: sections.davranisalProfil, icon: "📊" },
   ];
+
+  // Sadece kritik eksikleri göster (<%50)
+  const kritikEksikler = profileSections.filter(s => s.score < 50);
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Profil Tamlık Durumu</CardTitle>
-            <CardDescription>
-              Öğrenci profilinin doluluk oranı ve eksik bilgiler
-            </CardDescription>
+            <CardTitle className="text-lg">Profil Bütünlüğü</CardTitle>
+            <CardDescription className="text-xs">Veri tamlık durumu</CardDescription>
           </div>
-          <div className="text-right">
+          <div className="text-center">
             <div className={`text-3xl font-bold ${getScoreColor(overall)}`}>
-              %{overall}
+              {Math.round(overall)}%
             </div>
-            <Badge variant={overall >= 70 ? "default" : "destructive"}>
-              {getScoreStatus(overall)}
+            <Badge variant={getBadgeVariant(overall)} className="text-xs mt-1">
+              {overall >= 90 ? "Mükemmel" : overall >= 70 ? "İyi" : overall >= 50 ? "Orta" : "Eksik"}
             </Badge>
           </div>
         </div>
       </CardHeader>
+      
       <CardContent className="space-y-4">
-        {/* Genel İlerleme */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-medium">Genel Doluluk</span>
-            <span className="text-muted-foreground">{overall}%</span>
-          </div>
-          <div className="relative">
-            <Progress value={overall} className="h-3" />
-            <div 
-              className={`absolute top-0 left-0 h-3 rounded-full transition-all ${getProgressColor(overall)}`}
-              style={{ width: `${overall}%` }}
-            />
-          </div>
+        {/* Genel Progress - Kompakt */}
+        <div className="relative">
+          <Progress value={overall} className="h-2" />
+          <div 
+            className={`absolute top-0 left-0 h-2 rounded-full transition-all ${getProgressColor(overall)}`}
+            style={{ width: `${overall}%` }}
+          />
         </div>
 
-        {/* Bölüm Detayları */}
-        <div className="space-y-3 pt-4 border-t">
-          <h4 className="text-sm font-semibold text-muted-foreground">Bölümler</h4>
+        {/* Bölümler - Kompakt Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {profileSections.map((section) => (
-            <div key={section.name} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span>{section.name}</span>
-                <div className="flex items-center gap-2">
-                  <span className={`font-medium ${getScoreColor(section.score)}`}>
-                    {section.score}%
-                  </span>
-                  {section.score === 100 ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-600" />
-                  ) : (
-                    <AlertCircle className="h-4 w-4 text-yellow-600" />
-                  )}
-                </div>
+            <div 
+              key={section.name} 
+              className="flex flex-col gap-1 p-2 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium truncate" title={section.name}>
+                  {section.icon} {section.name}
+                </span>
+                {section.score === 100 ? (
+                  <CheckCircle2 className="h-3 w-3 text-green-600 flex-shrink-0" />
+                ) : section.score < 50 ? (
+                  <AlertCircle className="h-3 w-3 text-red-600 flex-shrink-0" />
+                ) : null}
               </div>
-              <Progress value={section.score} className="h-2" />
+              <div className="flex items-center gap-2">
+                <Progress value={section.score} className="h-1 flex-1" />
+                <span className={`text-xs font-semibold ${getScoreColor(section.score)} min-w-[32px] text-right`}>
+                  {Math.round(section.score)}%
+                </span>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Eksik Alanlar */}
-        {eksikAlanlar && eksikAlanlar.length > 0 && (
-          <div className="pt-4 border-t space-y-3">
-            <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-              <Info className="h-4 w-4" />
-              Eksik Bilgiler
-            </h4>
-            {eksikAlanlar.map((kategori, index) => (
-              <Alert key={index} variant="default">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  <div className="font-medium mb-1">{kategori.kategori}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {kategori.alanlar.join(", ")}
-                  </div>
-                </AlertDescription>
-              </Alert>
-            ))}
+        {/* Kritik Eksikler - Sadece Önemli Olanlar */}
+        {kritikEksikler.length > 0 && (
+          <div className="pt-2 border-t">
+            <div className="flex items-center gap-2 mb-2">
+              <AlertCircle className="h-3.5 w-3.5 text-red-600" />
+              <span className="text-xs font-semibold text-red-600">
+                Kritik Eksikler ({kritikEksikler.length})
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {kritikEksikler.map((section) => (
+                <Badge key={section.name} variant="destructive" className="text-xs">
+                  {section.icon} {section.name}: {Math.round(section.score)}%
+                </Badge>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Öneri Mesajı */}
+        {/* Öneri - Sadece Düşük Skor */}
         {overall < 70 && (
-          <Alert>
-            <Info className="h-4 w-4" />
-            <AlertDescription>
-              Profil tamlığı %70'in altında. Nesnel değerlendirme için eksik bilgilerin tamamlanması önerilir.
-            </AlertDescription>
-          </Alert>
+          <div className="text-xs text-muted-foreground bg-amber-50 dark:bg-amber-950/20 p-2 rounded-lg">
+            💡 Nesnel değerlendirme için profil tamlığının %70'in üzerine çıkarılması önerilir.
+          </div>
         )}
       </CardContent>
     </Card>

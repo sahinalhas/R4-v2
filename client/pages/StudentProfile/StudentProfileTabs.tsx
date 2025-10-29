@@ -16,7 +16,6 @@ import DevelopmentProfileSection from "@/components/features/student-profile/sec
 import EnhancedRiskDashboard from "@/components/features/student-profile/sections/EnhancedRiskDashboard";
 import CareerFutureSection from "@/components/features/student-profile/sections/CareerFutureSection";
 import CommunicationCenter from "@/components/features/student-profile/sections/CommunicationCenter";
-import AdditionalInfoSection from "@/components/features/student-profile/sections/AdditionalInfoSection";
 import { ProfileCompletenessIndicator } from "@/components/features/student-profile/ProfileCompletenessIndicator";
 
 // Dashboard
@@ -84,10 +83,6 @@ export function StudentProfileTabs({
         </div>
 
         <UnifiedIdentitySection
-          student={student}
-          onUpdate={onUpdate}
-        />
-        <AdditionalInfoSection
           student={student}
           onUpdate={onUpdate}
         />
