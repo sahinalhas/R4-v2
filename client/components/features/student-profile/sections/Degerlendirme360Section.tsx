@@ -46,7 +46,7 @@ export default function Degerlendirme360Section({
       creativity: 5,
     };
     const overallRating = Object.values(scores).reduce((a, b) => a + b, 0) / Object.values(scores).length;
-    
+
     const eval360: Evaluation360 = {
       id: crypto.randomUUID(),
       studentId,
@@ -191,7 +191,7 @@ export default function Degerlendirme360Section({
                   <div className="font-medium">{evaluation.overallRating.toFixed(1)}/10</div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
                 <div>Akademik: {evaluation.academicPerformance}/10</div>
                 <div>Sosyal: {evaluation.socialSkills}/10</div>
@@ -199,7 +199,7 @@ export default function Degerlendirme360Section({
                 <div>Liderlik: {evaluation.leadership}/10</div>
                 <div>Takım: {evaluation.teamwork}/10</div>
               </div>
-              
+
               <div className="text-xs text-muted-foreground">
                 {new Date(evaluation.evaluationDate).toLocaleDateString()}
               </div>
