@@ -8,7 +8,7 @@ import { Button } from "@/components/atoms/Button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/atoms/Select";
 import { EnhancedTextarea as Textarea } from "@/components/molecules/EnhancedTextarea";
 import { MultiSelect } from "@/components/molecules/MultiSelect";
-import { Activity, Droplet, AlertCircle, Phone, Stethoscope, Calendar } from "lucide-react";
+import { Activity, Droplet, AlertCircle, Phone, Stethoscope, Calendar, FileText } from "lucide-react";
 import { 
   BLOOD_TYPES,
   CHRONIC_DISEASES,
@@ -35,6 +35,16 @@ const healthProfileSchema = z.object({
   physicianPhone: z.string().optional(),
   lastHealthCheckup: z.string().optional(),
   additionalNotes: z.string().optional(),
+  // Added fields based on changes
+  bloodGroup: z.string().optional(),
+  lastHealthCheck: z.string().optional(),
+  usedMedications: z.array(z.string()),
+  pastSurgeries: z.string().optional(),
+  specialNeedsDescription: z.string().optional(),
+  physicalDisabilities: z.string().optional(),
+  familyDoctorName: z.string().optional(),
+  familyDoctorPhone: z.string().optional(),
+  healthNotes: z.string().optional(),
 });
 
 type HealthProfileFormValues = z.infer<typeof healthProfileSchema>;
@@ -70,6 +80,16 @@ export default function StandardizedHealthSection({
       physicianPhone: "",
       lastHealthCheckup: "",
       additionalNotes: "",
+      // Added fields based on changes
+      bloodGroup: "",
+      lastHealthCheck: "",
+      usedMedications: [],
+      pastSurgeries: "",
+      specialNeedsDescription: "",
+      physicalDisabilities: "",
+      familyDoctorName: "",
+      familyDoctorPhone: "",
+      healthNotes: "",
     },
   });
 
@@ -105,17 +125,17 @@ export default function StandardizedHealthSection({
                 <span>Temel Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="bloodType"
+                  name="bloodGroup"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Kan Grubu</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <FormLabel>Kan Grubu</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
-                          <SelectTrigger className="h-9 text-sm">
-                            <SelectValue placeholder="Seçiniz" />
+                          <SelectTrigger className="h-10">
+                            <SelectValue placeholder="Seçiniz (opsiyonel)" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -133,15 +153,12 @@ export default function StandardizedHealthSection({
 
                 <FormField
                   control={form.control}
-                  name="lastHealthCheckup"
+                  name="lastHealthCheck"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium flex items-center gap-1.5">
-                        <Calendar className="h-3 w-3" />
-                        Son Sağlık Kontrolü
-                      </FormLabel>
+                      <FormLabel>Son Sağlık Kontrolü</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} className="h-9 text-sm" />
+                        <Input type="date" className="h-10" {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -149,21 +166,15 @@ export default function StandardizedHealthSection({
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="chronicDiseases"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Kronik Hastalıklar</FormLabel>
+                      <FormLabel>Hastalık Adı</FormLabel>
                       <FormControl>
-                        <MultiSelect
-                          options={CHRONIC_DISEASES}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Seçiniz (opsiyonel)"
-                          groupByCategory
-                        />
+                        <Input className="h-10" placeholder="Örn: Astım, Diyabet..." {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -175,15 +186,9 @@ export default function StandardizedHealthSection({
                   name="allergies"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Alerjiler</FormLabel>
+                      <FormLabel>Alerjiler</FormLabel>
                       <FormControl>
-                        <MultiSelect
-                          options={ALLERGIES}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Seçiniz (opsiyonel)"
-                          groupByCategory
-                        />
+                        <Input className="h-10" placeholder="Örn: Polen, Fıstık..." {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -192,74 +197,12 @@ export default function StandardizedHealthSection({
 
                 <FormField
                   control={form.control}
-                  name="currentMedications"
+                  name="usedMedications"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Kullanılan İlaçlar</FormLabel>
+                      <FormLabel>Kullanılan İlaçlar</FormLabel>
                       <FormControl>
-                        <MultiSelect
-                          options={MEDICATION_TYPES}
-                          selected={field.value}
-                          onChange={field.onChange}
-                          placeholder="Seçiniz (opsiyonel)"
-                          groupByCategory
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <FormField
-                  control={form.control}
-                  name="medicalHistory"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Tıbbi Geçmiş</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Geçmiş ameliyatlar, hastalıklar..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="specialNeeds"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Özel İhtiyaçlar</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Özel bakım gereksinimleri..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="physicalLimitations"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Fiziksel Kısıtlamalar</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Hareket kısıtlamaları, fiziksel engeller..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
+                        <Input className="h-10" placeholder="İlaç isimleri (opsiyonel)" {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -268,24 +211,74 @@ export default function StandardizedHealthSection({
               </div>
             </div>
 
-            {/* Acil Durum İletişim */}
-            <div className="space-y-3 pt-3 border-t">
-              <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-                <Phone className="h-3.5 w-3.5" />
-                <span>Acil Durum Kişileri</span>
+            {/* Tıbbi Geçmiş */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pb-2 border-b">
+                <FileText className="h-4 w-4 text-blue-500" />
+                Tıbbi Geçmiş
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="pastSurgeries"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Geçmiş Ameliyatlar</FormLabel>
+                      <FormControl>
+                        <Input className="h-10" placeholder="Ameliyat bilgileri..." {...field} value={field.value || ''} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="specialNeedsDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Özel İhtiyaçlar</FormLabel>
+                      <FormControl>
+                        <Input className="h-10" placeholder="Özel bakım..." {...field} value={field.value || ''} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="physicalDisabilities"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Fiziksel Engeller</FormLabel>
+                      <FormControl>
+                        <Input className="h-10" placeholder="Fiziksel durum..." {...field} value={field.value || ''} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+            </div>
 
-              <div className="bg-muted/30 p-3 rounded-lg space-y-2">
-                <div className="text-xs font-medium text-muted-foreground mb-2">Acil Durum Kişileri</div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            {/* Acil Durum Kişileri */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pb-2 border-b">
+                <Phone className="h-4 w-4 text-green-500" />
+                Acil Durum Kişileri
+              </h3>
+              {[1, 2].map((num) => (
+                <div key={num} className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 border rounded-lg bg-muted/20">
                   <FormField
                     control={form.control}
-                    name="emergencyContact1Name"
+                    name={`emergencyContact${num}Name` as any}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">1. Kişi - Ad Soyad</FormLabel>
+                        <FormLabel>{num}. Kişi</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ad Soyad" {...field} className="h-9 text-sm" />
+                          <Input className="h-10" placeholder="Ad Soyad" {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -294,12 +287,12 @@ export default function StandardizedHealthSection({
 
                   <FormField
                     control={form.control}
-                    name="emergencyContact1Phone"
+                    name={`emergencyContact${num}Phone` as any}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">1. Kişi - Telefon</FormLabel>
+                        <FormLabel>Telefon</FormLabel>
                         <FormControl>
-                          <Input placeholder="0555 123 45 67" {...field} className="h-9 text-sm" />
+                          <Input className="h-10" placeholder="0555 123 45 67" {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -308,79 +301,37 @@ export default function StandardizedHealthSection({
 
                   <FormField
                     control={form.control}
-                    name="emergencyContact1Relation"
+                    name={`emergencyContact${num}Relation` as any}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">1. Kişi - Yakınlık</FormLabel>
+                        <FormLabel>Yakınlık</FormLabel>
                         <FormControl>
-                          <Input placeholder="Anne, Baba vb." {...field} className="h-9 text-sm" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="emergencyContact2Name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs">2. Kişi - Ad Soyad</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ad Soyad" {...field} className="h-9 text-sm" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="emergencyContact2Phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs">2. Kişi - Telefon</FormLabel>
-                        <FormControl>
-                          <Input placeholder="0555 123 45 67" {...field} className="h-9 text-sm" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="emergencyContact2Relation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs">2. Kişi - Yakınlık</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Anne, Baba vb." {...field} className="h-9 text-sm" />
+                          <Input className="h-10" placeholder="Anne, Baba vb." {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              </div>
+              ))}
             </div>
 
-            {/* Doktor Bilgileri & Ek Notlar */}
-            <div className="space-y-3 pt-3 border-t">
-              <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-                <Stethoscope className="h-3.5 w-3.5" />
-                <span>Aile Hekimi & Ek Bilgiler</span>
-              </div>
+            {/* Aile Hekimi & Ek Bilgiler */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pb-2 border-b">
+                <Stethoscope className="h-4 w-4 text-purple-500" />
+                Aile Hekimi & Ek Bilgiler
+              </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="physicianName"
+                  name="familyDoctorName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Hekim Adı</FormLabel>
+                      <FormLabel>Hekim Adı</FormLabel>
                       <FormControl>
-                        <Input placeholder="Dr. Ad Soyad" {...field} className="h-9 text-sm" />
+                        <Input className="h-10" placeholder="Dr. Ad Soyad" {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -389,33 +340,12 @@ export default function StandardizedHealthSection({
 
                 <FormField
                   control={form.control}
-                  name="physicianPhone"
+                  name="familyDoctorPhone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-medium">Hekim Telefon</FormLabel>
+                      <FormLabel>Hekim Telefon</FormLabel>
                       <FormControl>
-                        <Input placeholder="0555 123 45 67" {...field} className="h-9 text-sm" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="additionalNotes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium flex items-center gap-1.5">
-                        <AlertCircle className="h-3 w-3" />
-                        Ek Notlar
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Sağlık durumu hakkında ek bilgiler..." 
-                          className="min-h-[65px] text-sm resize-none"
-                          {...field} 
-                        />
+                        <Input className="h-10" placeholder="0555 123 45 67" {...field} value={field.value || ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -424,9 +354,38 @@ export default function StandardizedHealthSection({
               </div>
             </div>
 
-            <Button type="submit" disabled={isSubmitting} className="w-full h-10">
-              {isSubmitting ? "Kaydediliyor..." : "Kaydet"}
-            </Button>
+            {/* Ek Notlar */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 pb-2 border-b">
+                <AlertCircle className="h-4 w-4 text-orange-500" />
+                Ek Notlar
+              </h3>
+              <FormField
+                control={form.control}
+                name="healthNotes"
+                render={({ field }) => (
+                  <FormItem className="col-span-full">
+                    <FormLabel>Ek Notlar</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        rows={3} 
+                        className="resize-none" 
+                        placeholder="Sağlık durumu hakkında ek bilgiler..." 
+                        {...field} 
+                        value={field.value || ''} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="pt-2">
+              <Button type="submit" className="w-full h-11 text-base">
+                Kaydet
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>
