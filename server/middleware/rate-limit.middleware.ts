@@ -47,6 +47,8 @@ export const aiRateLimiter = rateLimit({
   skipSuccessfulRequests: false,
   // Skip failed requests from the count
   skipFailedRequests: false,
+  // Validate trust proxy setting
+  validate: { trustProxy: false },
 });
 
 /**
@@ -70,6 +72,7 @@ export const exportRateLimiter = rateLimit({
     success: false,
     error: 'Export işlemleri için istek limitine ulaştınız. Dakikada maksimum 5 export yapabilirsiniz.',
   },
+  validate: { trustProxy: false },
 });
 
 /**
@@ -91,6 +94,7 @@ export const backupRateLimiter = rateLimit({
     success: false,
     error: 'Yedekleme işlemleri için istek limitine ulaştınız. 5 dakikada maksimum 3 işlem yapabilirsiniz.',
   },
+  validate: { trustProxy: false },
 });
 
 /**
@@ -112,6 +116,7 @@ export const bulkOperationsRateLimiter = rateLimit({
     success: false,
     error: 'Toplu işlemler için istek limitine ulaştınız. 15 dakikada maksimum 10 toplu işlem yapabilirsiniz.',
   },
+  validate: { trustProxy: false },
 });
 
 /**
@@ -136,6 +141,7 @@ export const authRateLimiter = rateLimit({
   },
   // Don't count successful requests
   skipSuccessfulRequests: true,
+  validate: { trustProxy: false },
 });
 
 /**
@@ -154,6 +160,7 @@ export const generalApiRateLimiter = rateLimit({
     success: false,
     error: 'Genel API istek limitine ulaştınız. Dakikada maksimum 100 istek yapabilirsiniz.',
   },
+  validate: { trustProxy: false },
 });
 
 /**
@@ -175,6 +182,7 @@ export const strictRateLimiter = rateLimit({
     success: false,
     error: 'Bu işlem için saatlik istek limitine ulaştınız. Lütfen daha sonra tekrar deneyin.',
   },
+  validate: { trustProxy: false },
 });
 
 /**
@@ -196,5 +204,6 @@ export function createRateLimiter(options: {
       success: false,
       error: options.message || 'İstek limitine ulaştınız. Lütfen daha sonra tekrar deneyin.',
     },
+    validate: { trustProxy: false },
   });
 }
