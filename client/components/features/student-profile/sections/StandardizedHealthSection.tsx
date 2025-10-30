@@ -105,7 +105,7 @@ export default function StandardizedHealthSection({
                 <span>Temel Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <FormField
                   control={form.control}
                   name="bloodType"
@@ -149,7 +149,7 @@ export default function StandardizedHealthSection({
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
                   name="chronicDiseases"
@@ -211,7 +211,7 @@ export default function StandardizedHealthSection({
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <FormField
                   control={form.control}
                   name="medicalHistory"
@@ -221,7 +221,7 @@ export default function StandardizedHealthSection({
                       <FormControl>
                         <Textarea 
                           placeholder="Geçmiş ameliyatlar, hastalıklar..." 
-                          className="min-h-[70px] text-sm"
+                          className="min-h-[70px] text-sm resize-none"
                           {...field} 
                         />
                       </FormControl>
@@ -239,7 +239,25 @@ export default function StandardizedHealthSection({
                       <FormControl>
                         <Textarea 
                           placeholder="Özel bakım gereksinimleri..." 
-                          className="min-h-[70px] text-sm"
+                          className="min-h-[70px] text-sm resize-none"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="physicalLimitations"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Fiziksel Kısıtlamalar</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Hareket kısıtlamaları, fiziksel engeller..." 
+                          className="min-h-[70px] text-sm resize-none"
                           {...field} 
                         />
                       </FormControl>
@@ -248,24 +266,6 @@ export default function StandardizedHealthSection({
                   )}
                 />
               </div>
-
-              <FormField
-                control={form.control}
-                name="physicalLimitations"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs font-medium">Fiziksel Kısıtlamalar</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Hareket kısıtlamaları, fiziksel engeller..." 
-                        className="min-h-[60px] text-sm"
-                        {...field} 
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
 
             {/* Acil Durum İletişim */}
@@ -275,15 +275,15 @@ export default function StandardizedHealthSection({
                 <span>Acil Durum Kişileri</span>
               </div>
 
-              <div className="space-y-3 bg-muted/30 p-3 rounded-lg">
-                <div className="text-xs font-medium text-muted-foreground">1. Kişi</div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="bg-muted/30 p-3 rounded-lg space-y-2">
+                <div className="text-xs font-medium text-muted-foreground mb-2">Acil Durum Kişileri</div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   <FormField
                     control={form.control}
                     name="emergencyContact1Name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Ad Soyad</FormLabel>
+                        <FormLabel className="text-xs">1. Kişi - Ad Soyad</FormLabel>
                         <FormControl>
                           <Input placeholder="Ad Soyad" {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -297,7 +297,7 @@ export default function StandardizedHealthSection({
                     name="emergencyContact1Phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Telefon</FormLabel>
+                        <FormLabel className="text-xs">1. Kişi - Telefon</FormLabel>
                         <FormControl>
                           <Input placeholder="0555 123 45 67" {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -311,7 +311,7 @@ export default function StandardizedHealthSection({
                     name="emergencyContact1Relation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Yakınlık</FormLabel>
+                        <FormLabel className="text-xs">1. Kişi - Yakınlık</FormLabel>
                         <FormControl>
                           <Input placeholder="Anne, Baba vb." {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -319,18 +319,13 @@ export default function StandardizedHealthSection({
                       </FormItem>
                     )}
                   />
-                </div>
-              </div>
 
-              <div className="space-y-3 bg-muted/30 p-3 rounded-lg">
-                <div className="text-xs font-medium text-muted-foreground">2. Kişi</div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <FormField
                     control={form.control}
                     name="emergencyContact2Name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Ad Soyad</FormLabel>
+                        <FormLabel className="text-xs">2. Kişi - Ad Soyad</FormLabel>
                         <FormControl>
                           <Input placeholder="Ad Soyad" {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -344,7 +339,7 @@ export default function StandardizedHealthSection({
                     name="emergencyContact2Phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Telefon</FormLabel>
+                        <FormLabel className="text-xs">2. Kişi - Telefon</FormLabel>
                         <FormControl>
                           <Input placeholder="0555 123 45 67" {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -358,7 +353,7 @@ export default function StandardizedHealthSection({
                     name="emergencyContact2Relation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs">Yakınlık</FormLabel>
+                        <FormLabel className="text-xs">2. Kişi - Yakınlık</FormLabel>
                         <FormControl>
                           <Input placeholder="Anne, Baba vb." {...field} className="h-9 text-sm" />
                         </FormControl>
@@ -370,14 +365,14 @@ export default function StandardizedHealthSection({
               </div>
             </div>
 
-            {/* Doktor Bilgileri */}
+            {/* Doktor Bilgileri & Ek Notlar */}
             <div className="space-y-3 pt-3 border-t">
               <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
                 <Stethoscope className="h-3.5 w-3.5" />
-                <span>Aile Hekimi</span>
+                <span>Aile Hekimi & Ek Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <FormField
                   control={form.control}
                   name="physicianName"
@@ -405,30 +400,29 @@ export default function StandardizedHealthSection({
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="additionalNotes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium flex items-center gap-1.5">
+                        <AlertCircle className="h-3 w-3" />
+                        Ek Notlar
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Sağlık durumu hakkında ek bilgiler..." 
+                          className="min-h-[65px] text-sm resize-none"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
-
-            {/* Ek Notlar */}
-            <FormField
-              control={form.control}
-              name="additionalNotes"
-              render={({ field }) => (
-                <FormItem className="pt-3 border-t">
-                  <FormLabel className="text-xs font-medium flex items-center gap-1.5">
-                    <AlertCircle className="h-3 w-3" />
-                    Ek Notlar
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Sağlık durumu hakkında ek bilgiler..." 
-                      className="min-h-[60px] text-sm"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <Button type="submit" disabled={isSubmitting} className="w-full h-10">
               {isSubmitting ? "Kaydediliyor..." : "Kaydet"}
