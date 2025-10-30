@@ -2,6 +2,7 @@ import getDatabase from '../../../lib/database.js';
 import { MappingRulesRepository, UpdateQueueRepository } from '../repository/index.js';
 import { randomUUID } from 'crypto';
 import { sanitizeString } from '../../../middleware/validation.js';
+import * as aiProcessor from './ai-processor.service.js';
 import type { 
   ProfileMappingRule,
   ProfileUpdateQueue,
@@ -41,38 +42,23 @@ export function getMappingRulesByQuestion(questionId: string): ProfileMappingRul
   return repo.findByQuestionId(sanitizedId);
 }
 
-export function processMapping(
+export async function processMapping(
   question: SelfAssessmentQuestion,
   answer: any,
   studentId: string,
   assessmentId: string
-): ProfileUpdateQueue[] {
+): Promise<ProfileUpdateQueue[]> {
   if (!question.mappingConfig) {
     return [];
   }
 
-  const suggestions: ProfileUpdateQueue[] = [];
-  const config = question.mappingConfig;
-
-  switch (config.strategy) {
-    case 'DIRECT':
-      suggestions.push(...processDirect(config, answer, studentId, assessmentId, question));
-      break;
-    case 'AI_STANDARDIZE':
-      suggestions.push(...processAIStandardize(config, answer, studentId, assessmentId, question));
-      break;
-    case 'SCALE_CONVERT':
-      suggestions.push(...processScaleConvert(config, answer, studentId, assessmentId, question));
-      break;
-    case 'ARRAY_MERGE':
-      suggestions.push(...processArrayMerge(config, answer, studentId, assessmentId, question));
-      break;
-    case 'MULTIPLE_FIELDS':
-      suggestions.push(...processMultipleFields(config, answer, studentId, assessmentId, question));
-      break;
-  }
-
-  return suggestions;
+  return await aiProcessor.processMappingRule(
+    question.mappingConfig,
+    answer,
+    studentId,
+    assessmentId,
+    question
+  );
 }
 
 function processDirect(

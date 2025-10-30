@@ -80,7 +80,7 @@ export const saveDraft: RequestHandler = (req, res) => {
   }
 };
 
-export const submitAssessment: RequestHandler = (req, res) => {
+export const submitAssessment: RequestHandler = async (req, res) => {
   try {
     const authReq = req as any as AuthenticatedRequest;
     const { assessmentId } = req.params;
@@ -100,12 +100,12 @@ export const submitAssessment: RequestHandler = (req, res) => {
       authReq.user.id
     );
 
-    const template = templatesService.getTemplateWithQuestions(assessment.templateId);
+    const template = await templatesService.getTemplateWithQuestions(assessment.templateId);
     if (template && template.questions) {
       for (const question of template.questions) {
         const answer = responseData[question.id];
         if (answer !== undefined && answer !== null) {
-          const suggestions = mappingService.processMapping(
+          const suggestions = await mappingService.processMapping(
             question,
             answer,
             assessment.studentId,
