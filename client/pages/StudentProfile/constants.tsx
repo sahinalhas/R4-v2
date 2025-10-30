@@ -22,68 +22,56 @@ import {
 } from "lucide-react";
 
 /**
- * Modern Student Profile Navigation Structure
- * 8 Ana Sekme + Alt Sekmeler
- * Bilgi tekrarı yok, her veri sadece bir yerde
+ * Optimized Student Profile Navigation Structure
+ * 6 Ana Sekme - Yeni Mantıksal Yapı
+ * Bilgi tekrarı yok, rehber öğretmen iş akışına göre optimize edilmiş
+ * 
+ * Tarih: 30 Ekim 2025
+ * Optimizasyon: 8 sekme → 6 sekme (%25 azalma)
  */
 
-// 8 ANA SEKME - Modern, Sezgisel ve Kullanıcı Dostu
-// Her bilgi tek bir yerde - detaylar ilgili sekmelerde
+// 6 ANA SEKME - Optimize Edilmiş Yapı
+// Her bilgi tek bir yerde, mantıklı iş akışı
 export const MAIN_TABS = [
   {
-    value: "dashboard",
-    label: "📊 Özet",
+    value: "overview",
+    label: "📊 Genel Bakış",
     icon: LayoutDashboard,
-    description: "Genel durum özeti - KPI'lar, hızlı aksiyonlar ve önemli bilgiler"
+    description: "360° durum özeti, trendler, hızlı aksiyonlar ve önemli bilgiler"
   },
   {
-    value: "kimlik",
-    label: "👤 Kimlik",
-    icon: User,
-    description: "Kimlik bilgileri, veli iletişim, adres ve profil bütünlüğü"
+    value: "identity-family",
+    label: "👨‍👩‍👧 Kimlik & Aile",
+    icon: Users,
+    description: "Öğrenci ve aile bilgileri, iletişim, sosyoekonomik durum"
   },
   {
-    value: "saglik",
-    label: "🏥 Sağlık",
-    icon: Activity,
-    description: "Sağlık bilgileri, özel eğitim, acil durumlar ve tıbbi geçmiş"
-  },
-  {
-    value: "akademik",
+    value: "academics",
     label: "🎓 Akademik",
     icon: GraduationCap,
-    description: "Başarı, sınavlar, öğrenme stratejileri ve ilerleme"
+    description: "Notlar, sınavlar, devam, öğrenme stratejisi ve ilerleme"
   },
   {
-    value: "gelisim",
-    label: "💡 Gelişim",
-    icon: Brain,
-    description: "Kişilik, sosyal-duygusal, yetenekler ve motivasyon profili"
+    value: "wellbeing",
+    label: "💚 İyilik Hali & Gelişim",
+    icon: Heart,
+    description: "Sağlık, sosyal-duygusal, kişilik, motivasyon ve kariyer"
   },
   {
-    value: "risk",
-    label: "⚠️ Risk",
+    value: "risk-support",
+    label: "🛡️ Risk & Müdahale",
     icon: ShieldAlert,
-    description: "Risk analizi, davranış takibi ve müdahale planları"
+    description: "Risk faktörleri, davranış takibi ve müdahale planları"
   },
   {
-    value: "kariyer",
-    label: "💼 Kariyer",
-    icon: Briefcase,
-    description: "Kariyer rehberliği, meslek seçimi ve gelecek planları"
-  },
-  {
-    value: "iletisim",
-    label: "💬 İletişim",
+    value: "communication",
+    label: "💬 İletişim & Kayıtlar",
     icon: MessageCircle,
-    description: "Görüşmeler, ev ziyaretleri, aktivite geçmişi ve AI araçları"
+    description: "Görüşmeler, notlar, ev ziyaretleri, belgeler ve AI araçları"
   },
 ] as const;
 
-// NOT: KİMLİK & SAĞLIK sekmelerinde alt sekme yok - tek form yapısı kullanılıyor
-// UnifiedIdentitySection ve EnhancedHealthSection doğrudan tek sayfa gösterir
-
-// AKADEMİK ALT SEKMELERİ
+// AKADEMİK ALT SEKMELERİ (Değişiklik yok)
 export const AKADEMIK_TABS = [
   {
     value: "performans",
@@ -112,53 +100,7 @@ export const AKADEMIK_TABS = [
   },
 ] as const;
 
-// GELİŞİM & KİŞİLİK ALT SEKMELERİ
-export const GELISIM_TABS = [
-  {
-    value: "sosyal-duygusal",
-    label: "Sosyal-Duygusal",
-    icon: Heart,
-  },
-  {
-    value: "coklu-zeka",
-    label: "Çoklu Zeka",
-    icon: Brain,
-  },
-  {
-    value: "degerlendirme-360",
-    label: "360 Derece Değerlendirme",
-    icon: Users,
-  },
-  {
-    value: "yetenekler",
-    label: "Yetenekler & İlgiler",
-    icon: Sparkles,
-  },
-  {
-    value: "motivasyon",
-    label: "Motivasyon",
-    icon: Target,
-  },
-] as const;
-
-// NOT: RİSK sekmesinde UnifiedRiskSection kendi inline tab yapısını kullanıyor
-// RISK_TABS artık kullanılmıyor
-
-// KARİYER & GELECEK ALT SEKMELERİ
-export const KARIYER_TABS = [
-  {
-    value: "rehberlik",
-    label: "Kariyer Rehberliği",
-    icon: Briefcase,
-  },
-  {
-    value: "hedefler",
-    label: "Hedefler & Planlama",
-    icon: Target,
-  },
-] as const;
-
-// İLETİŞİM MERKEZİ ALT SEKMELERİ
+// İLETİŞİM MERKEZİ ALT SEKMELERİ (Değişiklik yok)
 export const ILETISIM_TABS = [
   {
     value: "tum-gorusmeler",
@@ -187,50 +129,37 @@ export const ILETISIM_TABS = [
   },
 ] as const;
 
-// NOT: AI ARAÇLARI sekmesinde AIToolsHub kendi inline tab yapısını kullanıyor
-// AI_TOOLS_TABS artık kullanılmıyor
-
 /**
- * Semantic Color System
- * Her sekme için anlamlı renk paleti
+ * Semantic Color System - Optimized
+ * Her sekme için anlamlı renk paleti (6 ana sekme)
  */
 export const TAB_COLORS = {
-  dashboard: {
+  overview: {
     gradient: "from-primary via-purple-500 to-primary",
     bg: "bg-gradient-to-r from-primary/10 to-purple-500/10",
     border: "border-primary/20",
   },
-  kimlik: {
+  "identity-family": {
     gradient: "from-blue-500 to-cyan-500",
     bg: "bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20",
     border: "border-blue-200/50 dark:border-blue-800/50",
   },
-  saglik: {
-    gradient: "from-green-500 to-emerald-500",
-    bg: "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20",
-    border: "border-green-200/50 dark:border-green-800/50",
-  },
-  akademik: {
+  academics: {
     gradient: "from-blue-500 to-indigo-500",
     bg: "bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20",
     border: "border-blue-200/50 dark:border-blue-800/50",
   },
-  gelisim: {
-    gradient: "from-pink-500 to-purple-500",
-    bg: "bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20",
-    border: "border-pink-200/50 dark:border-pink-800/50",
+  wellbeing: {
+    gradient: "from-green-500 to-emerald-500",
+    bg: "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20",
+    border: "border-green-200/50 dark:border-green-800/50",
   },
-  risk: {
+  "risk-support": {
     gradient: "from-red-500 to-orange-500",
     bg: "bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20",
     border: "border-red-200/50 dark:border-red-800/50",
   },
-  kariyer: {
-    gradient: "from-amber-500 to-yellow-500",
-    bg: "bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/20 dark:to-yellow-950/20",
-    border: "border-amber-200/50 dark:border-amber-800/50",
-  },
-  iletisim: {
+  communication: {
     gradient: "from-violet-500 to-purple-500",
     bg: "bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-950/20 dark:to-purple-950/20",
     border: "border-violet-200/50 dark:border-violet-800/50",

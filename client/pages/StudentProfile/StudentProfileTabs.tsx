@@ -1,6 +1,10 @@
 /**
- * Student Profile Tabs - Clean & Simple Design
- * 9 Ana Sekme Yapısı - Bilgi Tekrarı YOK
+ * Student Profile Tabs - Optimized Structure
+ * 6 Ana Sekme - Yeni Mantıksal Yapı
+ * Bilgi Tekrarı YOK - Rehber Öğretmen İş Akışına Göre Optimize
+ * 
+ * Tarih: 30 Ekim 2025
+ * Optimizasyon: 8 sekme → 6 sekme (%25 azalma)
  */
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
@@ -8,21 +12,12 @@ import { MAIN_TABS } from "./constants";
 import { StudentData } from "@/hooks/features/student-profile";
 import { Student } from "@/lib/storage";
 
-// Yeni Modern Component'ler
-import UnifiedIdentitySection from "@/components/features/student-profile/sections/UnifiedIdentitySection";
-import EnhancedHealthSection from "@/components/features/student-profile/sections/EnhancedHealthSection";
-import SmartAcademicDashboard from "@/components/features/student-profile/sections/SmartAcademicDashboard";
-import DevelopmentProfileSection from "@/components/features/student-profile/sections/DevelopmentProfileSection";
-import EnhancedRiskDashboard from "@/components/features/student-profile/sections/EnhancedRiskDashboard";
-import CareerFutureSection from "@/components/features/student-profile/sections/CareerFutureSection";
-import CommunicationCenter from "@/components/features/student-profile/sections/CommunicationCenter";
-import { ProfileCompletenessIndicator } from "@/components/features/student-profile/ProfileCompletenessIndicator";
-
-// Dashboard
-import { ModernDashboard } from "./components/ModernDashboard";
-
-// Eski component'ler (geçici - sonra kaldırılacak)
-import OzelEgitimSection from "@/components/features/student-profile/sections/OzelEgitimSection";
+import { OverviewTab } from "./tabs/OverviewTab";
+import { IdentityFamilyTab } from "./tabs/IdentityFamilyTab";
+import { AcademicsTab } from "./tabs/AcademicsTab";
+import { WellbeingTab } from "./tabs/WellbeingTab";
+import { RiskSupportTab } from "./tabs/RiskSupportTab";
+import { CommunicationTab } from "./tabs/CommunicationTab";
 
 interface StudentProfileTabsProps {
   student: Student;
@@ -44,7 +39,7 @@ export function StudentProfileTabs({
   const studentName = `${student.ad} ${student.soyad}`;
 
   return (
-    <Tabs defaultValue="dashboard" className="space-y-4">
+    <Tabs defaultValue="overview" className="space-y-4">
       <TabsList className="flex flex-wrap gap-1 h-auto p-1.5 bg-muted/40">
         {MAIN_TABS.map(({ value, label, description }) => (
           <TabsTrigger
@@ -58,9 +53,9 @@ export function StudentProfileTabs({
         ))}
       </TabsList>
 
-      {/* 1. DASHBOARD - Özet Görünüm */}
-      <TabsContent value="dashboard" className="space-y-3">
-        <ModernDashboard
+      {/* 1. GENEL BAKIŞ - 360° Durum Özeti */}
+      <TabsContent value="overview" className="space-y-3">
+        <OverviewTab
           student={student}
           studentId={studentId}
           scoresData={scoresData}
@@ -68,78 +63,38 @@ export function StudentProfileTabs({
         />
       </TabsContent>
 
-      {/* 2. KİMLİK & İLETİŞİM */}
-      <TabsContent value="kimlik" className="space-y-3">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-semibold">Profil Bütünlüğü</h3>
-            <span className="text-xs text-muted-foreground">Eksik alanlar ve veri kalitesi</span>
-          </div>
-          <ProfileCompletenessIndicator
-            overall={scoresData?.completeness?.overall ?? 0}
-            sections={scoresData?.completeness?.sections || {}}
-            eksikAlanlar={scoresData?.completeness?.eksikAlanlar || []}
-          />
-        </div>
-
-        <UnifiedIdentitySection
-          student={student}
-          onUpdate={onUpdate}
-        />
+      {/* 2. KİMLİK & AİLE - Öğrenci ve Aile Bilgileri */}
+      <TabsContent value="identity-family" className="space-y-3">
+        <IdentityFamilyTab student={student} onUpdate={onUpdate} />
       </TabsContent>
 
-      {/* 3. SAĞLIK & GÜVENLİK */}
-      <TabsContent value="saglik" className="space-y-3">
-        <EnhancedHealthSection
-          studentId={studentId}
-          onUpdate={onUpdate}
-        />
-        <OzelEgitimSection
-          studentId={studentId}
-          specialEducation={data.specialEducation || []}
-          onUpdate={onUpdate}
-        />
+      {/* 3. AKADEMİK - Notlar, Sınavlar, Devam */}
+      <TabsContent value="academics" className="space-y-3">
+        <AcademicsTab studentId={studentId} onUpdate={onUpdate} />
       </TabsContent>
 
-      {/* 4. AKADEMİK */}
-      <TabsContent value="akademik" className="space-y-3">
-        <SmartAcademicDashboard
-          studentId={studentId}
-          onUpdate={onUpdate}
-        />
-      </TabsContent>
-
-      {/* 5. GELİŞİM & KİŞİLİK */}
-      <TabsContent value="gelisim" className="space-y-3">
-        <DevelopmentProfileSection
-          studentId={studentId}
-          multipleIntelligence={data.multipleIntelligence}
-          evaluations360={data.evaluations360}
-          onUpdate={onUpdate}
-        />
-      </TabsContent>
-
-      {/* 6. RİSK & MÜDAHALE */}
-      <TabsContent value="risk" className="space-y-3">
-        <EnhancedRiskDashboard
-          studentId={studentId}
-          student={student}
-          onUpdate={onUpdate}
-        />
-      </TabsContent>
-
-      {/* 7. KARİYER & GELECEK */}
-      <TabsContent value="kariyer" className="space-y-3">
-        <CareerFutureSection
+      {/* 4. İYİLİK HALİ & GELİŞİM - Sağlık, Sosyal-Duygusal, Kariyer */}
+      <TabsContent value="wellbeing" className="space-y-3">
+        <WellbeingTab
           studentId={studentId}
           studentName={studentName}
+          data={data}
           onUpdate={onUpdate}
         />
       </TabsContent>
 
-      {/* 8. İLETİŞİM MERKEZİ */}
-      <TabsContent value="iletisim" className="space-y-3">
-        <CommunicationCenter
+      {/* 5. RİSK & MÜDAHALE - Risk Faktörleri, Davranış, Planlar */}
+      <TabsContent value="risk-support" className="space-y-3">
+        <RiskSupportTab
+          studentId={studentId}
+          student={student}
+          onUpdate={onUpdate}
+        />
+      </TabsContent>
+
+      {/* 6. İLETİŞİM & KAYITLAR - Görüşmeler, Notlar, Belgeler */}
+      <TabsContent value="communication" className="space-y-3">
+        <CommunicationTab
           studentId={studentId}
           studentName={studentName}
           onUpdate={onUpdate}

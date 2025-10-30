@@ -4,12 +4,19 @@
  */
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
-import { GELISIM_TABS, TAB_COLORS } from "@/pages/StudentProfile/constants";
 import StandardizedSocialEmotionalSection from "./StandardizedSocialEmotionalSection";
 import KisilikProfiliSection from "./KisilikProfiliSection";
 import StandardizedTalentsSection from "./StandardizedTalentsSection";
 import MotivationProfileSection from "./MotivationProfileSection";
 import Degerlendirme360Section from "./Degerlendirme360Section";
+
+const GELISIM_TABS = [
+  { value: "sosyal-duygusal", label: "Sosyal-Duygusal" },
+  { value: "coklu-zeka", label: "Çoklu Zeka" },
+  { value: "degerlendirme-360", label: "360 Derece Değerlendirme" },
+  { value: "yetenekler", label: "Yetenekler & İlgiler" },
+  { value: "motivasyon", label: "Motivasyon" },
+] as const;
 
 interface DevelopmentProfileSectionProps {
   studentId: string;

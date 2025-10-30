@@ -4,9 +4,13 @@
  */
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/organisms/Tabs";
-import { KARIYER_TABS } from "@/pages/StudentProfile/constants";
 import CareerGuidanceSection from "./CareerGuidanceSection";
 import HedeflerPlanlamaSection from "./HedeflerPlanlamaSection";
+
+const KARIYER_TABS = [
+  { value: "rehberlik", label: "Kariyer Rehberliği" },
+  { value: "hedefler", label: "Hedefler & Planlama" },
+] as const;
 
 interface CareerFutureSectionProps {
   studentId: string;
