@@ -1429,28 +1429,28 @@ router.post('/self-assessments/:id/submit',
 
 #### Adımlar:
 
-1. **Database Migration**
-   - [ ] `self_assessment_templates` tablosu oluştur
-   - [ ] `self_assessment_questions` tablosu oluştur
-   - [ ] `student_self_assessments` tablosu oluştur
-   - [ ] `profile_mapping_rules` tablosu oluştur
-   - [ ] `profile_update_queue` tablosu oluştur
-   - [ ] `self_assessment_audit_log` tablosu oluştur
-   - [ ] `students` tablosuna yeni alanlar ekle
+1. **Database Migration** ✅ **TAMAMLANDI**
+   - [x] `self_assessment_templates` tablosu oluştur
+   - [x] `self_assessment_questions` tablosu oluştur
+   - [x] `student_self_assessments` tablosu oluştur
+   - [x] `profile_mapping_rules` tablosu oluştur
+   - [x] `profile_update_queue` tablosu oluştur
+   - [x] `self_assessment_audit_log` tablosu oluştur
+   - [x] `students` tablosuna yeni alanlar ekle
 
-2. **TypeScript Types**
-   - [ ] `shared/types/self-assessment.types.ts` oluştur
-   - [ ] Tüm interface'leri tanımla
+2. **TypeScript Types** ✅ **TAMAMLANDI**
+   - [x] `shared/types/self-assessment.types.ts` oluştur
+   - [x] Tüm interface'leri tanımla
 
-3. **Validation Schemas**
-   - [ ] `shared/validation/self-assessment.validation.ts` oluştur
-   - [ ] Zod şemaları yaz
+3. **Validation Schemas** ✅ **TAMAMLANDI**
+   - [x] `shared/validation/self-assessment.validation.ts` oluştur
+   - [x] Zod şemaları yaz
 
-4. **Repository Layer**
-   - [ ] `server/features/self-assessments/repository/templates.repository.ts`
-   - [ ] `server/features/self-assessments/repository/assessments.repository.ts`
-   - [ ] `server/features/self-assessments/repository/mapping-rules.repository.ts`
-   - [ ] `server/features/self-assessments/repository/update-queue.repository.ts`
+4. **Repository Layer** ✅ **TAMAMLANDI**
+   - [x] `server/features/self-assessments/repository/templates.repository.ts`
+   - [x] `server/features/self-assessments/repository/assessments.repository.ts`
+   - [x] `server/features/self-assessments/repository/mapping-rules.repository.ts`
+   - [x] `server/features/self-assessments/repository/update-queue.repository.ts`
 
 **Dosya Yapısı:**
 ```
