@@ -45,12 +45,13 @@ export function StudentProfileTabs({
 
   return (
     <Tabs defaultValue="dashboard" className="space-y-4">
-      <TabsList className="grid w-full grid-cols-3 md:grid-cols-5 lg:grid-cols-8">
+      <TabsList className="flex flex-wrap gap-1 h-auto p-1.5 bg-muted/40">
         {MAIN_TABS.map(({ value, label, description }) => (
           <TabsTrigger
             key={value}
             value={value}
             title={description}
+            className="px-3 py-1.5 text-xs font-medium data-[state=active]:shadow-sm"
           >
             {label}
           </TabsTrigger>
@@ -58,7 +59,7 @@ export function StudentProfileTabs({
       </TabsList>
 
       {/* 1. DASHBOARD - Özet Görünüm */}
-      <TabsContent value="dashboard" className="space-y-4">
+      <TabsContent value="dashboard" className="space-y-3">
         <ModernDashboard
           student={student}
           studentId={studentId}
@@ -68,12 +69,11 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 2. KİMLİK & İLETİŞİM */}
-      <TabsContent value="kimlik" className="space-y-4">
-        {/* Profil Tamlığı Göstergesi - Dashboard'daki detaylı versiyonu buraya taşındı */}
-        <div className="space-y-4">
+      <TabsContent value="kimlik" className="space-y-3">
+        <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold">Profil Bütünlüğü Analizi</h3>
-            <span className="text-sm text-muted-foreground">Eksik alanlar ve veri kalitesi</span>
+            <h3 className="text-base font-semibold">Profil Bütünlüğü</h3>
+            <span className="text-xs text-muted-foreground">Eksik alanlar ve veri kalitesi</span>
           </div>
           <ProfileCompletenessIndicator
             overall={scoresData?.completeness?.overall ?? 0}
@@ -89,7 +89,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 3. SAĞLIK & GÜVENLİK */}
-      <TabsContent value="saglik" className="space-y-4">
+      <TabsContent value="saglik" className="space-y-3">
         <EnhancedHealthSection
           studentId={studentId}
           onUpdate={onUpdate}
@@ -102,7 +102,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 4. AKADEMİK */}
-      <TabsContent value="akademik" className="space-y-4">
+      <TabsContent value="akademik" className="space-y-3">
         <SmartAcademicDashboard
           studentId={studentId}
           onUpdate={onUpdate}
@@ -110,7 +110,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 5. GELİŞİM & KİŞİLİK */}
-      <TabsContent value="gelisim" className="space-y-4">
+      <TabsContent value="gelisim" className="space-y-3">
         <DevelopmentProfileSection
           studentId={studentId}
           multipleIntelligence={data.multipleIntelligence}
@@ -120,7 +120,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 6. RİSK & MÜDAHALE */}
-      <TabsContent value="risk" className="space-y-4">
+      <TabsContent value="risk" className="space-y-3">
         <EnhancedRiskDashboard
           studentId={studentId}
           student={student}
@@ -129,7 +129,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 7. KARİYER & GELECEK */}
-      <TabsContent value="kariyer" className="space-y-4">
+      <TabsContent value="kariyer" className="space-y-3">
         <CareerFutureSection
           studentId={studentId}
           studentName={studentName}
@@ -138,7 +138,7 @@ export function StudentProfileTabs({
       </TabsContent>
 
       {/* 8. İLETİŞİM MERKEZİ */}
-      <TabsContent value="iletisim" className="space-y-4">
+      <TabsContent value="iletisim" className="space-y-3">
         <CommunicationCenter
           studentId={studentId}
           studentName={studentName}
