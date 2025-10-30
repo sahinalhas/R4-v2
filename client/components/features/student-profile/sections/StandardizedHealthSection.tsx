@@ -105,7 +105,7 @@ export default function StandardizedHealthSection({
                 <span>Temel Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="bloodType"
@@ -194,7 +194,7 @@ export default function StandardizedHealthSection({
                   control={form.control}
                   name="currentMedications"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="md:col-span-2">
                       <FormLabel className="text-xs font-medium">Kullanılan İlaçlar</FormLabel>
                       <FormControl>
                         <MultiSelect
@@ -211,7 +211,7 @@ export default function StandardizedHealthSection({
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="medicalHistory"
@@ -275,9 +275,9 @@ export default function StandardizedHealthSection({
                 <span>Acil Durum Kişileri</span>
               </div>
 
-              <div className="bg-muted/30 p-3 rounded-lg space-y-2">
-                <div className="text-xs font-medium text-muted-foreground mb-2">Acil Durum Kişileri</div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div className="bg-muted/30 p-4 rounded-lg space-y-3">
+                <div className="text-xs font-medium text-muted-foreground mb-3">Acil Durum Kişileri</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <FormField
                     control={form.control}
                     name="emergencyContact1Name"
@@ -372,7 +372,7 @@ export default function StandardizedHealthSection({
                 <span>Aile Hekimi & Ek Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="physicianName"
@@ -405,7 +405,7 @@ export default function StandardizedHealthSection({
                   control={form.control}
                   name="additionalNotes"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="md:col-span-2">
                       <FormLabel className="text-xs font-medium flex items-center gap-1.5">
                         <AlertCircle className="h-3 w-3" />
                         Ek Notlar
@@ -413,7 +413,7 @@ export default function StandardizedHealthSection({
                       <FormControl>
                         <Textarea 
                           placeholder="Sağlık durumu hakkında ek bilgiler..." 
-                          className="min-h-[65px] text-sm resize-none"
+                          className="min-h-[80px] text-sm resize-none"
                           {...field} 
                         />
                       </FormControl>
