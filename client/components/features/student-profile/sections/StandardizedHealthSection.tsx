@@ -209,9 +209,7 @@ export default function StandardizedHealthSection({
                     </FormItem>
                   )}
                 />
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <FormField
                   control={form.control}
                   name="medicalHistory"
@@ -230,6 +228,9 @@ export default function StandardizedHealthSection({
                   )}
                 />
 
+                </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
                   name="specialNeeds"
