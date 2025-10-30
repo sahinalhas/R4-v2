@@ -31,7 +31,8 @@ export function getPendingUpdates(filter?: PendingUpdatesFilter): PendingUpdates
     SELECT 
       puq.*,
       s.firstName || ' ' || s.lastName as studentName,
-      sat.title as assessmentTitle
+      sat.title as assessmentTitle,
+      sat.category as assessmentCategory
     FROM profile_update_queue puq
     JOIN students s ON puq.studentId = s.id
     LEFT JOIN student_self_assessments ssa ON puq.assessmentId = ssa.id
@@ -44,6 +45,11 @@ export function getPendingUpdates(filter?: PendingUpdatesFilter): PendingUpdates
   if (filter?.studentId) {
     query += ' AND puq.studentId = ?';
     params.push(sanitizeString(filter.studentId));
+  }
+
+  if (filter?.category) {
+    query += ' AND sat.category = ?';
+    params.push(sanitizeString(filter.category));
   }
 
   if (filter?.sortBy === 'date') {
