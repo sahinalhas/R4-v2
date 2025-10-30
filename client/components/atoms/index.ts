@@ -1,5 +1,4 @@
 export * from './Alert';
-export * from './AspectRatio';
 export * from './Avatar';
 export * from './Badge';
 export * from './Button';
@@ -16,4 +15,3 @@ export * from './Switch';
 export * from './Textarea';
 export * from './Toast';
 export * from './Toaster';
-export * from './Toggle';
