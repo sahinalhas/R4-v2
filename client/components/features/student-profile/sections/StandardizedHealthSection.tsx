@@ -98,64 +98,74 @@ export default function StandardizedHealthSection({
       <CardContent className="pt-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            {/* Temel Sağlık Bilgileri */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-                <Droplet className="h-3.5 w-3.5" />
-                <span>Temel Bilgiler</span>
+            {/* Temel Sağlık Bilgileri - Elegant Design */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2.5 pb-2 border-b border-border/50">
+                <div className="p-2 rounded-md bg-gradient-to-br from-red-50 to-red-100/50 dark:from-red-950/30 dark:to-red-900/20">
+                  <Droplet className="h-4 w-4 text-red-600 dark:text-red-400" />
+                </div>
+                <span className="text-sm font-semibold text-foreground">Temel Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormField
-                  control={form.control}
-                  name="bloodType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Kan Grubu</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+              {/* Vital Info Card */}
+              <div className="bg-gradient-to-br from-muted/30 to-muted/10 rounded-lg p-4 border border-border/50">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="bloodType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Kan Grubu</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="h-10 text-sm bg-background/60 backdrop-blur-sm border-border/60 hover:border-border transition-colors">
+                              <SelectValue placeholder="Seçiniz" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {BLOOD_TYPES.map((type) => (
+                              <SelectItem key={type.value} value={type.value}>
+                                {type.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lastHealthCheckup"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+                          <Calendar className="h-3.5 w-3.5" />
+                          Son Sağlık Kontrolü
+                        </FormLabel>
                         <FormControl>
-                          <SelectTrigger className="h-9 text-sm">
-                            <SelectValue placeholder="Seçiniz" />
-                          </SelectTrigger>
+                          <Input 
+                            type="date" 
+                            {...field} 
+                            className="h-10 text-sm bg-background/60 backdrop-blur-sm border-border/60 hover:border-border transition-colors" 
+                          />
                         </FormControl>
-                        <SelectContent>
-                          {BLOOD_TYPES.map((type) => (
-                            <SelectItem key={type.value} value={type.value}>
-                              {type.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="lastHealthCheckup"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium flex items-center gap-1.5">
-                        <Calendar className="h-3 w-3" />
-                        Son Sağlık Kontrolü
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="date" {...field} className="h-9 text-sm" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {/* Medical Conditions Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="chronicDiseases"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Kronik Hastalıklar</FormLabel>
+                    <FormItem className="bg-background/40 rounded-lg p-3.5 border border-border/40 hover:border-border/60 transition-colors">
+                      <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Kronik Hastalıklar</FormLabel>
                       <FormControl>
                         <MultiSelect
                           options={CHRONIC_DISEASES}
@@ -174,8 +184,8 @@ export default function StandardizedHealthSection({
                   control={form.control}
                   name="allergies"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Alerjiler</FormLabel>
+                    <FormItem className="bg-background/40 rounded-lg p-3.5 border border-border/40 hover:border-border/60 transition-colors">
+                      <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Alerjiler</FormLabel>
                       <FormControl>
                         <MultiSelect
                           options={ALLERGIES}
@@ -194,8 +204,8 @@ export default function StandardizedHealthSection({
                   control={form.control}
                   name="currentMedications"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Kullanılan İlaçlar</FormLabel>
+                    <FormItem className="bg-background/40 rounded-lg p-3.5 border border-border/40 hover:border-border/60 transition-colors md:col-span-2">
+                      <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Kullanılan İlaçlar</FormLabel>
                       <FormControl>
                         <MultiSelect
                           options={MEDICATION_TYPES}
@@ -211,60 +221,63 @@ export default function StandardizedHealthSection({
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <FormField
-                  control={form.control}
-                  name="medicalHistory"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Tıbbi Geçmiş</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Geçmiş ameliyatlar, hastalıklar..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              {/* Detailed Medical Information */}
+              <div className="bg-gradient-to-br from-muted/20 to-muted/5 rounded-lg p-4 border border-border/30">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="medicalHistory"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Tıbbi Geçmiş</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Geçmiş ameliyatlar, hastalıklar..." 
+                            className="min-h-[80px] text-sm resize-none bg-background/60 backdrop-blur-sm border-border/50 focus:border-border transition-colors"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="specialNeeds"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Özel İhtiyaçlar</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Özel bakım gereksinimleri..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="specialNeeds"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Özel İhtiyaçlar</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Özel bakım gereksinimleri..." 
+                            className="min-h-[80px] text-sm resize-none bg-background/60 backdrop-blur-sm border-border/50 focus:border-border transition-colors"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="physicalLimitations"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Fiziksel Kısıtlamalar</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Hareket kısıtlamaları, fiziksel engeller..." 
-                          className="min-h-[70px] text-sm resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="physicalLimitations"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Fiziksel Kısıtlamalar</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Hareket kısıtlamaları, fiziksel engeller..." 
+                            className="min-h-[80px] text-sm resize-none bg-background/60 backdrop-blur-sm border-border/50 focus:border-border transition-colors"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
 
