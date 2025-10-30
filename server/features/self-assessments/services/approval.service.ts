@@ -1,6 +1,7 @@
 import getDatabase from '../../../lib/database.js';
 import { UpdateQueueRepository } from '../repository/index.js';
 import { sanitizeString } from '../../../middleware/validation.js';
+import * as auditService from './audit.service.js';
 import type { 
   ProfileUpdateQueue,
   UpdateStatus,
@@ -122,23 +123,33 @@ export function approveUpdate(
   const repo = getRepository();
   const db = getDatabase();
   const updatedFields: string[] = [];
+  const errors: Array<{ updateId: string; error: string }> = [];
+  let successCount = 0;
 
+  const ALLOWED_TABLES = ['students', 'standardized_academic_profile', 'standardized_social_emotional_profile', 'standardized_talents_interests_profile'];
+  
   db.transaction(() => {
     for (const updateId of request.updateIds) {
       const sanitizedId = sanitizeString(updateId);
       const update = repo.findById(sanitizedId);
       
       if (!update || update.status !== 'PENDING') {
+        console.warn(`Update ${updateId} not found or not pending, skipping`);
         continue;
       }
 
-      const targetTable = update.targetTable;
-      const targetField = update.targetField;
+      const targetTable = sanitizeString(update.targetTable);
+      const targetField = sanitizeString(update.targetField);
       const proposedValue = update.proposedValue;
-      const studentId = update.studentId;
+      const studentId = sanitizeString(update.studentId);
+
+      if (!ALLOWED_TABLES.includes(targetTable)) {
+        console.error(`Invalid target table: ${targetTable}`);
+        errors.push({ updateId, error: 'Invalid target table' });
+        continue;
+      }
 
       try {
-        let updateQuery: string;
         let value: any = proposedValue;
 
         try {
@@ -151,32 +162,62 @@ export function approveUpdate(
           value = JSON.stringify(value);
         }
 
-        updateQuery = `
+        const updateQuery = `
           UPDATE ${targetTable}
           SET ${targetField} = ?, updated_at = CURRENT_TIMESTAMP
           WHERE ${targetTable === 'students' ? 'id' : 'studentId'} = ?
         `;
 
         const updateStmt = db.prepare(updateQuery);
-        updateStmt.run(value, studentId);
+        const result = updateStmt.run(value, studentId);
 
-        repo.update(sanitizedId, {
-          status: 'APPROVED',
-          reviewedBy: sanitizeString(reviewedBy),
-          reviewedAt: new Date().toISOString(),
-          reviewNotes: request.notes ? sanitizeString(request.notes) : undefined
-        });
+        if (result.changes > 0) {
+          repo.update(sanitizedId, {
+            status: 'APPROVED',
+            reviewedBy: sanitizeString(reviewedBy),
+            reviewedAt: new Date().toISOString(),
+            reviewNotes: request.notes ? sanitizeString(request.notes) : undefined
+          });
 
-        updatedFields.push(targetField);
+          updatedFields.push(targetField);
+          successCount++;
+
+          auditService.logAudit({
+            assessmentId: update.assessmentId || 'manual-update',
+            studentId: studentId,
+            action: 'PROFILE_UPDATED',
+            performedBy: reviewedBy,
+            performedByRole: 'COUNSELOR',
+            changeData: {
+              updateId: sanitizedId,
+              targetTable,
+              targetField,
+              previousValue: update.currentValue,
+              newValue: proposedValue,
+              reviewNotes: request.notes
+            }
+          });
+
+          console.log(`✅ Update ${updateId} approved and applied successfully`);
+        } else {
+          console.warn(`No rows updated for ${updateId}`);
+          errors.push({ updateId, error: 'No rows updated' });
+        }
       } catch (error) {
-        console.error(`Failed to apply update ${updateId}:`, error);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        console.error(`Failed to apply update ${updateId}:`, errorMsg);
+        errors.push({ updateId, error: errorMsg });
       }
     }
   })();
 
+  if (errors.length > 0) {
+    console.error(`Approval completed with ${errors.length} errors:`, errors);
+  }
+
   return {
-    success: true,
-    appliedCount: request.updateIds.length,
+    success: successCount > 0,
+    appliedCount: successCount,
     updatedFields
   };
 }
@@ -184,6 +225,11 @@ export function approveUpdate(
 export function rejectUpdate(request: RejectUpdateRequest, reviewedBy: string): boolean {
   const sanitizedId = sanitizeString(request.updateId);
   const repo = getRepository();
+  const update = repo.findById(sanitizedId);
+
+  if (!update) {
+    throw new Error('Güncelleme bulunamadı');
+  }
 
   repo.update(sanitizedId, {
     status: 'REJECTED',
@@ -191,6 +237,23 @@ export function rejectUpdate(request: RejectUpdateRequest, reviewedBy: string): 
     reviewedAt: new Date().toISOString(),
     reviewNotes: sanitizeString(request.reason)
   });
+
+  auditService.logAudit({
+    assessmentId: update.assessmentId || 'manual-update',
+    studentId: update.studentId,
+    action: 'REJECTED',
+    performedBy: reviewedBy,
+    performedByRole: 'COUNSELOR',
+    changeData: {
+      updateId: sanitizedId,
+      targetTable: update.targetTable,
+      targetField: update.targetField,
+      rejectedValue: update.proposedValue,
+      reason: request.reason
+    }
+  });
+
+  console.log(`❌ Update ${sanitizedId} rejected by ${reviewedBy}`);
 
   return true;
 }
