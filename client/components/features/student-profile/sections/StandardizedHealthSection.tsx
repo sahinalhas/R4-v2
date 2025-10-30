@@ -105,7 +105,7 @@ export default function StandardizedHealthSection({
                 <span>Temel Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
                   name="bloodType"
@@ -372,7 +372,7 @@ export default function StandardizedHealthSection({
                 <span>Aile Hekimi & Ek Bilgiler</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormField
                   control={form.control}
                   name="physicianName"
@@ -400,7 +400,9 @@ export default function StandardizedHealthSection({
                     </FormItem>
                   )}
                 />
+              </div>
 
+              <div className="grid grid-cols-1 gap-3">
                 <FormField
                   control={form.control}
                   name="additionalNotes"
