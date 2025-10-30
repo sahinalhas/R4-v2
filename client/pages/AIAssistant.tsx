@@ -17,8 +17,6 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import MeetingPrepPanel from '@/components/features/ai/MeetingPrepPanel';
@@ -66,20 +64,16 @@ function CodeBlock({ inline, className, children, ...props }: any) {
       <Button
         size="sm"
         variant="ghost"
-        className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity z-10"
         onClick={handleCopy}
       >
         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
       </Button>
-      <SyntaxHighlighter
-        style={vscDarkPlus}
-        language={match?.[1] || 'text'}
-        PreTag="div"
-        className="rounded-lg"
-        {...props}
-      >
-        {code}
-      </SyntaxHighlighter>
+      <pre className="rounded-lg bg-[#1E1E1E] p-4 overflow-x-auto">
+        <code className="text-sm font-mono text-gray-200" {...props}>
+          {code}
+        </code>
+      </pre>
     </div>
   );
 }

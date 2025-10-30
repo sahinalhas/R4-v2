@@ -2,7 +2,6 @@ import "dotenv/config";
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { visualizer } from "rollup-plugin-visualizer";
 import { createServer } from "./server";
 
 // https://vitejs.dev/config/
@@ -65,7 +64,7 @@ export default defineConfig(({ mode }) => ({
             if (id.includes('lucide-react')) {
               return 'vendor-icons';
             }
-            if (id.includes('react-markdown') || id.includes('remark') || id.includes('rehype') || id.includes('react-syntax-highlighter')) {
+            if (id.includes('react-markdown') || id.includes('remark') || id.includes('rehype')) {
               return 'markdown';
             }
             if (id.includes('date-fns')) {
@@ -109,12 +108,6 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     expressPlugin(),
-    visualizer({
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-      filename: 'bundle-analysis.html',
-    }),
   ],
   resolve: {
     alias: {

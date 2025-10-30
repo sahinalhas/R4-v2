@@ -31,29 +31,15 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "quality": "npm run lint && npm run typecheck && npm run format",
-    "ci": "npm run typecheck && npm run test:coverage && npm run lint",
-    "lighthouse": "lhci autorun",
-    "lighthouse:open": "lhci autorun && open .lighthouseci/",
-    "analyze:bundle": "vite build --mode analyze"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{js,jsx,json,css,md}": [
-      "prettier --write"
-    ]
+    "ci": "npm run typecheck && npm run test:coverage && npm run lint"
   },
   "dependencies": {
     "@google/genai": "^1.24.0",
-    "@lhci/cli": "^0.15.1",
     "@tanstack/react-virtual": "^3.13.12",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.10",
     "@types/multer": "^2.0.0",
     "@types/react-big-calendar": "^1.16.3",
-    "@types/react-syntax-highlighter": "^15.5.13",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.4.1",
     "cookie-parser": "^1.4.7",
@@ -69,12 +55,9 @@
     "openai": "^6.3.0",
     "react-big-calendar": "^1.19.4",
     "react-markdown": "^10.1.0",
-    "react-syntax-highlighter": "^15.6.6",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
-    "rollup-plugin-visualizer": "^6.0.5",
     "serverless-http": "^3.2.0",
-    "web-vitals": "^5.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zod": "^3.25.76"
   },
@@ -138,11 +121,8 @@
     "framer-motion": "^12.23.12",
     "globals": "^16.3.0",
     "happy-dom": "^15.11.7",
-    "husky": "^9.1.7",
     "jsdom": "^26.0.0",
-    "lint-staged": "^16.2.3",
     "lucide-react": "^0.539.0",
-    "msw": "^2.7.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "react": "^18.3.1",
