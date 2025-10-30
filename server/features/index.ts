@@ -42,6 +42,7 @@ import profileSyncRouter from './profile-sync/index.js';
 import aiStatusRouter from '../routes/ai-status.routes.js';
 import aiSuggestionsRouter from './ai-suggestions/index.js';
 import examManagementRouter from './exam-management/index.js';
+import selfAssessmentsRouter from './self-assessments/index.js';
 
 /**
  * Feature Registry
@@ -144,6 +145,7 @@ featureRegistry.use('/student-profile', studentProfileAIRouter);
 
 // =================== COMMUNICATION DOMAIN ===================
 featureRegistry.use('/', surveysRouter);
+featureRegistry.use('/self-assessments', selfAssessmentsRouter);
 featureRegistry.use('/', meetingNotesRouter);
 featureRegistry.use('/', documentsRouter);
 

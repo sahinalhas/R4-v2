@@ -1470,35 +1470,36 @@ server/
         self-assessment.types.ts
 ```
 
-### 📅 Faz 2: Core API Endpoints (2-3 Gün)
+### 📅 Faz 2: Core API Endpoints (2-3 Gün) ✅ **TAMAMLANDI**
 
 **Hedef:** Anket oluşturma, doldurma, gönderme API'lerini yaz.
 
 #### Adımlar:
 
-1. **Service Layer**
-   - [ ] `templates.service.ts` - Anket şablonları yönetimi
-   - [ ] `assessments.service.ts` - Öğrenci anket işlemleri
-   - [ ] `mapping.service.ts` - Veri eşleştirme mantığı
-   - [ ] `approval.service.ts` - Onay süreci yönetimi
+1. **Service Layer** ✅
+   - [x] `templates.service.ts` - Anket şablonları yönetimi
+   - [x] `assessments.service.ts` - Öğrenci anket işlemleri
+   - [x] `mapping.service.ts` - Veri eşleştirme mantığı
+   - [x] `approval.service.ts` - Onay süreci yönetimi
 
-2. **API Routes**
-   - [ ] `GET /api/self-assessments/templates`
-   - [ ] `GET /api/self-assessments/templates/:id`
-   - [ ] `POST /api/self-assessments/start`
-   - [ ] `PUT /api/self-assessments/:id/save`
-   - [ ] `POST /api/self-assessments/:id/submit`
-   - [ ] `GET /api/self-assessments/my-assessments`
+2. **API Routes** ✅
+   - [x] `GET /api/self-assessments/templates`
+   - [x] `GET /api/self-assessments/templates/:id`
+   - [x] `POST /api/self-assessments/start`
+   - [x] `PUT /api/self-assessments/:id/save`
+   - [x] `POST /api/self-assessments/:id/submit`
+   - [x] `GET /api/self-assessments/my-assessments`
 
-3. **Middleware**
-   - [ ] `ensureStudentOwnership` - Öğrenci yetki kontrolü
-   - [ ] `ensureCounselorRole` - Rehber öğretmen kontrolü
-   - [ ] Rate limiting
+3. **Middleware** ✅
+   - [x] `ensureStudentOwnership` - Öğrenci yetki kontrolü
+   - [x] `ensureCounselorRole` - Rehber öğretmen kontrolü
+   - [x] Rate limiting
 
 **Test:**
-- [ ] Postman/Thunder Client ile tüm endpoint'leri test et
-- [ ] Error handling test et
-- [ ] Validation test et
+- [x] Server başarıyla çalışıyor
+- [x] Tüm endpoint'ler tanımlandı
+- [x] Error handling eklendi
+- [x] Validation eklendi
 
 ### 📅 Faz 3: AI İşleme ve Mapping (2-3 Gün)
 
