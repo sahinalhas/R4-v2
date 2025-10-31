@@ -32,6 +32,8 @@ const ExamManagementPage = lazy(() => import("./pages/ExamManagementPage"));
 const AssessmentList = lazy(() => import("./pages/self-assessments/AssessmentList"));
 const AssessmentForm = lazy(() => import("./pages/self-assessments/AssessmentForm"));
 const AssessmentComplete = lazy(() => import("./pages/self-assessments/AssessmentComplete"));
+const PendingUpdatesPanel = lazy(() => import("./pages/ProfileUpdates/PendingUpdatesPanel"));
+const UpdateReview = lazy(() => import("./pages/ProfileUpdates/UpdateReview"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -162,6 +164,14 @@ const App = () => {
                   <Route
                     path="/self-assessments/:assessmentId/complete"
                     element={<Suspense fallback={<LoadingFallback />}><AssessmentComplete /></Suspense>}
+                  />
+                  <Route
+                    path="/profile-updates"
+                    element={<Suspense fallback={<LoadingFallback />}><PendingUpdatesPanel /></Suspense>}
+                  />
+                  <Route
+                    path="/profile-updates/:studentId"
+                    element={<Suspense fallback={<LoadingFallback />}><UpdateReview /></Suspense>}
                   />
                 </Route>
                 <Route path="/anket/:publicLink" element={<Suspense fallback={<LoadingFallback />}><PublicSurvey /></Suspense>} />
