@@ -51,6 +51,13 @@ export default function UpdateReview() {
     setRejectDialogOpen(true);
   };
 
+  const handleRejectDialogClose = (open: boolean) => {
+    setRejectDialogOpen(open);
+    if (!open) {
+      setSelectedUpdate(null);
+    }
+  };
+
   const handleRejectConfirm = async (updateId: string, reason: string) => {
     try {
       await rejectUpdateMutation.mutateAsync({
@@ -175,7 +182,7 @@ export default function UpdateReview() {
       {selectedUpdate && (
         <RejectDialog
           open={rejectDialogOpen}
-          onOpenChange={setRejectDialogOpen}
+          onOpenChange={handleRejectDialogClose}
           updateId={selectedUpdate.id}
           fieldLabel={selectedUpdate.fieldLabel}
           onConfirm={handleRejectConfirm}

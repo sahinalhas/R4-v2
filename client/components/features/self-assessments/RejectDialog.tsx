@@ -47,10 +47,12 @@ export function RejectDialog({
     }
   };
 
-  const handleClose = () => {
-    if (!isProcessing && !confirmed) {
+  const handleClose = (nextOpen: boolean) => {
+    if (!nextOpen && !isProcessing && !confirmed) {
       setReason('');
       onOpenChange(false);
+    } else if (nextOpen) {
+      onOpenChange(true);
     }
   };
 
@@ -90,7 +92,7 @@ export function RejectDialog({
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={handleClose}
+            onClick={() => handleClose(false)}
             disabled={isProcessing || confirmed}
           >
             İptal
