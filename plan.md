@@ -1,16 +1,18 @@
-# 📋 Öğrenci Öz-Değerlendirme Anket Sistemi - Implementasyon Rehberi
+# 📋 Öğrenci Profil Anket Sistemi - Implementasyon Rehberi
 
 ## 📌 İçindekiler
 1. [Sistem Genel Bakış](#1-sistem-genel-bakış)
 2. [Mimari Tasarım](#2-mimari-tasarım)
-3. [Database Schema](#3-database-schema)
-4. [Backend API Tasarımı](#4-backend-api-tasarımı)
-5. [Veri Eşleştirme Sistemi](#5-veri-eşleştirme-sistemi)
-6. [Frontend Bileşenler](#6-frontend-bileşenler)
-7. [Güvenlik ve KVKK Uyumluluk](#7-güvenlik-ve-kvkk-uyumluluk)
-8. [İmplementasyon Aşamaları](#8-implementasyon-aşamaları)
-9. [Örnek Anket Şablonları](#9-örnek-anket-şablonları)
-10. [Test Senaryoları](#10-test-senaryoları)
+3. [Link Dağıtım Sistemi](#3-link-dağıtım-sistemi)
+4. [Database Schema](#4-database-schema)
+5. [Backend API Tasarımı](#5-backend-api-tasarımı)
+6. [Veri Eşleştirme Sistemi](#6-veri-eşleştirme-sistemi)
+7. [QR Kod ve PDF Sistemi](#7-qr-kod-ve-pdf-sistemi)
+8. [Frontend Bileşenler](#8-frontend-bileşenler)
+9. [Güvenlik ve KVKK Uyumluluk](#9-güvenlik-ve-kvkk-uyumluluk)
+10. [İmplementasyon Aşamaları](#10-implementasyon-aşamaları)
+11. [Örnek Anket Şablonları](#11-örnek-anket-şablonları)
+12. [Test Senaryoları](#12-test-senaryoları)
 
 ---
 
@@ -24,12 +26,37 @@ Rehber öğretmenleri, öğrenci profil bilgilerini manuel olarak tek tek girmek
 - 🔄 Güncelleme zorluğu yaratıyor
 
 ### 💡 Çözüm
-Öğrencilerin kendi profil bilgilerini anketler aracılığıyla girmesini sağlayan, rehber öğretmen onayı ile çalışan akıllı bir sistem.
+Öğrencilerin kendi profil bilgilerini **link/QR kod üzerinden** anketler aracılığıyla girmesini sağlayan, rehber öğretmen onayı ile çalışan akıllı bir sistem.
+
+### ⭐ Temel Özellikler
+
+#### 🎯 Modüler Yapı
+- 6 kategori: Akademik, Sosyal-Duygusal, Kariyer, Sağlık, Aile, Yetenek/Hobiler
+- Her anket bağımsız olarak dağıtılabilir
+- Mevcut "Anket ve Test" sistemi içinde yeni kategori
+
+#### 🔗 İki Dağıtım Modu
+**1. Genel Link (Kimlik Doğrulamalı)**
+- Tek link, tüm öğrenciler için
+- Öğrenci TC/Öğrenci No ile giriş yapar
+- Web sitesinde, WhatsApp grubunda paylaşılabilir
+
+**2. Özel Linkler (QR Kodlu)**
+- Her öğrenciye benzersiz link + QR kod
+- Kimlik doğrulama gerektirmez
+- PDF bastırılıp sınıfta dağıtılır
+- Öğrenci eve gidince doldurur
+
+#### 👥 Kullanıcı Rolleri
+- **Rehber Öğretmen**: Sistemi kullanır, anket oluşturur, dağıtır, onaylar
+- **Öğrenci**: Login gerektirmez, sadece link/QR üzerinden anketi doldurur
+- **Sistem**: AI ile veri işler, profil güncelleme önerileri oluşturur
 
 ### 🎁 Faydalar
 - ✅ **Rehber öğretmen iş yükü %70-80 azalır**
 - ✅ **Öğrenci katılımı ve farkındalığı artar**
 - ✅ **Veriler daha güncel ve doğru olur**
+- ✅ **Esnek dağıtım** (Web link veya QR kod)
 - ✅ **AI sistemi daha iyi çalışır** (daha fazla kaliteli veri)
 - ✅ **KVKK uyumlu** (öğrenci ve veli onaylı veri toplama)
 - ✅ **Profil tamamlanma oranı artış**
@@ -37,38 +64,62 @@ Rehber öğretmenleri, öğrenci profil bilgilerini manuel olarak tek tek girmek
 ### 🔄 Veri Akışı
 
 ```
-┌─────────────────┐
-│   Öğrenci       │
-│ Anketi Doldurur │
-└────────┬────────┘
-         │
-         ↓
-┌─────────────────────────┐
-│ AI ile Veri İşleme      │
-│ - Standartlaştırma      │
-│ - Kategorizasyon        │
-│ - Güvenlik Kontrolü     │
-└────────┬────────────────┘
-         │
-         ↓
-┌─────────────────────────┐
-│ Profil Güncelleme       │
-│ Önerileri Kuyruğu       │
-│ (Onay Bekliyor)         │
-└────────┬────────────────┘
-         │
-         ↓
-┌─────────────────────────┐
-│ Rehber Öğretmen         │
-│ İnceleme ve Onay        │
-└────────┬────────────────┘
-         │
-         ↓
-┌─────────────────────────┐
-│ Otomatik Profil         │
-│ Güncelleme              │
-│ + Audit Log             │
-└─────────────────────────┘
+┌──────────────────────────────────────────────────┐
+│        REHBER ÖĞRETMEN                           │
+│  1. Anket Oluştur (Akademik/Sosyal/Kariyer...)  │
+│  2. Dağıtım Modu Seç:                            │
+│     ☐ Genel Link (Web'de paylaş)                │
+│     ☑ Özel Linkler (QR bastır)                  │
+│  3. Hedef Öğrencileri Seç                        │
+│  4. Link/QR Oluştur                              │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        DAĞITIM SİSTEMİ                           │
+│  • Genel Link: Web sitesine koy                  │
+│  • Özel Linkler: PDF çıktı al, bastır, dağıt    │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        ÖĞRENCİ (Login Yok!)                      │
+│  • Link tıkla VEYA QR okut                       │
+│  • (Genel linkse) TC/Öğrenci No gir              │
+│  • Anketi doldur                                 │
+│  • Gönder                                        │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        AI İLE VERİ İŞLEME                        │
+│  • Standartlaştırma                              │
+│  • Kategorizasyon                                │
+│  • Güvenlik Kontrolü                             │
+│  • Profil alanlarına eşleştirme                  │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        ONAY KUYRUĞU                              │
+│  Rehber öğretmen için hazır güncellemeler        │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        REHBER ÖĞRETMEN ONAY PANELİ              │
+│  • Öğrenci cevaplarını incele                    │
+│  • Profil güncelleme önerilerini gözden geçir    │
+│  • Onayla / Reddet / Düzenle                     │
+└──────────────┬───────────────────────────────────┘
+               │
+               ↓
+┌──────────────────────────────────────────────────┐
+│        OTOMATİK PROFİL GÜNCELLEME                │
+│  • Onaylanan veriler profillere yazılır          │
+│  • Audit log kaydedilir                          │
+│  • AI sistemi için veri hazır                    │
+└──────────────────────────────────────────────────┘
 ```
 
 ---
@@ -80,116 +131,472 @@ Rehber öğretmenleri, öğrenci profil bilgilerini manuel olarak tek tek girmek
 #### Katmanlar
 
 ```
-┌─────────────────────────────────────────────┐
-│           FRONTEND LAYER                     │
-│  - Öğrenci Anket Arayüzü                    │
-│  - Rehber Öğretmen Onay Paneli              │
-│  - Veli Onay Ekranı (opsiyonel)             │
-└──────────────────┬──────────────────────────┘
-                   │
-                   ↓
-┌─────────────────────────────────────────────┐
-│           API LAYER                          │
-│  - Self Assessment API                       │
-│  - Profile Mapping API                       │
-│  - Approval Queue API                        │
-└──────────────────┬──────────────────────────┘
-                   │
-                   ↓
-┌─────────────────────────────────────────────┐
-│           SERVICE LAYER                      │
-│  - Data Mapping Service                      │
-│  - AI Standardization Service                │
-│  - Approval Workflow Service                 │
-│  - Profile Update Service                    │
-└──────────────────┬──────────────────────────┘
-                   │
-                   ↓
-┌─────────────────────────────────────────────┐
-│           DATA LAYER                         │
-│  - Self Assessments                          │
-│  - Mapping Rules                             │
-│  - Profile Update Queue                      │
-│  - Audit Logs                                │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                    FRONTEND LAYER                        │
+│                                                           │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  Rehber Öğretmen Paneli (Login Gerekli)        │    │
+│  │  - Anket oluşturma ve düzenleme                │    │
+│  │  - Dağıtım modu seçimi                          │    │
+│  │  - Link/QR oluşturma ve yönetimi                │    │
+│  │  - Takip paneli (kim doldurdu/doldurmadı)       │    │
+│  │  - Onay kuyruğu                                 │    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                           │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  Öğrenci Anket Sayfası (Login YOK!)             │    │
+│  │  - Genel link: Kimlik doğrulama ekranı          │    │
+│  │  - Özel link: Direkt anket açılır               │    │
+│  │  - Anket doldurma arayüzü                       │    │
+│  │  - Teşekkür/Onay ekranı                         │    │
+│  └─────────────────────────────────────────────────┘    │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                      API LAYER                           │
+│  - Survey Link API (link oluşturma, doğrulama)          │
+│  - Student Verification API (TC/No doğrulama)           │
+│  - Response Submission API (cevap kaydetme)             │
+│  - Profile Mapping API (veri eşleştirme)                │
+│  - Approval Queue API (onay süreci)                     │
+│  - QR/PDF Generation API (PDF oluşturma)                │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                    SERVICE LAYER                         │
+│  - Link Generation Service (güvenli token oluşturma)    │
+│  - Student Auth Service (kimlik doğrulama)              │
+│  - Data Mapping Service (cevap → profil eşleştirme)     │
+│  - AI Standardization Service (AI ile standartlaştırma) │
+│  - Approval Workflow Service (onay süreci yönetimi)     │
+│  - Profile Update Service (otomatik güncelleme)         │
+│  - QR Code Service (QR oluşturma)                       │
+│  - PDF Generation Service (çıktı oluşturma)             │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                     DATA LAYER                           │
+│  - Survey Templates (anket şablonları)                   │
+│  - Survey Links (genel/özel linkler)                     │
+│  - Link Tracking (takip kayıtları)                       │
+│  - Student Responses (öğrenci cevapları)                 │
+│  - Mapping Rules (eşleştirme kuralları)                  │
+│  - Profile Update Queue (onay kuyruğu)                   │
+│  - Audit Logs (denetim kayıtları)                        │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ### 🔌 Mevcut Sistemle Entegrasyon
 
 Bu sistem, mevcut Rehber360 sistemine tam entegre olacak:
 
-1. **Mevcut Survey Sistemi**: Genişletilecek (yeni anket tipi eklenecek)
-2. **AI Suggestion Queue**: Kullanılacak (profile update suggestions)
-3. **Student Profile**: Güncellenecek (otomatik güncelleme)
-4. **Standardized Profile**: AI analizi için veri kaynağı olacak
+1. **Mevcut Survey/Test Sistemi**: 
+   - Genişletilecek (yeni kategori: "Öğrenci Profil Anketi")
+   - Normal anketlerle aynı oluşturma arayüzü
+   - Ek özellik: Dağıtım modu seçimi ve profil eşleştirme
+
+2. **Student Management**: 
+   - TC kimlik no ve öğrenci no ile doğrulama
+   - Sınıf/şube filtreleme
+
+3. **AI Suggestion Queue**: 
+   - Profil güncelleme önerileri için kullanılacak
+   - Mevcut onay mekanizması genişletilecek
+
+4. **Student Profile**: 
+   - Onaylanan verilerle otomatik güncelleme
+   - Standartlaştırılmış profil alanları
 
 ### 📊 Veri Modeli Özeti
 
 ```
-survey_templates (mevcut)
+survey_templates (mevcut - genişletilecek)
     ↓
-self_assessment_templates (yeni - özel tip)
+    category: 'STUDENT_PROFILE' (yeni)
+    profileMappingEnabled: true
     ↓
-student_self_assessments (yeni)
+survey_links (yeni)
+    ├── Genel Link (publicLink: true)
+    └── Özel Linkler (publicLink: false, studentId: specific)
+    ↓
+student_responses (yeni)
     ↓
 profile_mapping_rules (yeni)
     ↓
-profile_update_suggestions (mevcut AI queue'yu kullanır)
+profile_update_queue (yeni)
     ↓
 students (mevcut - güncellenecek)
 ```
 
 ---
 
-## 3. Database Schema
+## 3. Link Dağıtım Sistemi
+
+### 🔗 İki Dağıtım Modu Detayları
+
+#### Mod 1: Genel Link (Public Link)
+
+**Kullanım Senaryoları:**
+- Tüm okula duyuru yapılacak
+- Web sitesinde paylaşılacak
+- WhatsApp grubuna atılacak
+- Toplu e-posta gönderilecek
+
+**Çalışma Prensibi:**
+```
+1. Rehber öğretmen "Genel Link" seçer
+2. Sistem tek bir public link oluşturur
+   Örnek: https://rehber360.com/survey/public/abc123xyz
+3. Link tıklanınca → Kimlik doğrulama ekranı açılır
+4. Öğrenci TC kimlik no veya Öğrenci no girer
+5. Sistem öğrenciyi tanır
+6. Eğer geçerliyse → Anketi açar
+7. Eğer daha önce doldurduysa → "Zaten doldurdunuz" mesajı
+```
+
+**Güvenlik:**
+- Link herkese açık ama kimlik doğrulama gerekli
+- Rate limiting (saniyede max 5 istek)
+- CAPTCHA (opsiyonel, çok fazla deneme olursa)
+- IP takibi (kötüye kullanım tespiti)
+
+**Avantajlar:**
+- Tek link, kolay paylaşım
+- Toplu dağıtım için ideal
+- E-posta/telefon gerekmez
+
+**Dezavantajlar:**
+- Öğrenci TC/No bilmeli
+- Takip daha zor (kim tıkladı ama doldurmadı?)
+
+---
+
+#### Mod 2: Özel Linkler (Personal Links)
+
+**Kullanım Senaryoları:**
+- Belirli öğrenci grubuna özel
+- Takip önemli (kim doldurdu/doldurmadı)
+- QR kod ile fiziksel dağıtım
+- Güvenlik öncelikli
+
+**Çalışma Prensibi:**
+```
+1. Rehber öğretmen "Özel Linkler" seçer
+2. Hedef öğrencileri seçer (örn: 9-A sınıfı, 25 öğrenci)
+3. Sistem her öğrenci için benzersiz token oluşturur
+   Ahmet: https://rehber360.com/survey/s/token_ahmet_123
+   Ayşe:  https://rehber360.com/survey/s/token_ayse_456
+4. QR kod + öğrenci bilgili PDF oluşturur
+5. Rehber öğretmen PDF'i bastırır, sınıfta dağıtır
+6. Öğrenci QR okutunca → Kimlik doğrulama YOK, direkt anket açılır
+7. Cevaplar kaydedilir
+```
+
+**PDF Çıktı Formatı:**
+```
+┌─────────────────────────────────────┐
+│  Akademik Profil Anketi             │
+│  Rehber360 - 2024/2025 Dönemi       │
+├─────────────────────────────────────┤
+│  ÖĞRENCİ BİLGİLERİ                  │
+│  Ad Soyad: Ahmet Yılmaz             │
+│  Sınıf: 9-A                         │
+│  Numara: 123                        │
+├─────────────────────────────────────┤
+│         [QR KOD BURAYA]             │
+│                                     │
+│      ██████████████                 │
+│      ██          ██                 │
+│      ██  QR KOD ██                 │
+│      ██          ██                 │
+│      ██████████████                 │
+│                                     │
+├─────────────────────────────────────┤
+│  Link (QR okutamazsan):             │
+│  rehber360.com/s/abc123             │
+├─────────────────────────────────────┤
+│  ⏰ Son Tarih: 30 Kasım 2024        │
+│  📱 Telefonla QR okut, anketi doldur│
+└─────────────────────────────────────┘
+```
+
+**Güvenlik:**
+- Her link tek kullanımlık (opsiyonel)
+- Süre sınırı (örn: 30 gün)
+- Token tahmin edilemez (crypto random)
+- Öğrenci sadece kendi linkini kullanabilir
+
+**Avantajlar:**
+- Kimlik doğrulama gerekmez (öğrenci için kolay)
+- Tam takip (kim tıkladı, kim doldurmadı)
+- QR kod ile modern ve pratik
+- Yüksek güvenlik
+
+**Dezavantajlar:**
+- PDF bastırma gerekir
+- Dağıtım lojistiği (sınıfta kağıt dağıtımı)
+
+---
+
+### 📊 Dağıtım Modu Karşılaştırması
+
+| Özellik | Genel Link | Özel Linkler |
+|---------|------------|--------------|
+| Paylaşım | Web/WhatsApp | Kağıt/QR kod |
+| Kimlik Doğrulama | Gerekli (TC/No) | Gerekmez |
+| Takip | Dolduranlar | Tam detay |
+| Güvenlik | Orta | Yüksek |
+| Kurulum | Çok kolay | Orta (PDF basmak) |
+| Kullanım | Toplu duyuru | Özel grup |
+| Maliyet | Sıfır | Kağıt + yazıcı |
+
+---
+
+### 🔄 Link Yaşam Döngüsü
+
+**Oluşturma:**
+1. Rehber öğretmen anket oluşturur
+2. Dağıtım modu seçer
+3. "Link Oluştur" butonuna basar
+4. Sistem linkler oluşturur (veritabanına kaydeder)
+5. PDF/Link rehber öğretmene sunulur
+
+**Aktif Kullanım:**
+- Öğrenciler anketi doldurur
+- Her tıklama ve doldurma kaydedilir
+- Rehber öğretmen canlı takip eder
+
+**Hatırlatma:**
+- Doldurmayan öğrenciler listelenir
+- Rehber öğretmen hatırlatma gönderebilir (manuel)
+
+**Kapanma:**
+- Manuel: Rehber öğretmen "Anketi Kapat" der
+- Otomatik: Belirlenen son tarihte otomatik kapanır
+- Kapalı linkler çalışmaz ("Anket sona erdi" mesajı)
+
+**Arşivleme:**
+- Eski anket linkleri silinmez, arşivlenir
+- Raporlama ve denetim için saklanır
+
+---
+
+## 4. Database Schema
 
 ### 📦 Yeni Tablolar
 
-#### 3.1. self_assessment_templates
+#### 4.1. survey_templates (Mevcut - Genişletilecek)
 
-Öğrenci öz-değerlendirme anket şablonları
+Mevcut anket sistemi tablosuna yeni alanlar eklenecek:
 
 ```sql
-CREATE TABLE IF NOT EXISTS self_assessment_templates (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
-  category TEXT NOT NULL, -- 'ACADEMIC', 'SOCIAL_EMOTIONAL', 'CAREER', 'HEALTH', 'FAMILY', 'TALENTS'
-  targetGrades TEXT, -- JSON array: ["9", "10", "11", "12"]
-  isActive BOOLEAN DEFAULT TRUE,
-  requiresParentConsent BOOLEAN DEFAULT FALSE, -- Hassas bilgiler için veli onayı gerekli mi?
-  estimatedDuration INTEGER, -- dakika
-  orderIndex INTEGER, -- Öğrenciye gösterilme sırası
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+-- Mevcut survey_templates tablosuna eklenecek alanlar
+ALTER TABLE survey_templates ADD COLUMN category TEXT DEFAULT 'GENERAL';
+-- 'GENERAL', 'TEST', 'STUDENT_PROFILE'
+
+ALTER TABLE survey_templates ADD COLUMN profileMappingEnabled BOOLEAN DEFAULT FALSE;
+-- Öğrenci profil anketi mi? (true ise mapping kuralları aktif)
+
+ALTER TABLE survey_templates ADD COLUMN distributionMode TEXT DEFAULT 'INTERNAL';
+-- 'INTERNAL' (sistem içi), 'PUBLIC_LINK' (genel link), 'PERSONAL_LINKS' (özel linkler)
+
+ALTER TABLE survey_templates ADD COLUMN allowAnonymous BOOLEAN DEFAULT FALSE;
+-- Anonim katılıma izin var mı?
 ```
 
-#### 3.2. self_assessment_questions
+#### 4.2. survey_links (Yeni)
 
-Öz-değerlendirme soruları ve eşleştirme bilgileri
+Oluşturulan anket linkleri
 
 ```sql
-CREATE TABLE IF NOT EXISTS self_assessment_questions (
+CREATE TABLE IF NOT EXISTS survey_links (
   id TEXT PRIMARY KEY,
-  templateId TEXT NOT NULL,
-  questionText TEXT NOT NULL,
-  questionType TEXT NOT NULL, -- 'MULTIPLE_CHOICE', 'MULTI_SELECT', 'TEXT', 'SCALE', 'YES_NO'
-  options TEXT, -- JSON array
-  orderIndex INTEGER NOT NULL,
-  required BOOLEAN DEFAULT FALSE,
-  helpText TEXT, -- Öğrenciye yardımcı açıklama
+  surveyTemplateId TEXT NOT NULL,
   
-  -- VERİ EŞLEŞTİRME BİLGİLERİ (en önemli kısım!)
-  targetProfileField TEXT, -- Hedef profil alanı: 'strongSubjects', 'interests', 'careerGoals' vb.
-  mappingStrategy TEXT NOT NULL, -- 'DIRECT', 'AI_PARSE', 'MULTIPLE_FIELDS', 'CALCULATED'
-  mappingConfig TEXT, -- JSON: Eşleştirme detayları
+  -- Link Tipi
+  linkType TEXT NOT NULL, -- 'PUBLIC' (genel), 'PERSONAL' (kişiye özel)
   
-  requiresApproval BOOLEAN DEFAULT TRUE, -- Bu soru cevabı onay gerektirir mi?
+  -- Token ve URL
+  token TEXT NOT NULL UNIQUE, -- Benzersiz güvenli token
+  fullUrl TEXT NOT NULL, -- Tam URL
+  
+  -- Kişiselleştirme (PERSONAL tipinde)
+  studentId TEXT, -- Hangi öğrenci için (NULL ise PUBLIC)
+  studentName TEXT,
+  studentClass TEXT,
+  studentNumber TEXT,
+  
+  -- QR Kod
+  qrCodeData TEXT, -- QR kod base64 image data (PERSONAL için)
+  pdfGenerated BOOLEAN DEFAULT FALSE,
+  pdfFilePath TEXT,
+  
+  -- Geçerlilik
+  isActive BOOLEAN DEFAULT TRUE,
+  expiresAt DATETIME, -- Link süresi dolma tarihi
+  maxUses INTEGER DEFAULT 1, -- Kaç kez kullanılabilir (PUBLIC için unlimited: -1)
+  currentUses INTEGER DEFAULT 0,
+  
+  -- Takip
+  firstAccessedAt DATETIME, -- İlk tıklama
+  lastAccessedAt DATETIME, -- Son tıklama
+  completedAt DATETIME, -- Doldurulma tarihi
+  
+  -- Güvenlik
+  ipRestrictions TEXT, -- JSON: İzin verilen IP'ler (opsiyonel)
+  requiresConsent BOOLEAN DEFAULT FALSE,
+  
+  createdBy TEXT NOT NULL, -- Oluşturan rehber öğretmen
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (surveyTemplateId) REFERENCES survey_templates (id) ON DELETE CASCADE,
+  FOREIGN KEY (studentId) REFERENCES students (id) ON DELETE CASCADE,
+  FOREIGN KEY (createdBy) REFERENCES users (id)
+);
+
+-- İndeksler
+CREATE INDEX idx_survey_links_token ON survey_links(token);
+CREATE INDEX idx_survey_links_student ON survey_links(studentId);
+CREATE INDEX idx_survey_links_template ON survey_links(surveyTemplateId);
+```
+
+#### 4.3. survey_link_tracking (Yeni)
+
+Link tıklama ve kullanım takibi
+
+```sql
+CREATE TABLE IF NOT EXISTS survey_link_tracking (
+  id TEXT PRIMARY KEY,
+  linkId TEXT NOT NULL,
+  
+  -- Olay Bilgisi
+  eventType TEXT NOT NULL, -- 'ACCESSED', 'STARTED', 'COMPLETED', 'FAILED'
+  eventData TEXT, -- JSON: Ek bilgiler
+  
+  -- Kullanıcı Bilgisi
+  ipAddress TEXT,
+  userAgent TEXT,
+  deviceType TEXT, -- 'mobile', 'tablet', 'desktop'
+  
+  -- Kimlik Doğrulama (PUBLIC link için)
+  verificationMethod TEXT, -- 'TC_NO', 'STUDENT_NO', 'TOKEN' (PERSONAL)
+  verifiedStudentId TEXT,
+  
+  -- Zaman
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (linkId) REFERENCES survey_links (id) ON DELETE CASCADE,
+  FOREIGN KEY (verifiedStudentId) REFERENCES students (id)
+);
+
+CREATE INDEX idx_link_tracking_link ON survey_link_tracking(linkId);
+CREATE INDEX idx_link_tracking_event ON survey_link_tracking(eventType);
+```
+
+#### 4.4. student_survey_responses (Yeni)
+
+Öğrenci anket cevapları
+
+```sql
+CREATE TABLE IF NOT EXISTS student_survey_responses (
+  id TEXT PRIMARY KEY,
+  surveyTemplateId TEXT NOT NULL,
+  studentId TEXT NOT NULL,
+  linkId TEXT, -- Hangi link üzerinden dolduruldu (NULL ise sistem içi)
+  
+  -- Cevaplar
+  responseData TEXT NOT NULL, -- JSON: {questionId: answer}
+  
+  -- Durum
+  status TEXT DEFAULT 'DRAFT', -- 'DRAFT', 'SUBMITTED', 'PROCESSING', 'APPROVED', 'REJECTED'
+  completionPercentage INTEGER DEFAULT 0,
+  
+  -- Zaman
+  startedAt DATETIME,
+  submittedAt DATETIME,
+  
+  -- Veli Onayı (gerekirse)
+  parentConsentGiven BOOLEAN DEFAULT FALSE,
+  parentConsentDate DATETIME,
+  
+  -- AI İşleme
+  aiProcessingStatus TEXT DEFAULT 'PENDING', -- 'PENDING', 'COMPLETED', 'FAILED'
+  aiProcessingErrors TEXT, -- JSON array
+  
+  -- Onay
+  reviewedBy TEXT, -- Rehber öğretmen ID
+  reviewedAt DATETIME,
+  reviewNotes TEXT,
   
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (templateId) REFERENCES self_assessment_templates (id) ON DELETE CASCADE
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (surveyTemplateId) REFERENCES survey_templates (id) ON DELETE CASCADE,
+  FOREIGN KEY (studentId) REFERENCES students (id) ON DELETE CASCADE,
+  FOREIGN KEY (linkId) REFERENCES survey_links (id),
+  FOREIGN KEY (reviewedBy) REFERENCES users (id)
 );
+
+CREATE INDEX idx_responses_student ON student_survey_responses(studentId);
+CREATE INDEX idx_responses_template ON student_survey_responses(surveyTemplateId);
+CREATE INDEX idx_responses_status ON student_survey_responses(status);
+```
+
+#### 4.5. student_verification_attempts (Yeni)
+
+Kimlik doğrulama denemeleri (PUBLIC link için güvenlik)
+
+```sql
+CREATE TABLE IF NOT EXISTS student_verification_attempts (
+  id TEXT PRIMARY KEY,
+  linkId TEXT NOT NULL,
+  
+  -- Deneme Bilgisi
+  verificationType TEXT NOT NULL, -- 'TC_NO', 'STUDENT_NO'
+  inputValue TEXT NOT NULL, -- Girilen değer (hashlenir)
+  success BOOLEAN DEFAULT FALSE,
+  
+  -- Öğrenci (başarılıysa)
+  verifiedStudentId TEXT,
+  
+  -- Güvenlik
+  ipAddress TEXT NOT NULL,
+  userAgent TEXT,
+  
+  -- Rate Limiting
+  attemptCount INTEGER DEFAULT 1, -- Aynı IP'den kaç deneme
+  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  
+  FOREIGN KEY (linkId) REFERENCES survey_links (id) ON DELETE CASCADE,
+  FOREIGN KEY (verifiedStudentId) REFERENCES students (id)
+);
+
+CREATE INDEX idx_verification_ip ON student_verification_attempts(ipAddress, created_at);
+CREATE INDEX idx_verification_link ON student_verification_attempts(linkId);
+```
+
+#### 4.6. survey_questions (Mevcut - Genişletilecek)
+
+Mevcut soru tablosuna profil eşleştirme için yeni alanlar:
+
+```sql
+-- Mevcut survey_questions tablosuna eklenecek
+ALTER TABLE survey_questions ADD COLUMN profileMappingEnabled BOOLEAN DEFAULT FALSE;
+-- Bu soru profil eşleştirme için mi?
+
+ALTER TABLE survey_questions ADD COLUMN targetProfileField TEXT;
+-- Hedef profil alanı: 'strongSubjects', 'interests', 'careerGoals' vb.
+
+ALTER TABLE survey_questions ADD COLUMN mappingStrategy TEXT;
+-- 'DIRECT', 'AI_PARSE', 'MULTIPLE_FIELDS', 'CALCULATED'
+
+ALTER TABLE survey_questions ADD COLUMN mappingConfig TEXT;
+-- JSON: Eşleştirme detayları
 ```
 
 **mappingConfig Örnekleri:**
@@ -198,15 +605,15 @@ CREATE TABLE IF NOT EXISTS self_assessment_questions (
 // DIRECT - Doğrudan eşleştirme
 {
   "strategy": "DIRECT",
-  "targetField": "hobbies",
-  "transformType": "ARRAY" // TEXT, ARRAY, NUMBER, DATE, BOOLEAN
+  "targetField": "phone",
+  "transformType": "TEXT"
 }
 
 // AI_PARSE - AI ile standartlaştırma
 {
   "strategy": "AI_PARSE",
   "targetField": "strongSubjects",
-  "standardValues": ["Matematik", "Fen Bilgisi", "Türkçe", ...], // Standart değerler
+  "standardValues": ["Matematik", "Fen Bilgisi", "Türkçe", "İngilizce"],
   "allowCustom": false
 }
 
@@ -218,57 +625,9 @@ CREATE TABLE IF NOT EXISTS self_assessment_questions (
     {"field": "careerGoals", "extractFrom": "response", "parseWithAI": true}
   ]
 }
-
-// CALCULATED - Hesaplanan değer
-{
-  "strategy": "CALCULATED",
-  "targetField": "socialAwareness",
-  "calculation": "SCALE_TO_10", // Ölçek dönüşümü
-  "sourceScale": [1, 5]
-}
 ```
 
-#### 3.3. student_self_assessments
-
-Öğrencilerin doldurduğu anketler
-
-```sql
-CREATE TABLE IF NOT EXISTS student_self_assessments (
-  id TEXT PRIMARY KEY,
-  studentId TEXT NOT NULL,
-  templateId TEXT NOT NULL,
-  
-  -- Durum bilgisi
-  status TEXT DEFAULT 'DRAFT', -- 'DRAFT', 'SUBMITTED', 'PROCESSING', 'APPROVED', 'REJECTED'
-  completionPercentage INTEGER DEFAULT 0,
-  
-  -- Cevaplar
-  responseData TEXT NOT NULL, -- JSON: {questionId: answer}
-  
-  -- Onay süreci
-  submittedAt DATETIME,
-  parentConsentGiven BOOLEAN DEFAULT FALSE,
-  parentConsentDate DATETIME,
-  parentConsentIp TEXT,
-  
-  reviewedBy TEXT, -- Rehber öğretmen ID
-  reviewedAt DATETIME,
-  reviewNotes TEXT,
-  
-  -- AI işleme
-  aiProcessingStatus TEXT DEFAULT 'PENDING', -- 'PENDING', 'COMPLETED', 'FAILED'
-  aiProcessingErrors TEXT, -- JSON array
-  
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  
-  FOREIGN KEY (studentId) REFERENCES students (id) ON DELETE CASCADE,
-  FOREIGN KEY (templateId) REFERENCES self_assessment_templates (id) ON DELETE CASCADE,
-  FOREIGN KEY (reviewedBy) REFERENCES users (id)
-);
-```
-
-#### 3.4. profile_mapping_rules
+#### 4.7. profile_mapping_rules (Yeni)
 
 Soru cevaplarından profil alanlarına eşleştirme kuralları
 
@@ -278,77 +637,81 @@ CREATE TABLE IF NOT EXISTS profile_mapping_rules (
   questionId TEXT NOT NULL,
   
   -- Hedef profil alanı
-  targetTable TEXT NOT NULL, -- 'students', 'standardized_academic_profile', 'standardized_social_emotional_profile' vb.
+  targetTable TEXT NOT NULL, -- 'students', 'standardized_academic_profile' vb.
   targetField TEXT NOT NULL,
   
   -- Dönüşüm kuralı
-  transformationType TEXT NOT NULL, -- 'DIRECT', 'AI_STANDARDIZE', 'SCALE_CONVERT', 'ARRAY_MERGE', 'CUSTOM'
+  transformationType TEXT NOT NULL, -- 'DIRECT', 'AI_STANDARDIZE', 'SCALE_CONVERT', 'ARRAY_MERGE'
   transformationConfig TEXT, -- JSON
   
   -- Validasyon
-  validationRules TEXT, -- JSON: min, max, pattern, enum vb.
+  validationRules TEXT, -- JSON: min, max, pattern, enum
   
-  -- Öncelik ve konflikt çözümü
-  priority INTEGER DEFAULT 1, -- Aynı alana birden fazla kaynak varsa
-  conflictResolution TEXT DEFAULT 'NEWER_WINS', -- 'NEWER_WINS', 'MERGE', 'MANUAL_REVIEW'
+  -- Öncelik
+  priority INTEGER DEFAULT 1,
+  conflictResolution TEXT DEFAULT 'NEWER_WINS',
   
   isActive BOOLEAN DEFAULT TRUE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   
-  FOREIGN KEY (questionId) REFERENCES self_assessment_questions (id) ON DELETE CASCADE
+  FOREIGN KEY (questionId) REFERENCES survey_questions (id) ON DELETE CASCADE
 );
 ```
 
-#### 3.5. profile_update_queue
+#### 4.8. profile_update_queue (Yeni)
 
-Onay bekleyen profil güncellemeleri (mevcut AI suggestion queue'yu genişletir)
+Onay bekleyen profil güncellemeleri
 
 ```sql
 CREATE TABLE IF NOT EXISTS profile_update_queue (
   id TEXT PRIMARY KEY,
   studentId TEXT NOT NULL,
-  assessmentId TEXT, -- NULL ise manuel güncelleme
+  responseId TEXT, -- student_survey_responses.id
   
   -- Güncelleme detayları
-  updateType TEXT NOT NULL, -- 'SELF_ASSESSMENT', 'AI_SUGGESTION', 'MANUAL'
+  updateType TEXT NOT NULL, -- 'SURVEY_RESPONSE', 'AI_SUGGESTION', 'MANUAL'
   targetTable TEXT NOT NULL,
   targetField TEXT NOT NULL,
   currentValue TEXT,
   proposedValue TEXT NOT NULL,
   
   -- Meta bilgi
-  reasoning TEXT, -- Neden bu güncelleme öneriliyor?
-  confidence DECIMAL(3,2), -- AI confidence (0.00-1.00)
-  dataSource TEXT, -- Hangi anketten geldi?
+  reasoning TEXT,
+  confidence DECIMAL(3,2),
+  dataSource TEXT,
   
   -- Onay süreci
-  status TEXT DEFAULT 'PENDING', -- 'PENDING', 'APPROVED', 'REJECTED', 'AUTO_APPLIED'
+  status TEXT DEFAULT 'PENDING', -- 'PENDING', 'APPROVED', 'REJECTED'
   reviewedBy TEXT,
   reviewedAt DATETIME,
   reviewNotes TEXT,
-  autoApplyAfter DATETIME, -- Belirli bir tarihten sonra otomatik uygula
   
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   
   FOREIGN KEY (studentId) REFERENCES students (id) ON DELETE CASCADE,
-  FOREIGN KEY (assessmentId) REFERENCES student_self_assessments (id) ON DELETE CASCADE,
+  FOREIGN KEY (responseId) REFERENCES student_survey_responses (id) ON DELETE CASCADE,
   FOREIGN KEY (reviewedBy) REFERENCES users (id)
 );
+
+CREATE INDEX idx_update_queue_student ON profile_update_queue(studentId);
+CREATE INDEX idx_update_queue_status ON profile_update_queue(status);
 ```
 
-#### 3.6. self_assessment_audit_log
+#### 4.9. survey_audit_log (Yeni)
 
-Tüm işlemlerin detaylı kaydı (KVKK uyumluluk için kritik)
+Tüm işlemlerin detaylı kaydı (KVKK uyumluluk için)
 
 ```sql
-CREATE TABLE IF NOT EXISTS self_assessment_audit_log (
+CREATE TABLE IF NOT EXISTS survey_audit_log (
   id TEXT PRIMARY KEY,
-  assessmentId TEXT NOT NULL,
-  studentId TEXT NOT NULL,
+  surveyTemplateId TEXT,
+  linkId TEXT,
+  responseId TEXT,
+  studentId TEXT,
   
-  action TEXT NOT NULL, -- 'CREATED', 'UPDATED', 'SUBMITTED', 'APPROVED', 'REJECTED', 'PROFILE_UPDATED'
-  performedBy TEXT, -- User ID (öğrenci, veli, rehber öğretmen)
-  performedByRole TEXT, -- 'STUDENT', 'PARENT', 'COUNSELOR', 'SYSTEM'
+  action TEXT NOT NULL, -- 'LINK_CREATED', 'ACCESSED', 'SUBMITTED', 'APPROVED', 'REJECTED', 'PROFILE_UPDATED'
+  performedBy TEXT, -- User ID
+  performedByRole TEXT, -- 'COUNSELOR', 'SYSTEM', 'STUDENT'
   
   changeData TEXT, -- JSON: Ne değişti?
   ipAddress TEXT,
@@ -356,9 +719,14 @@ CREATE TABLE IF NOT EXISTS self_assessment_audit_log (
   
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   
-  FOREIGN KEY (assessmentId) REFERENCES student_self_assessments (id) ON DELETE CASCADE,
-  FOREIGN KEY (studentId) REFERENCES students (id) ON DELETE CASCADE
+  FOREIGN KEY (surveyTemplateId) REFERENCES survey_templates (id),
+  FOREIGN KEY (linkId) REFERENCES survey_links (id),
+  FOREIGN KEY (responseId) REFERENCES student_survey_responses (id),
+  FOREIGN KEY (studentId) REFERENCES students (id)
 );
+
+CREATE INDEX idx_audit_action ON survey_audit_log(action, created_at);
+CREATE INDEX idx_audit_student ON survey_audit_log(studentId);
 ```
 
 ### 🔗 Mevcut Tablolara Eklenecek Alanlar
@@ -366,79 +734,176 @@ CREATE TABLE IF NOT EXISTS self_assessment_audit_log (
 #### students tablosuna eklemeler
 
 ```sql
-ALTER TABLE students ADD COLUMN lastSelfAssessmentDate DATETIME;
-ALTER TABLE students ADD COLUMN selfAssessmentCompletionRate INTEGER DEFAULT 0; -- Yüzde
-ALTER TABLE students ADD COLUMN profileDataSource TEXT DEFAULT 'MANUAL'; -- 'MANUAL', 'SELF_ASSESSMENT', 'MIXED'
+ALTER TABLE students ADD COLUMN lastSurveyResponseDate DATETIME;
+ALTER TABLE students ADD COLUMN surveyCompletionRate INTEGER DEFAULT 0; -- Yüzde
+ALTER TABLE students ADD COLUMN profileDataSource TEXT DEFAULT 'MANUAL'; -- 'MANUAL', 'SURVEY', 'MIXED'
 ```
 
----
-
-## 4. Backend API Tasarımı
+## 5. Backend API Tasarımı
 
 ### 🛣️ API Endpoints
 
-#### 4.1. Self Assessment Templates API
+#### 5.1. Link Management API (Rehber Öğretmen)
 
-**GET /api/self-assessments/templates**
-- Öğrenciye gösterilecek anketleri listele
-- Query params: `grade`, `category`, `completed`
+**POST /api/survey-links/create**
+- Anket linki oluştur
+
+```typescript
+Request: {
+  surveyTemplateId: string,
+  linkType: 'PUBLIC' | 'PERSONAL',
+  studentIds?: string[], // PERSONAL için
+  expiresAt?: Date,
+  maxUses?: number // PUBLIC için (-1 = unlimited)
+}
+
+Response: {
+  success: boolean,
+  links: [
+    {
+      id: string,
+      token: string,
+      fullUrl: string,
+      linkType: string,
+      studentId?: string,
+      studentName?: string,
+      qrCodeData?: string // base64 QR image
+    }
+  ],
+  pdfUrl?: string // PERSONAL için toplu PDF
+}
+```
+
+**GET /api/survey-links/:templateId**
+- Bir anket için oluşturulan tüm linkler
 
 ```typescript
 Response: {
-  templates: [
+  public Link?: {
+    id: string,
+    url: string,
+    accessCount: number,
+    completionCount: number
+  },
+  personalLinks: [
     {
       id: string,
-      title: string,
-      description: string,
-      category: string,
-      estimatedDuration: number,
-      requiresParentConsent: boolean,
-      completionStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED',
-      lastAttemptDate?: string
+      studentName: string,
+      studentClass: string,
+      url: string,
+      accessed: boolean,
+      completed: boolean,
+      completedAt?: Date
     }
   ]
 }
 ```
 
-**GET /api/self-assessments/templates/:id**
-- Anket detaylarını ve sorularını getir
-
-```typescript
-Response: {
-  template: {...},
-  questions: [
-    {
-      id: string,
-      questionText: string,
-      questionType: string,
-      options?: string[],
-      helpText?: string,
-      required: boolean
-    }
-  ],
-  requiresParentConsent: boolean
-}
-```
-
-#### 4.2. Student Self Assessment API
-
-**POST /api/self-assessments/start**
-- Yeni bir öz-değerlendirme başlat
+**POST /api/survey-links/generate-pdf**
+- Özel linkler için PDF oluştur
 
 ```typescript
 Request: {
-  templateId: string,
-  studentId: string
+  linkIds: string[]
 }
 
 Response: {
-  assessmentId: string,
-  status: 'DRAFT'
+  pdfUrl: string,
+  generatedCount: number
 }
 ```
 
-**PUT /api/self-assessments/:id/save**
-- Taslak olarak kaydet (henüz gönderme)
+#### 5.2. Public Link Access API (Öğrenci - Kimlik Doğrulama)
+
+**GET /api/survey/public/:token**
+- PUBLIC link erişimi - kimlik doğrulama ekranı
+
+```typescript
+Response: {
+  surveyTitle: string,
+  description: string,
+  isActive: boolean,
+  requiresVerification: true,
+  verificationMethods: ['TC_NO', 'STUDENT_NO']
+}
+```
+
+**POST /api/survey/public/:token/verify**
+- Kimlik doğrulama yap
+
+```typescript
+Request: {
+  verificationType: 'TC_NO' | 'STUDENT_NO',
+  value: string
+}
+
+Response: {
+  success: boolean,
+  verified: boolean,
+  message: string,
+  sessionToken?: string, // Başarılıysa
+  alreadyCompleted?: boolean
+}
+```
+
+**GET /api/survey/public/:token/questions**
+- Anket sorularını getir (doğrulandıktan sonra)
+
+```typescript
+Headers: {
+  Authorization: 'Bearer {sessionToken}'
+}
+
+Response: {
+  survey: {...},
+  questions: [...],
+  studentId: string
+}
+```
+
+#### 5.3. Personal Link Access API (Öğrenci - Direkt Erişim)
+
+**GET /api/survey/s/:token**
+- PERSONAL link erişimi - kimlik doğrulama YOK
+
+```typescript
+Response: {
+  success: boolean,
+  survey: {
+    id: string,
+    title: string,
+    description: string,
+    category: string
+  },
+  student: {
+    name: string,
+    class: string
+  },
+  questions: [...],
+  alreadyCompleted: boolean,
+  isExpired: boolean
+}
+```
+
+#### 5.4. Survey Response API (Öğrenci)
+
+**POST /api/survey-response/start**
+- Anket doldurmaya başla
+
+```typescript
+Request: {
+  linkToken: string,
+  sessionToken?: string // PUBLIC link için
+}
+
+Response: {
+  responseId: string,
+  studentId: string
+}
+```
+
+**PUT /api/survey-response/:id/save**
+- Taslak kaydet
 
 ```typescript
 Request: {
@@ -449,24 +914,368 @@ Request: {
 }
 
 Response: {
-  success: boolean,
-  savedAt: string
+  success: boolean
 }
 ```
 
-**POST /api/self-assessments/:id/submit**
+**POST /api/survey-response/:id/submit**
 - Anketi gönder
 
 ```typescript
 Request: {
   responseData: {
     [questionId: string]: any
-  },
-  parentConsentGiven?: boolean // Gerekirse
+  }
 }
 
 Response: {
   success: boolean,
+  message: string
+}
+```
+
+---
+
+## 6. Veri Eşleştirme Sistemi
+
+*(Mevcut mapping stratejileri korunacak - DIRECT, AI_PARSE, SCALE_CONVERT, ARRAY_MERGE, MULTIPLE_FIELDS)*
+
+Detaylı mapping kuralları ve AI işleme servisleri mevcut planda tanımlandığı gibi çalışacak. Tek fark: Artık anket cevapları `student_survey_responses` tablosundan gelecek.
+
+---
+
+## 7. QR Kod ve PDF Sistemi
+
+### 📱 QR Kod Oluşturma
+
+**Kütüphane:** `qrcode` (Node.js)
+
+```typescript
+// server/services/qr-code.service.ts
+
+import QRCode from 'qrcode';
+
+class QRCodeService {
+  async generateQRCode(url: string): Promise<string> {
+    // Base64 QR kod resmi oluştur
+    const qrDataURL = await QRCode.toDataURL(url, {
+      errorCorrectionLevel: 'M',
+      type: 'image/png',
+      width: 300,
+      margin: 2
+    });
+    
+    return qrDataURL; // data:image/png;base64,...
+  }
+  
+  async generateQRCodes(urls: string[]): Promise<Map<string, string>> {
+    const qrCodes = new Map();
+    
+    for (const url of urls) {
+      const qrCode = await this.generateQRCode(url);
+      qrCodes.set(url, qrCode);
+    }
+    
+    return qrCodes;
+  }
+}
+```
+
+### 📄 PDF Oluşturma
+
+**Kütüphane:** `jspdf` ve `jspdf-autotable`
+
+```typescript
+// server/services/pdf-generation.service.ts
+
+import { jsPDF } from 'jspdf';
+
+class PDFGenerationService {
+  async generateStudentSurveyPDF(links: SurveyLink[]): Promise<Buffer> {
+    const pdf = new jsPDF();
+    
+    links.forEach((link, index) => {
+      if (index > 0) pdf.addPage();
+      
+      // Başlık
+      pdf.setFontSize(16);
+      pdf.text(link.surveyTitle, 105, 20, { align: 'center' });
+      
+      // Öğrenci Bilgileri
+      pdf.setFontSize(12);
+      pdf.text(`Ad Soyad: ${link.studentName}`, 20, 40);
+      pdf.text(`Sınıf: ${link.studentClass}`, 20, 50);
+      pdf.text(`Numara: ${link.studentNumber}`, 20, 60);
+      
+      // QR Kod
+      pdf.addImage(link.qrCodeData, 'PNG', 70, 80, 70, 70);
+      
+      // Link
+      pdf.setFontSize(10);
+      pdf.text(`Link: ${link.fullUrl}`, 105, 165, { align: 'center' });
+      
+      // Son Tarih
+      pdf.text(`Son Tarih: ${link.expiresAt}`, 105, 175, { align: 'center' });
+    });
+    
+    return Buffer.from(pdf.output('arraybuffer'));
+  }
+}
+```
+
+---
+
+## 8. Frontend Bileşenler
+
+### 🎨 Rehber Öğretmen Paneli
+
+**Anket Oluşturma Sayfası:**
+```
+┌────────────────────────────────────────┐
+│ Yeni Öğrenci Profil Anketi Oluştur     │
+├────────────────────────────────────────┤
+│ Anket Başlığı: [_________________]     │
+│ Kategori: ☑ Akademik Profil           │
+│ Hedef Sınıf: ☑ 9 ☑ 10 ☐ 11 ☐ 12     │
+│                                        │
+│ SORULAR:                               │
+│ 1. [Soru metni...]                    │
+│    Profil Eşleştirme:                 │
+│    Hedef Alan: strongSubjects ▼       │
+│    Strateji: AI_PARSE ▼               │
+│                                        │
+│ [+ Soru Ekle]                         │
+│                                        │
+│ ─────────────────────────────────────  │
+│ DAĞITIM AYARLARI                       │
+│                                        │
+│ ○ Genel Link (Web'de paylaş)          │
+│   • Tek link, kimlik doğrulama gerekli│
+│                                        │
+│ ● Özel Linkler (QR Bastır)            │
+│   • Her öğrenciye ayrı link + QR      │
+│   Hedef Öğrenciler:                   │
+│   Sınıf Seç: [9-A ▼] [Tümünü Seç ☑]   │
+│   Seçilen: 25 öğrenci                 │
+│                                        │
+│ Son Tarih: [30.11.2024 ▼]             │
+│                                        │
+│ [İptal] [Kaydet ve Link Oluştur]      │
+└────────────────────────────────────────┘
+```
+
+**Link Yönetim Paneli:**
+```
+┌────────────────────────────────────────┐
+│ Akademik Profil Anketi - 9. Sınıflar  │
+├────────────────────────────────────────┤
+│ Dağıtım: Özel Linkler (QR)            │
+│ Oluşturulma: 15.11.2024               │
+│ Son Tarih: 30.11.2024                 │
+│                                        │
+│ [📥 PDF İndir] [📊 Rapor] [🔗 Linkler]│
+│                                        │
+│ İLERLEME: ██████░░░░ 60% (15/25)      │
+│                                        │
+│ DOLDURANLAR (15):                     │
+│ ✅ Ahmet Yılmaz - 9A - 16.11.2024     │
+│ ✅ Ayşe Kaya - 9A - 17.11.2024        │
+│ ...                                    │
+│                                        │
+│ DOLDURMAYANLAR (10):                   │
+│ ❌ Mehmet Demir - 9B                   │
+│ ❌ Fatma Şahin - 9C                    │
+│ [Hatırlatma Gönder]                    │
+└────────────────────────────────────────┘
+```
+
+### 📱 Öğrenci Anket Sayfası
+
+**Genel Link - Kimlik Doğrulama:**
+```
+┌────────────────────────────────────────┐
+│      AKADEMIK PROFIL ANKETİ            │
+├────────────────────────────────────────┤
+│ Bu anketi doldurabilmek için          │
+│ kimliğini doğrulaman gerekiyor.       │
+│                                        │
+│ ○ TC Kimlik No ile Giriş              │
+│ ● Öğrenci No ile Giriş               │
+│                                        │
+│ Öğrenci No: [___________]             │
+│                                        │
+│ [Doğrula ve Başla]                    │
+└────────────────────────────────────────┘
+```
+
+**Özel Link - Direkt Anket:**
+```
+┌────────────────────────────────────────┐
+│  Merhaba Ahmet Yılmaz! (9-A)          │
+├────────────────────────────────────────┤
+│  AKADEMIK PROFIL ANKETİ                │
+│                                        │
+│  1/10  En iyi olduğun dersler?        │
+│  ☑ Matematik                          │
+│  ☑ Fizik                              │
+│  ☐ Kimya                              │
+│  ☐ Biyoloji                           │
+│  ☐ Türkçe                             │
+│                                        │
+│  [Önceki] [Sonraki]                   │
+│                                        │
+│  ██░░░░░░░░ 10%                        │
+│  [Taslak Kaydet] [Gönder]             │
+└────────────────────────────────────────┘
+```
+
+---
+
+## 9. Güvenlik ve KVKK Uyumluluk
+
+### 🔒 Güvenlik Önlemleri
+
+**1. Link Güvenliği:**
+- Crypto-secure random token (32+ karakter)
+- Link süre sınırı (default 30 gün)
+- Tek kullanımlık linkler (opsiyonel)
+- HTTPS zorunlu
+
+**2. Rate Limiting:**
+```typescript
+// PUBLIC link kimlik doğrulama
+- Aynı IP'den dakikada max 5 deneme
+- 10 başarısız denemeden sonra CAPTCHA
+- 20 başarısız denemeden sonra IP ban (geçici)
+
+// API endpoints
+- /api/survey-links/create: Dakikada 10 istek
+- /api/survey-response/submit: Dakikada 3 istek
+```
+
+**3. Veri Güvenliği:**
+- TC kimlik no hashlenerek saklanır
+- Öğrenci no hashlenerek saklanır  
+- IP adresleri anonimleştirilir (son oktet maskelenir)
+- Audit log tam kayıt
+
+**4. KVKK Uyumluluk:**
+- Açık rıza metni (anket başlangıcında)
+- Veli onayı seçeneği (hassas bilgiler için)
+- Veri saklama süresi (maks 2 yıl, sonra anonimleştirilir)
+- Silme hakkı (öğrenci talebinde veriler silinir)
+
+---
+
+## 10. İmplementasyon Aşamaları
+
+### Faz 1: Temel Alt Yapı (1 hafta)
+1. Database migration - Yeni tablolar oluştur
+2. Link generation service
+3. QR kod servisi
+4. Basit API endpoints
+
+### Faz 2: Link Sistemleri (1 hafta)
+5. PUBLIC link + kimlik doğrulama
+6. PERSONAL link sistemi
+7. PDF generation
+8. Link tracking
+
+### Faz 3: Frontend (1 hafta)
+9. Rehber öğretmen: Link oluşturma arayüzü
+10. Öğrenci: Anket doldurma sayfası
+11. Takip paneli
+
+### Faz 4: AI ve Onay (1 hafta)
+12. Profil mapping servisi
+13. AI standardization
+14. Onay kuyruğu UI
+
+### Faz 5: Test ve Güvenlik (1 hafta)
+15. Güvenlik testleri
+16. Load testing
+17. KVKK uyumluluk kontrolü
+
+---
+
+## 11. Örnek Anket Şablonları
+
+### 📚 Akademik Profil Anketi
+
+**Kategori:** STUDENT_PROFILE - Akademik
+**Sorular:**
+
+1. En iyi olduğun dersler hangileri? (Çoklu seçim)
+   - Mapping: `strongSubjects` (AI_PARSE)
+
+2. En zorlandığın dersler? (Çoklu seçim)
+   - Mapping: `weakSubjects` (AI_PARSE)
+
+3. Ders çalışma saatin (günlük ortalama)? (Skala 0-5 saat)
+   - Mapping: `studyHoursDaily` (DIRECT)
+
+### 🎭 Sosyal-Duygusal Profil Anketi
+
+1. Kendini ne kadar sosyal biri olarak görüyorsun? (1-5)
+   - Mapping: `socialAwareness` (SCALE_CONVERT 1-10)
+
+2. Arkadaş çevren nasıl? (Çoklu seçim)
+   - Mapping: `socialCircle` (ARRAY_MERGE)
+
+### 🎯 Kariyer İlgileri Anketi
+
+1. Gelecekte ne olmak istiyorsun? (Açık uçlu)
+   - Mapping: `careerGoals`, `interests` (MULTIPLE_FIELDS + AI)
+
+2. İlgilendiğin meslek alanları? (Çoklu seçim)
+   - Mapping: `careerInterests` (AI_PARSE)
+
+*(Diğer kategoriler benzer şekilde tanımlanır)*
+
+---
+
+## 12. Test Senaryoları
+
+### Senaryo 1: Genel Link ile Toplu Dağıtım
+
+1. Rehber öğretmen "Akademik Profil" anketi oluşturur
+2. "Genel Link" seçer, tüm 9. sınıflar için
+3. Link okul web sitesine konur
+4. Öğrenci linke tıklar
+5. TC kimlik no ile doğrulama yapar
+6. Anketi doldurur ve gönderir
+7. Rehber öğretmen onay kuyruğunda görür
+8. Onaylar, profil otomatik güncellenir
+
+### Senaryo 2: QR Kod ile Sınıf Dağıtımı
+
+1. Rehber öğretmen "Kariyer İlgileri" anketi oluşturur
+2. "Özel Linkler" seçer, 10-A sınıfı (30 öğrenci)
+3. PDF oluşturur ve bastırır
+4. Sınıfta dağıtır
+5. Öğrenci eve gidince QR okutarak anketi doldurur
+6. Takip panelinde "Dolduruldu" görünür
+7. Doldurmayan 5 öğrenciye hatırlatma gönderilir
+
+### Senaryo 3: Güvenlik Testi
+
+1. Kötü niyetli kullanıcı PUBLIC link bulur
+2. 100 farklı TC no dener
+3. 5. denemeden sonra CAPTCHA çıkar
+4. 20. denemeden sonra IP banlanır
+5. Tüm denemeler audit log'a kaydedilir
+
+---
+
+**Plan.md Güncelleme Tamamlandı! ✅**
+
+Sistem artık:
+- ✅ Link-based (QR kodlu) anket dağıtımı
+- ✅ İki mod: Genel Link + Özel Linkler
+- ✅ Öğrenci login gerektirmez
+- ✅ Modüler anket yapısı (6 kategori)
+- ✅ Mevcut survey sistemi entegrasyonu
+- ✅ Tam güvenlik ve KVKK uyumluluğu
   assessmentId: string,
   status: 'SUBMITTED',
   message: 'Anketiniz başarıyla gönderildi. Rehber öğretmeniniz inceledikten sonra profiliniz güncellenecektir.'
