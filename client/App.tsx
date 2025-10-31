@@ -29,6 +29,9 @@ const ParentAccess = lazy(() => import("./pages/ParentAccess"));
 const SchoolDashboard = lazy(() => import("./pages/SchoolDashboard"));
 const BackupManagement = lazy(() => import("./pages/BackupManagement"));
 const ExamManagementPage = lazy(() => import("./pages/ExamManagementPage"));
+const AssessmentList = lazy(() => import("./pages/self-assessments/AssessmentList"));
+const AssessmentForm = lazy(() => import("./pages/self-assessments/AssessmentForm"));
+const AssessmentComplete = lazy(() => import("./pages/self-assessments/AssessmentComplete"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -143,6 +146,22 @@ const App = () => {
                   <Route
                     path="/yedekleme"
                     element={<Suspense fallback={<LoadingFallback />}><BackupManagement /></Suspense>}
+                  />
+                  <Route
+                    path="/oz-degerlendirme"
+                    element={<Suspense fallback={<LoadingFallback />}><AssessmentList /></Suspense>}
+                  />
+                  <Route
+                    path="/self-assessments"
+                    element={<Suspense fallback={<LoadingFallback />}><AssessmentList /></Suspense>}
+                  />
+                  <Route
+                    path="/self-assessments/:assessmentId"
+                    element={<Suspense fallback={<LoadingFallback />}><AssessmentForm /></Suspense>}
+                  />
+                  <Route
+                    path="/self-assessments/:assessmentId/complete"
+                    element={<Suspense fallback={<LoadingFallback />}><AssessmentComplete /></Suspense>}
                   />
                 </Route>
                 <Route path="/anket/:publicLink" element={<Suspense fallback={<LoadingFallback />}><PublicSurvey /></Suspense>} />

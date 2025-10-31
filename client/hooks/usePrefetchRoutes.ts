@@ -11,6 +11,9 @@ const prefetchMap: Record<string, () => Promise<any>> = {
   '/ayarlar': () => import('@/pages/Settings'),
   '/ai-araclari': () => import('@/pages/AIToolsPage'),
   '/bildirimler': () => import('@/pages/Notifications'),
+  '/oz-degerlendirme': () => import('@/pages/self-assessments/AssessmentList'),
+  '/self-assessments': () => import('@/pages/self-assessments/AssessmentList'),
+  '/self-assessments/:assessmentId': () => import('@/pages/self-assessments/AssessmentForm'),
 };
 
 const prefetchedRoutes = new Set<string>();
