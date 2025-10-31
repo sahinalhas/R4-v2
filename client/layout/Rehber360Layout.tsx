@@ -43,6 +43,7 @@ import {
   Home,
   Menu,
   X,
+  ClipboardCheck,
 } from "lucide-react";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { loadSettings, updateSettings, SETTINGS_KEY, AppSettings } from "@/lib/app-settings";
@@ -92,6 +93,8 @@ function useBreadcrumbs() {
       anketler: "Anket & Test",
       raporlar: "Raporlama",
       "olcme-degerlendirme": "Ölçme Değerlendirme",
+      "oz-degerlendirme": "Öz Değerlendirme",
+      "self-assessments": "Öz Değerlendirme",
       ayarlar: "Ayarlar",
       "ai-araclari": "AI Araçları",
     };
@@ -111,6 +114,7 @@ const navigationItems = [
   { label: "Öğrenci Yönetimi", icon: Users2, to: "/ogrenci" },
   { label: "Görüşmeler", icon: CalendarDays, to: "/gorusmeler" },
   { label: "Anket & Test", icon: MessageSquare, to: "/anketler" },
+  { label: "Öz Değerlendirme", icon: ClipboardCheck, to: "/oz-degerlendirme" },
   { label: "Raporlama", icon: FileText, to: "/raporlar" },
   { label: "Ölçme Değerlendirme", icon: ClipboardList, to: "/olcme-degerlendirme" },
   { label: "AI Araçları", icon: Sparkles, to: "/ai-araclari" },
